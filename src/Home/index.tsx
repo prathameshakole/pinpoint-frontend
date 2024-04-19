@@ -38,18 +38,18 @@ const Home = () => {
       </nav>
       <div className='container'>
         <div className='row'>
-          <div className='col-md-3'>
+          <div className='col-lg-3'>
             {localStorage.getItem("token") != null && <button onClick={handleSignout} className='btn btn-warning'> Sign out </button>}
             {localStorage.getItem("token") == null && <Link className='btn btn-primary' to={`/signin/`}>Sign in </Link>}
           </div>
-          <div className='col-md-6'>
+          <div className='col-lg-6'>
             <Routes>
               <Route path="*" element={<Navigate to="/home/trending" />} />
               <Route path="trending" element={<Trending />} />
               <Route path="following" element={<Following />} />
             </Routes>
           </div>
-          <div className='col-md-3'>
+          <div className='col-lg-3'>
 
           </div>
         </div>

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import * as client from '../Home/client'
 import { useSelector } from 'react-redux';
+import { buffer } from 'stream/consumers';
 
 const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
     const [image, setImage] = useState("");
@@ -54,9 +55,16 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
         setShowDropdown(false);
     };
 
-    const handleImageUpload = (e: any) => {
-        const file = URL.createObjectURL(e.target.files[0]);
-        setImage(e.target.files[0]);
+    const handleFileChange = (event: any) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader: any = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                const arrayBuffer = reader.result;
+                setImage(arrayBuffer)
+            };
+        }
     };
 
     return (
@@ -73,7 +81,7 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
             <div style={{ textAlign: 'center' }}>
                 {image == "" && <svg width="500" height="500" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CCC" /></svg>}
                 {image != "" && <img width="500" height="500" style={{ objectFit: 'cover' }} src={image} />}
-                <input type="file" className='form-control' id="image" onChange={handleImageUpload} />
+                <input type="file" className='form-control' id="image" onChange={handleFileChange} />
                 <div>
                     <input
                         className='form-control'

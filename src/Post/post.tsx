@@ -7,9 +7,9 @@ const Post = ({ post } : { post: any }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     return (
-        <div className='card'>
+        <div className='card m-4 shadow-lg'>
+            {post.userid}
             <img src={`${post.image}`} alt="image" />
-            {post.username}
             <div>
                 <FaRegHeart />
             </div>

@@ -14,7 +14,6 @@ export const findTrendingPosts = async () => {
 
 export const createPost = async (post: any) => {
     const token = localStorage.getItem('token');
-    console.log(post)
     const Response = await api.post(`${POSTS_API}`, post, {headers: { 'Authorization': `Bearer ${token}`,}})
     return Response.data;
 }
