@@ -7,6 +7,9 @@ import Following from './following';
 import Trending from './trending';
 import { useState } from 'react';
 import CreatePost from '../Post/Create';
+import Profile from '../User/profile';
+import EditProfilePage from '../User/editProfile';
+import LeftNav from './leftnav';
 
 const Home = () => {
   const { pathname } = useLocation();
@@ -17,17 +20,6 @@ const Home = () => {
     dispatch(resetUser());
     navigate("/");
   }
-
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
-
   return (
     <div>
       <nav className="nav nav-underline justify-content-center">
@@ -38,24 +30,22 @@ const Home = () => {
       </nav>
       <div className='container'>
         <div className='row'>
-          <div className='d-none d-lg-block col-lg-3'>
-            {localStorage.getItem("token") != null && <button onClick={handleSignout} className='btn btn-warning'> Sign out </button>}
-            {localStorage.getItem("token") == null && <Link className='btn btn-primary' to={`/signin/`}>Sign in </Link>}
+          <div>
+          <LeftNav />
           </div>
           <div className='col-lg-6'>
             <Routes>
+              <Route path="/profile/:profileId" element={<Profile />} />
+              <Route path="/profile/edit" element={<EditProfilePage />} />
               <Route path="*" element={<Navigate to="/home/trending" />} />
               <Route path="trending" element={<Trending />} />
               <Route path="following" element={<Following />} />
             </Routes>
           </div>
           <div className='col-lg-3'>
-
           </div>
         </div>
       </div>
-      <button className='btn btn-primary' onClick={openModal}>Post</button>
-      <CreatePost isOpen={modalIsOpen} onClose={closeModal} />
     </div>
   );
 };
