@@ -35,9 +35,6 @@ const Home = () => {
           </div>
           <div className='col-lg-6'>
             <Routes>
-              <Route path="/profile/:profileId" element={<Profile />} />
-              <Route path="/profile/edit" element={<EditProfilePage />} />
-              <Route path="*" element={<Navigate to="/home/trending" />} />
               <Route path="trending" element={<Trending />} />
               <Route path="following" element={<Following />} />
             </Routes>
