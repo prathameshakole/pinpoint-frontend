@@ -22,7 +22,7 @@ const Trending = () => {
     return (
         <div className='m-4'>
             {trendingPosts.map((post: any, index: any) => (
-                <Post post={post}/>
+                <Post key={post._id} post={post}/>
             ))}
         </div>
     );

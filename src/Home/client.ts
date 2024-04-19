@@ -22,3 +22,9 @@ export const findUserPost = async (userid: any) => {
     const Response = await api.post(`${POSTS_API}/${userid}`)
     return Response.data;
 }
+
+export const updatePost = async (postId: any, post: any) => {
+    const token = localStorage.getItem('token');
+    const Response = await api.put(`${POSTS_API}/${postId}`, post, {headers: { 'Authorization': `Bearer ${token}`,}})
+    return Response.data;
+}

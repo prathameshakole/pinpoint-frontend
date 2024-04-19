@@ -38,7 +38,7 @@ const Home = () => {
       </nav>
       <div className='container'>
         <div className='row'>
-          <div className='col-lg-3'>
+          <div className='d-none d-lg-block col-lg-3'>
             {localStorage.getItem("token") != null && <button onClick={handleSignout} className='btn btn-warning'> Sign out </button>}
             {localStorage.getItem("token") == null && <Link className='btn btn-primary' to={`/signin/`}>Sign in </Link>}
           </div>

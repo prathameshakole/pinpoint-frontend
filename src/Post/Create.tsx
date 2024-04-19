@@ -2,16 +2,19 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import * as client from '../Home/client'
-import { useSelector } from 'react-redux';
-import { buffer } from 'stream/consumers';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { addPost } from '../Home/reducer';
 
 const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
     const [image, setImage] = useState("");
     const user = useSelector((state: any) => state.userReducer.user);
+    var posts = useSelector((state: any) => state.postsReducer.posts);
     const [searchValue, setSearchValue] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
-
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const handleSubmit = (e: any) => {
         const post = {
             userid: user._id,
@@ -23,6 +26,8 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
             reactions: []
         }
         client.createPost(post);
+        dispatch(addPost(post));
+        navigate("/")
     };
 
     const handleSearchChange = (e: any) => {
@@ -62,7 +67,37 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
             reader.readAsDataURL(file);
             reader.onloadend = () => {
                 const arrayBuffer = reader.result;
-                setImage(arrayBuffer)
+                const img = new Image();
+                img.src = arrayBuffer;
+                img.onload = () => {
+                  const canvas = document.createElement('canvas');
+                  const MAX_WIDTH = 500;
+                  const MAX_HEIGHT = 500;
+          
+                  let width = img.width;
+                  let height = img.height;
+          
+                  if (width > height) {
+                    if (width > MAX_WIDTH) {
+                      height *= MAX_WIDTH / width;
+                      width = MAX_WIDTH;
+                    }
+                  } else {
+                    if (height > MAX_HEIGHT) {
+                      width *= MAX_HEIGHT / height;
+                      height = MAX_HEIGHT;
+                    }
+                  }
+          
+                  canvas.width = width;
+                  canvas.height = height;
+          
+                  const ctx = canvas.getContext('2d');
+                  ctx?.drawImage(img, 0, 0, width, height);
+          
+                  const resizedArrayBuffer = canvas.toDataURL();
+                  setImage(resizedArrayBuffer);
+                }
             };
         }
     };

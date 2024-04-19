@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Buffer } from "buffer";
-
 const initialState: {
   posts: any[];
   post: {
@@ -9,9 +7,11 @@ const initialState: {
       1: string, 2: string, 3: string, 4: string,
     },
     date: string,
-    reactions: [{
-      userid: string, reaction: string
-    }]
+    reactions: {
+      type: string[],
+      unique: true
+    },
+    votes: { [key: string]: number }
   };
 } = {
   posts: [],
@@ -21,7 +21,11 @@ const initialState: {
       1: "", 2: "", 3: "", 4: "",
     },
     date: "",
-    reactions: [{userid: "", reaction: ""}]
+    reactions: {
+      type: [],
+      unique: true,
+    },
+    votes: {},
   },
 };
 
@@ -29,7 +33,7 @@ const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    addPost: (state, action: any) => {
+    addPost: (state, action) => {
       state.posts = [
         { ...action.payload },
         ...state.posts,
