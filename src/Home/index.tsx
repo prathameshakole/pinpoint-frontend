@@ -6,6 +6,7 @@ import Trending from './trending';
 import LeftNav from './leftnav';
 import { useState } from 'react';
 import CreatePost from '../Post/Create';
+import CreateAd from '../Ads/create';
 
 const Home = () => {
   const { pathname } = useLocation();
@@ -35,6 +36,9 @@ const Home = () => {
             </Routes>
             <button className='btn btn-primary' onClick={openModal}>Post</button>
             <CreatePost isOpen={modalIsOpen} onClose={closeModal} />
+
+            <button className='btn btn-primary' onClick={openModal}>Ads</button>
+            <CreateAd isOpen={modalIsOpen} onClose={closeModal} />
           </div>
           <div className='col-lg-3'>
           </div>

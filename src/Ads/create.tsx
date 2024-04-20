@@ -14,7 +14,7 @@ const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleSubmit = async () => {
+    const handleSubmit = (e :any) => {
         const ad = {
             userid: user._id,
             title: title,
@@ -25,8 +25,8 @@ const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
             approved: false
         };
         try {
-            const createdAd = await client.createAd(ad);
-            dispatch(addAd(createdAd));
+            client.createAd(ad);
+            dispatch(addAd(ad));
             navigate("/");
         } catch (error) {
             console.error('Error creating ad:', error);
