@@ -44,6 +44,13 @@ export const deleteUser = async (user: any) => {
     return response.data;
 };
 
+export const follow = async (followerId: any, followingId: any, follow: boolean) => {
+    const token = localStorage.getItem('token');
+    const response = await api.post(`${USERS_API}/follow/${followerId}/${followingId}/${follow}`, {headers: { 'Authorization': `Bearer ${token}`,}});
+    return response.data;
+};
+
+
 export const findUserById = async (id: string) => {
     const token = localStorage.getItem('token');
     const response = await api.get(`${USERS_API}/${id}`, {headers: { 'Authorization': `Bearer ${token}`,}});

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as client from '../User/client';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { resetUser } from '../User/reducer';
 
 const LeftNav = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const user = useSelector((state: any) => state.userReducer.user);
 
     const handleSignout = async () => {
         await client.signout();
@@ -28,7 +29,7 @@ const LeftNav = () => {
                     </li>
                     {localStorage.getItem("token") != null ? (
                         <>
-                            <Link to="/profile" className="nav-link w-100 mb-2"><h5>Profile</h5></Link>
+                            <Link to={"/profile/" + user._id} className="nav-link w-100 mb-2"><h5>Profile</h5></Link>
                             <Link onClick={handleSignout} className="nav-link w-100 mb-2" to={''}><h5>Sign out</h5></Link>
                         </>
                     ) : <Link to="/signin" className="nav-link w-100"><h5>Sign in</h5></Link>}

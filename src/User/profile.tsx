@@ -1,48 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { findUserById } from './client';
 import LeftNav from '../Home/leftnav';
 
 const UserProfile = () => {
-    const user = useSelector((state: any) => state.userReducer.user);
     const navigate = useNavigate();
+    const { profileId }: any = useParams();
+    const [user, setUser] = useState({
+        username: "", password: "", firstName: "", lastName: "", role: "USER", _id: "", email: "", avatar: "", following: {
+            type: [],
+            unique: true,
+        }
+    });
     const editProfile = () => {
         navigate('/profile/edit');
     };
-    const { profileId } = useParams();
-    const [user2, setUser] = useState(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                if (profileId) {
+                if (profileId != undefined) {
                     const response = await findUserById(profileId);
-                    setUser(response.data);
-                } else {
-                    setUser(user);
+                    setUser(response);
                 }
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
         };
-
         fetchUserData();
-    }, [profileId, user]);
-
-    if (!user2) {
-        return <div>Loading...</div>;
-    }
-
-    const isLoggedInUser = !profileId || user.id === user.id;
-
-
+    }, [profileId]);
     return (
         <div className="container mt-4">
             <div className="row">
                 <div>
-                    <LeftNav/>
+                    <LeftNav />
                 </div>
                 <div className="col-md-4">
                     <div className="text-center mb-3">
@@ -64,14 +56,6 @@ const UserProfile = () => {
                                 <button className="btn btn-primary" onClick={editProfile}>Edit profile</button>
                             </div>
                             <p className="card-text">@{user.username}</p>
-                            <p className="card-text">{user.bio}</p>
-                            <p className="card-text">
-                                <i className="fas fa-map-marker-alt"></i> {user.location}
-                            </p>
-                            <p className="card-text">
-                                <i className="fas fa-calendar-alt"></i> Joined{' '}
-                                {new Date(user.createdAt).toLocaleDateString()}
-                            </p>
                             <p className="card-text">
                                 <span className="font-weight-bold"></span>{' '}
                                 Following{' '}
@@ -79,11 +63,6 @@ const UserProfile = () => {
                                 Followers
                             </p>
                             <div className="nav nav-tabs">
-                                {isLoggedInUser && (
-                                    <a href="#posts" className="nav-item nav-link active">
-                                        Posts
-                                    </a>
-                                )}
                                 <a href="#ranking" className="nav-item nav-link">
                                     Ranking
                                 </a>
@@ -97,7 +76,7 @@ const UserProfile = () => {
                                     Likes
                                 </a>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>

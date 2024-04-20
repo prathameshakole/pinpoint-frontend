@@ -1,19 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { User } from "../User/reducer";
+
+export interface Post {
+  userid: string, image: string,
+  options: {
+    1: string, 2: string, 3: string, 4: string,
+  },
+  date: Date,
+  reactions: []
+  votes?: { [key: string]: number },
+  user?: User
+};
+
 const initialState: {
   trendingPosts: any[];
   followingPosts: any[];
-  post: {
-    userid: string, image: string,
-    options: {
-      1: string, 2: string, 3: string, 4: string,
-    },
-    date: string,
-    reactions: {
-      type: string[],
-      unique: true
-    },
-    votes: { [key: string]: number }
-  };
+  post: Post
 } = {
   trendingPosts: [],
   followingPosts: [],
@@ -22,12 +24,12 @@ const initialState: {
     options: {
       1: "", 2: "", 3: "", 4: "",
     },
-    date: "",
-    reactions: {
-      type: [],
-      unique: true,
-    },
+    date: new Date,
+    reactions: [],
     votes: {},
+    user: {
+      username: "", password: "", bio: "", firstName: "", lastName: "", role: "USER", _id: "", email: "", image: "", following: [], follower: []
+    }
   },
 };
 

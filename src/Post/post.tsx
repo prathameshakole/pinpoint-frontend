@@ -9,7 +9,7 @@ import { setUser } from '../User/reducer';
 
 const Post = ({ post }: { post: any }) => {
     const dispatch = useDispatch();
-    const user = useSelector((state: any) => state.userReducer.user);
+    var user = useSelector((state: any) => state.userReducer.user);
     const react = async (add: boolean) => {
         var newPost = {}
         if (add) {
@@ -22,13 +22,13 @@ const Post = ({ post }: { post: any }) => {
     }
 
     const follow = async (add: boolean) => {
+        await userClient.follow(user._id, post.userid, add);
         var newUser = {}
-        if (add) {
-            newUser = { ...user, following: [...user.following, post.userid] }
+        if (add == true) {
+            newUser = {...user, following: [...user.following, post.userid]}
         } else {
-            newUser = { ...user, following: user.following.filter((userid: any) => userid != post.userid) }
+            newUser = {...user, following: user.following.filter((userid: any) => userid != post.userid)}
         }
-        await userClient.updateUser(newUser);
         dispatch(setUser(newUser));
     }
 
@@ -44,7 +44,7 @@ const Post = ({ post }: { post: any }) => {
             <div className="container">
                 <div className="row">
                     <div className="col-6">
-                        <Link className='nav-link' to={`/profile/${post.userid}`}>{post.userid}</Link>
+                        <Link className='nav-link' to={`/profile/${post.userid}`}>{post.user.username}</Link>
 
                     </div>
                     <div className="col-6">
@@ -62,7 +62,7 @@ const Post = ({ post }: { post: any }) => {
                 <div className="row">
                     {user._id != '' ? <div>
                         {post.reactions.includes(user._id) ? (<FaHeart onClick={() => react(false)} />) : (<FaRegHeart onClick={() => react(true)} />)}
-                        {post.reactions.length > 0 && (' ' + post.reactions[0] + ', and ' + (post.reactions.length - 1) + ' more')}
+                        {post.reactions.length > 0 && (' ' + post.reactions.length + ' likes')}
                     </div> :
                         <div>
                             {post.reactions.length > 0 && (' ' + post.reactions[0] + ', and ' + (post.reactions.length - 1) + ' more')}
