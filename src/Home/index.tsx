@@ -10,9 +10,8 @@ import CreateAd from '../Ads/create';
 
 const Home = () => {
   const { pathname } = useLocation();
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
+  const user = useSelector((state: any) => state.userReducer.user);
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
@@ -29,14 +28,15 @@ const Home = () => {
           <div className='col-lg-3 d-block-lg'>
             <LeftNav />
           </div>
-          <div className='col-lg-6'>
+          <div className='col-lg-6' style={{textAlign: "center"}}>
+            {user._id != '' && <div className='mt-4'>
+              <button className='btn btn-primary' onClick={openModal}>Post</button>
+              <CreatePost isOpen={modalIsOpen} onClose={closeModal} />
+            </div>}
             <Routes>
               <Route path="trending" element={<Trending />} />
               <Route path="following" element={<Following />} />
             </Routes>
-            <button className='btn btn-primary' onClick={openModal}>Post</button>
-            <CreatePost isOpen={modalIsOpen} onClose={closeModal} />
-
             <button className='btn btn-primary' onClick={openModal}>Ads</button>
             <CreateAd isOpen={modalIsOpen} onClose={closeModal} />
           </div>

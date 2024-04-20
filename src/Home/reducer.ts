@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState: {
-  posts: any[];
+  trendingPosts: any[];
+  followingPosts: any[];
   post: {
     userid: string, image: string,
     options: {
@@ -14,7 +15,8 @@ const initialState: {
     votes: { [key: string]: number }
   };
 } = {
-  posts: [],
+  trendingPosts: [],
+  followingPosts: [],
   post: {
     userid: "", image: "",
     options: {
@@ -34,18 +36,18 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     addPost: (state, action) => {
-      state.posts = [
+      state.trendingPosts = [
         { ...action.payload },
-        ...state.posts,
+        ...state.trendingPosts,
       ];
     },
     deletePost: (state, action) => {
-      state.posts = state.posts.filter(
+      state.trendingPosts = state.trendingPosts.filter(
         (post) => post._id !== action.payload,
       );
     },
     updatePost: (state, action) => {
-      state.posts = state.posts.map((post) => {
+      state.trendingPosts = state.trendingPosts.map((post) => {
         if (post._id === action.payload._id) {
           return action.payload;
         } else {
@@ -57,11 +59,14 @@ const postsSlice = createSlice({
       state.post = action.payload;
     },
     setPosts: (state, action: any) => {
-      state.posts = action.payload;
+      state.trendingPosts = action.payload;
+    },
+    setFollowingPosts: (state, action: any) => {
+      state.followingPosts = action.payload;
     },
   },
 });
 
-export const { addPost, deletePost, updatePost, setPost, setPosts } =
+export const { addPost, deletePost, updatePost, setPost, setPosts, setFollowingPosts } =
   postsSlice.actions;
 export default postsSlice.reducer;
