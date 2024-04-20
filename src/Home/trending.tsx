@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import * as client from './client'
 import { setPosts } from "./reducer"
 import Post from '../Post/post';
@@ -7,9 +6,7 @@ import { useEffect } from 'react';
 
 const Trending = () => {
     const dispatch = useDispatch()
-    const navigate = useNavigate();
-    const { pathname } = useLocation();
-    const trendingPosts = useSelector((state: any) => state.postsReducer.posts);
+    const trendingPosts = useSelector((state: any) => state.postsReducer.trendingPosts);
     const fetchPosts = async () => {
         const posts = await client.findTrendingPosts()
         dispatch(setPosts(posts))

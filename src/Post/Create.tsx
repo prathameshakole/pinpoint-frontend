@@ -9,7 +9,7 @@ import { addPost } from '../Home/reducer';
 const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
     const [image, setImage] = useState("");
     const user = useSelector((state: any) => state.userReducer.user);
-    var posts = useSelector((state: any) => state.postsReducer.posts);
+    var posts = useSelector((state: any) => state.postsReducer.trendingPosts);
     const [searchValue, setSearchValue] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);

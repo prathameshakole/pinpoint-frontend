@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { SlUserFollow, SlUserUnfollow } from "react-icons/sl";
 import { RiUserFollowFill, RiUserFollowLine } from "react-icons/ri";
 import * as postClient from '../Home/client';
 import { updatePost } from '../Home/reducer';

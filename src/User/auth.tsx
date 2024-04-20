@@ -15,7 +15,7 @@ const Auth = () => {
 
     const handleRegisterChange = (e: any) => {
         const { name, value } = e.target;
-        setUser({ ...user, [name]: value });
+        dispatch(setUser({ ...user, [name]: value }));
     };
 
     const handleLoginSubmit = async (e: any) => {
@@ -28,7 +28,15 @@ const Auth = () => {
           }
     };
 
-    const handleRegisterSubmit = (e: any) => {
+    const handleRegisterSubmit = async (e: any) => {
+        try {
+            await client.createUser(user);
+            await client.signin(user);
+            const newUser = await client.profile();
+            dispatch(setUser(newUser));
+            navigate("/");
+          } catch (err: any) {
+          }
     };
 
     return (

@@ -9,9 +9,8 @@ import CreatePost from '../Post/Create';
 
 const Home = () => {
   const { pathname } = useLocation();
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
+  const user = useSelector((state: any) => state.userReducer.user);
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
@@ -33,8 +32,10 @@ const Home = () => {
               <Route path="trending" element={<Trending />} />
               <Route path="following" element={<Following />} />
             </Routes>
-            <button className='btn btn-primary' onClick={openModal}>Post</button>
-            <CreatePost isOpen={modalIsOpen} onClose={closeModal} />
+            {user._id != '' && <div>
+              <button className='btn btn-primary' onClick={openModal}>Post</button>
+              <CreatePost isOpen={modalIsOpen} onClose={closeModal} />
+            </div>}
           </div>
           <div className='col-lg-3'>
           </div>

@@ -12,6 +12,11 @@ export const findTrendingPosts = async () => {
     return response.data;
 };
 
+export const findFollowingPosts = async (userid: any) => {
+    const response = await api.get(`${POSTS_API}/following/${userid}`);
+    return response.data;
+};
+
 export const createPost = async (post: any) => {
     const token = localStorage.getItem('token');
     const Response = await api.post(`${POSTS_API}`, post, {headers: { 'Authorization': `Bearer ${token}`,}})
