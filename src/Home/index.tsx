@@ -27,15 +27,15 @@ const Home = () => {
           <div className='col-lg-3 d-block-lg'>
             <LeftNav />
           </div>
-          <div className='col-lg-6'>
+          <div className='col-lg-6' style={{textAlign: "center"}}>
+            {user._id != '' && <div className='mt-4'>
+              <button className='btn btn-primary' onClick={openModal}>Post</button>
+              <CreatePost isOpen={modalIsOpen} onClose={closeModal} />
+            </div>}
             <Routes>
               <Route path="trending" element={<Trending />} />
               <Route path="following" element={<Following />} />
             </Routes>
-            {user._id != '' && <div>
-              <button className='btn btn-primary' onClick={openModal}>Post</button>
-              <CreatePost isOpen={modalIsOpen} onClose={closeModal} />
-            </div>}
           </div>
           <div className='col-lg-3'>
           </div>

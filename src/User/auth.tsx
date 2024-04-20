@@ -24,8 +24,8 @@ const Auth = () => {
             const newUser = await client.profile();
             dispatch(setUser(newUser));
             navigate("/");
-          } catch (err: any) {
-          }
+        } catch (err: any) {
+        }
     };
 
     const handleRegisterSubmit = async (e: any) => {
@@ -35,51 +35,41 @@ const Auth = () => {
             const newUser = await client.profile();
             dispatch(setUser(newUser));
             navigate("/");
-          } catch (err: any) {
-          }
+        } catch (err: any) {
+        }
     };
 
     return (
-        <div className='container'>
-            <div className='row'>
-                <div className='col-lg-6'>
-                <img
-                    src='boston.webp'
-                    style={{
-                        width: '20vw',
-                        objectFit: 'cover',
-                    }}
-                    alt="Boston"
-                />
-                </div>
-                <div className='col-lg-6 card shadow-lg'>
+        <div className='container' style={{ position: 'relative' }}>
+            <div>
+                <div className='col-lg-6 col-md-8 col-10 card shadow-lg p-4' style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, 20%)'}}>
                     <div>
                         <h2>Login</h2>
-                            <div>
-                                <label>Username:</label>
-                                <input type="text" className='form-control m-2' name="username" value={user.username} onChange={handleLoginChange} />
-                            </div>
-                            <div>
-                                <label>Password:</label>
-                                <input type="password" className='form-control m-2' name="password" value={user.password} onChange={handleLoginChange} />
-                            </div>
-                            <button className='btn btn-primary m-2' onClick={handleLoginSubmit}>Login</button>
+                        <div>
+                            <label>Username</label>
+                            <input type="text" className='form-control mb-2' name="username" value={user.username} onChange={handleLoginChange} />
+                        </div>
+                        <div>
+                            <label>Password</label>
+                            <input type="password" className='form-control' name="password" value={user.password} onChange={handleLoginChange} />
+                        </div>
+                        <button className='btn btn-primary mt-4 mb-4' onClick={handleLoginSubmit}>Login</button>
                     </div>
                     <div>
                         <h2>Register</h2>
-                            <div>
-                                <label>Username:</label>
-                                <input type="text" className='form-control m-2' name="username" value={user.username} onChange={handleRegisterChange} />
-                            </div>
-                            <div>
-                                <label>Password:</label>
-                                <input type="password" className='form-control m-2' name="password" value={user.password} onChange={handleRegisterChange} />
-                            </div>
-                            <div>
-                                <label>Email:</label>
-                                <input type="email" className='form-control m-2' name="email" value={user.email} onChange={handleRegisterChange} />
-                            </div>
-                            <button className='btn btn-success m-2' onClick={handleRegisterSubmit} type="submit">Register</button>
+                        <div>
+                            <label>Username</label>
+                            <input type="text" className='form-control mb-2' name="username" value={user.username} onChange={handleRegisterChange} />
+                        </div>
+                        <div>
+                            <label>Password</label>
+                            <input type="password" className='form-control mb-2' name="password" value={user.password} onChange={handleRegisterChange} />
+                        </div>
+                        <div>
+                            <label>Email</label>
+                            <input type="email" className='form-control mb-2' name="email" value={user.email} onChange={handleRegisterChange} />
+                        </div>
+                        <button className='btn btn-success mt-4' onClick={handleRegisterSubmit} type="submit">Register</button>
                     </div>
                 </div>
             </div>

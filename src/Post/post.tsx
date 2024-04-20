@@ -28,7 +28,6 @@ const Post = ({ post }: { post: any }) => {
         } else {
             newUser = { ...user, following: user.following.filter((userid: any) => userid != post.userid) }
         }
-        console.log(newUser)
         await userClient.updateUser(newUser);
         dispatch(setUser(newUser));
     }
