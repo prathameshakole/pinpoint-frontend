@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as client from '../User/client';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetUser } from '../User/reducer';
+import CircularSearchBox from '../Search/search';
 
 const LeftNav = () => {
     const navigate = useNavigate();
@@ -17,9 +18,10 @@ const LeftNav = () => {
     return (
         <div className="d-none d-lg-block col-lg-3 p-0">
             <div className="d-flex flex-column p-5 position-fixed" style={{ top: 0, left: 0, height: '100vh' }}>
-                <Link to="/home/trending" className="d-flex align-items-center mb-3 text-white text-decoration-none fs-4">
+                <Link to="/home/trending" className="d-flex align-items-center mb-3 text-decoration-none fs-4">
                     Pin Point
                 </Link>
+                <CircularSearchBox/>
                 <ul className="nav nav-pills flex-column mb-auto">
                     <li className="nav-item">
                         <Link to="/home/trending" className="nav-link w-100 mb-2" aria-current="page">

@@ -21,7 +21,6 @@ export const profile = async () => {
 };
 
 export const updateUser = async (user: any) => {
-    console.log(user)
     const token = localStorage.getItem('token');
     const response = await api.put(`${USERS_API}/${user._id}`, user, {headers: { 'Authorization': `Bearer ${token}`,}});
     return response.data;
@@ -78,5 +77,5 @@ export const signup = async (user: any) => {
 };
 
 export const signout = async () => {
-    localStorage.removeItem('token')
+    localStorage.removeItem('token');
 };
