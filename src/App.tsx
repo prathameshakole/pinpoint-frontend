@@ -34,7 +34,7 @@ function App() {
     <HashRouter>
       <div>
         <Routes>
-          <Route path="/admin"element={<Admin/>}></Route>
+          <Route path="/admin/*"element={<Admin/>}></Route>
           <Route path="/ads" element={<Ad/>}></Route>
           <Route path="/profile/:profileId" element={localStorage.getItem('token') == null ? <Navigate to="/" replace /> : <Profile />} />
           <Route path="/editprofile" element={localStorage.getItem('token') == null ? <Navigate to="/" replace /> : <Profile />} />

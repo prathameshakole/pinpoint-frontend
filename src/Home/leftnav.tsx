@@ -33,7 +33,7 @@ const LeftNav = () => {
                                 <Link to="/ads" className="nav-link w-100 mb-2"><h5>My Ads</h5></Link>
                             }
                             {user.role == 'ADMIN' &&
-                                <Link to="/admin" className="nav-link w-100 mb-2"> <h5>Admin Panel</h5></Link>
+                                <Link to="/admin/ads" className="nav-link w-100 mb-2"> <h5>Admin Panel</h5></Link>
                             }
                       <Link onClick={handleSignout} className="nav-link w-100 mb-2" to={''}><h5>Sign out</h5></Link>
                         </>
