@@ -3,13 +3,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import * as client from './client';
 import * as userReducer from './reducer'
+import LeftNav from '../Home/leftnav';
 
 const EditProfile = () => {
     const dispatch = useDispatch()
     const user = useSelector((state: any) => state.userReducer.user);
     const [formData, setFormData] = useState({
-        username: "", password: "", bio: "", firstName: "", lastName: "", role: "USER", _id: "", email: "", image: "",
-        following: [], follower: []
+        username: user.username,
+        password: user.password,
+        bio: user.bio,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+        _id: user._id,
+        email: user.email,
+        image: user.image,
+        following: user.following,
+        follower: user.follower
     });
     const navigate = useNavigate();
     const navigateBack = () => {
@@ -17,12 +27,11 @@ const EditProfile = () => {
     }
 
     useEffect(() => {
-        if (user._id == undefined || user._id == '') {
-            navigate("/")
+        if (user._id === undefined || user._id === '') {
+            navigate("/");
         }
-        setFormData(user);
-    })
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    }, [user, navigate]);
+    const handleChange = (e: any) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
@@ -74,16 +83,23 @@ const EditProfile = () => {
     };
 
     return (
-        <div className="container mt-5">
-            <button className='btn btn-primary mb-3' onClick={navigateBack}> Back</button>
-            <div className="card">
-                <h1 className="card-header text-center">Edit Profile</h1>
-                <div className="card-body">
+        <div className="container">
+            <div className="row">
+                <div className="col-lg-4 d-none d-lg-block">
+                    <LeftNav />
+                </div>
+                <div className="col-12 col-lg-8">
+                    <nav className="nav nav-underline justify-content-center">
+                        <div className="nav-link active m-4">
+                            <h5>Edit Profile</h5>
+                        </div>
+                    </nav>
+                    <button className='btn btn-primary mb-3' onClick={navigateBack}> Back</button>
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
                         <input
                             type="text"
-                            className="form-control"
+                            className="form-control mb-3"
                             id="username"
                             name="username"
                             value={formData.username}
@@ -94,7 +110,7 @@ const EditProfile = () => {
                         <label htmlFor="password">Password</label>
                         <input
                             type="text"
-                            className="form-control"
+                            className="form-control mb-3"
                             id="password"
                             name="password"
                             value={formData.password}
@@ -105,7 +121,7 @@ const EditProfile = () => {
                         <label htmlFor="firstName">First Name</label>
                         <input
                             type="text"
-                            className="form-control"
+                            className="form-control mb-3"
                             id="firstName"
                             name="firstName"
                             value={formData.firstName}
@@ -116,7 +132,7 @@ const EditProfile = () => {
                         <label htmlFor="lastName">Last Name</label>
                         <input
                             type="text"
-                            className="form-control"
+                            className="form-control mb-3"
                             id="lastName"
                             name="lastName"
                             value={formData.lastName}
@@ -127,7 +143,7 @@ const EditProfile = () => {
                         <label htmlFor="email">Email</label>
                         <input
                             type="email"
-                            className="form-control"
+                            className="form-control mb-3"
                             id="email"
                             name="email"
                             value={formData.email}
@@ -135,10 +151,24 @@ const EditProfile = () => {
                         />
                     </div>
                     <div className="form-group">
+                        <label htmlFor="role">Role</label>
+                        <select
+                            className="form-control mb-3"
+                            id="role"
+                            name="role"
+                            value={formData.role}
+                            onChange={handleChange}
+                        >
+                            <option value="USER">USER</option>
+                            {user.role == 'ADMIN' && <option value="ADMIN">ADMIN</option>}
+                            <option value="ADVERTISER">ADVERTISER</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
                         <label htmlFor="image">Avatar</label>
                         <input
                             type="file"
-                            className="form-control-file"
+                            className="form-control mb-3"
                             id="image"
                             name="image"
                             accept="image/*"

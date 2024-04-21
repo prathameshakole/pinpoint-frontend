@@ -10,15 +10,12 @@ import Auth from './User/auth';
 import Ad from './Ads/ad';
 import Admin from './Admin/admin';
 import EditProfile from './User/editProfile';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import Search from './Search/search';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem('token') !== null
-  );
   const dispatch = useDispatch();
   useEffect(() => {
-    setIsAuthenticated(localStorage.getItem('token') !== null);
     const fetchProfile = async () => {
       try {
         const account = await client.profile();
@@ -32,7 +29,7 @@ function App() {
         dispatch(setUser(e));
       }
     });
-  }, [localStorage.getItem('token')]);
+  }, []);
   return (
     <HashRouter>
         <Routes>
@@ -40,7 +37,9 @@ function App() {
           <Route path='/signin' element={<Auth />} />
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/ads" element={<Ad />}></Route>
+          <Route path="/search/:searchTerm" element={<Search />} />
           <Route path="/profile/:profileId" element={<Profile />} />
+          <Route path="/editprofile" element={<EditProfile />} />
           <Route path="/editprofile" element={<EditProfile />} />
           <Route path="*" element={<Navigate to="/home/trending" />} />
         </Routes>

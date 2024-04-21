@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as client from '../User/client';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetUser } from '../User/reducer';
-import CircularSearchBox from '../Search/search';
+import CircularSearchBox from '../Search/searchBar';
 
 const LeftNav = () => {
     const navigate = useNavigate();

@@ -17,7 +17,7 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleSubmit = (e: any) => {
-        var post : Post = {
+        var post: Post = {
             userid: userObj._id,
             image: image,
             options: {
@@ -72,37 +72,75 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
                 const img = new Image();
                 img.src = arrayBuffer;
                 img.onload = () => {
-                  const canvas = document.createElement('canvas');
-                  const MAX_WIDTH = 500;
-                  const MAX_HEIGHT = 500;
-          
-                  let width = img.width;
-                  let height = img.height;
-          
-                  if (width > height) {
-                    if (width > MAX_WIDTH) {
-                      height *= MAX_WIDTH / width;
-                      width = MAX_WIDTH;
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 500;
+                    const MAX_HEIGHT = 500;
+
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
                     }
-                  } else {
-                    if (height > MAX_HEIGHT) {
-                      width *= MAX_HEIGHT / height;
-                      height = MAX_HEIGHT;
-                    }
-                  }
-          
-                  canvas.width = width;
-                  canvas.height = height;
-          
-                  const ctx = canvas.getContext('2d');
-                  ctx?.drawImage(img, 0, 0, width, height);
-          
-                  const resizedArrayBuffer = canvas.toDataURL();
-                  setImage(resizedArrayBuffer);
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx?.drawImage(img, 0, 0, width, height);
+
+                    const resizedArrayBuffer = canvas.toDataURL();
+                    setImage(resizedArrayBuffer);
                 }
             };
         }
     };
+
+    const getCitiesFromLocation = () => {
+        const targetLatitude = 40.845417; // Example: London
+        const targetLongitude = -73.935713;
+        const radius = 50000; // 50 km radius
+
+        const query = `
+          [out:json];
+          node
+            [place=city]
+            (around:${radius},${targetLatitude},${targetLongitude});
+          out;
+        `;
+
+        const overpassUrl = 'https://overpass-api.de/api/interpreter';
+
+        axios
+            .post(overpassUrl, query, {
+                headers: {
+                    'Content-Type': 'application/xml',
+                },
+            })
+            .then((response) => {
+                const nearestCities = response.data.elements
+                    .filter((element: { type: string; }) => element.type === 'node')
+                    .map((node: { tags: { name: any; }; lat: any; lon: any; }) => ({
+                        name: node.tags.name,
+                        latitude: node.lat,
+                        longitude: node.lon,
+                    }));
+
+                console.log(nearestCities);
+                // Process the nearest cities data as needed
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
     return (
         <Modal style={{
@@ -139,7 +177,8 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
                         </ul>
                     )}
                 </div>
-                <button className='btn btn-primary m-2' onClick={handleSubmit}>Post</button>
+                <button className={image == '' || searchValue == '' ? 'btn btn-primary m-2 disabled' : 'btn btn-primary m-2'} 
+                onClick={handleSubmit}>Post</button>
             </div>
         </Modal>
     );

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import Following from './following';
 import Trending from './trending';
 import LeftNav from './leftnav';
@@ -34,6 +34,7 @@ const Home = () => {
             <Routes>
               <Route path="/trending" element={<Trending />} />
               <Route path="/following" element={<Following />} />
+              <Route path='*' element={<Navigate to={'/'}/>}/>
             </Routes>
           </div>
           <div className='col-lg-3'>
