@@ -15,7 +15,7 @@ const Admin = () => {
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const userAds = await client.findAdByUser(user._id);
+        const userAds = await client.findAllAds();
         dispatch(setAds(userAds));
       } catch (error) {
         console.error('Error fetching ads:', error);

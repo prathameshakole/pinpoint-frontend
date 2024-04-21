@@ -86,7 +86,7 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
                     <div className="container">
                         <div className="row">
                             <div className="col-6 mt-2">
-                                <Link className="nav-link" to={`/profile/${ad.title}`}>
+                                <Link className="nav-link" to={`/ads`}>
                                     <h5>{ad.title}</h5>
                                 </Link>
                             </div>
