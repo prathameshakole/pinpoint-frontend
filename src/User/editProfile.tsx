@@ -8,7 +8,7 @@ const EditProfile = () => {
     const dispatch = useDispatch()
     const user = useSelector((state: any) => state.userReducer.user);
     const [formData, setFormData] = useState({
-        username: "", password: "", bio: "", firstName: "", lastName: "", role: "USER", _id: "", email: "", image: "", 
+        username: "", password: "", bio: "", firstName: "", lastName: "", role: "USER", _id: "", email: "", image: "",
         following: [], follower: []
     });
     const navigate = useNavigate();
@@ -17,6 +17,9 @@ const EditProfile = () => {
     }
 
     useEffect(() => {
+        if (user._id == undefined || user._id == '') {
+            navigate("/")
+        }
         setFormData(user);
     })
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

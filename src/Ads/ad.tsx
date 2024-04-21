@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as client from './client';
 import { setAds, deleteAd, updateAd } from './reducer';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LeftNav from '../Home/leftnav';
 import AdCard from './adcomponent';
 import CreateAd from './create';
 
 const AdList = () => {
-
+    const navigate = useNavigate()
     const user = useSelector((state: any) => state.userReducer.user);
     const ads = useSelector((state: any) => state.adReducer.ads);
     const dispatch = useDispatch();
@@ -16,6 +16,9 @@ const AdList = () => {
     const openAdModal = () => setAdModalIsOpen(true);
     const closeAdModal = () => setAdModalIsOpen(false);
     useEffect(() => {
+        if (user._id == undefined || user._id == '' || user.role != 'ADVERTISER') {
+            navigate("/")
+        }
         const fetchAds = async () => {
             try {
                 const userAds = await client.findAdByUser(user._id);
@@ -55,7 +58,7 @@ const AdList = () => {
             <div className="container">
                 <div className="row">
                     <div className="col-3"></div>
-                    <div className="col-6" style={{textAlign: "center"}}>
+                    <div className="col-6" style={{ textAlign: "center" }}>
                         <button className='btn btn-primary' onClick={openAdModal}>Ads</button>
                         <CreateAd isOpen={adModalIsOpen} onClose={closeAdModal} />
                     </div>

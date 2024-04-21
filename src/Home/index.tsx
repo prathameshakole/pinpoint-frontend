@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { Routes, Route, Navigate } from "react-router";
+import { Routes, Route } from "react-router";
 import Following from './following';
 import Trending from './trending';
 import LeftNav from './leftnav';

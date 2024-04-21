@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import * as client from "./client";
 import { setUser } from "./reducer";
 import { useNavigate } from 'react-router';
@@ -12,6 +12,12 @@ const Auth = () => {
         const { name, value } = e.target;
         dispatch(setUser({ ...user, [name]: value }));
     };
+
+    useEffect(() => {
+        if (user._id != undefined && user._id != '') {
+          navigate("/")
+        }
+      }, [])
 
     const handleRegisterChange = (e: any) => {
         const { name, value } = e.target;

@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as client from '../Ads/client';
-import { setAds, deleteAd, updateAd } from '../Ads/reducer';
-import { Link } from 'react-router-dom';
+import { setAds } from '../Ads/reducer';
+import { Link, useNavigate } from 'react-router-dom';
 import LeftNav from '../Home/leftnav';
 import AdCard from '../Ads/adcomponent';
 
 const Admin = () => {
-  
+  const navigate = useNavigate()
   const user = useSelector((state: any) => state.userReducer.user);
   const ads = useSelector((state: any) => state.adReducer.ads);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (user._id == undefined || user._id == '' || user.role != 'ADMIN') {
+      navigate("/")
+    }
     const fetchAds = async () => {
       try {
         const userAds = await client.findAllAds();
