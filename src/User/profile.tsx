@@ -129,17 +129,13 @@ const UserProfile = () => {
                         {userPosts.map((post: any, index: any) => (
                             <div key={post._id} className="col-lg-4 col-md-6 col-sm-12 mb-4">
                                 <div className="card h-100">
-                                    <img
-                                        className="card-img-top"
-                                        key={post._id}
-                                        src={post.image}
-                                        alt="image"
-                                        style={{
-                                            height: '100%',
-                                            width: '100%',
-                                            objectFit: 'cover',
-                                        }}
-                                    />
+                                    <div className='ratio ratio-1x1'>
+                                        <img className="card-img-top" key={post._id} src={post.image} alt="image" style={{
+                                                height: '100%',
+                                                width: '100%',
+                                                objectFit: 'cover',
+                                            }}/>
+                                        </div>
                                 </div>
                             </div>
                         ))}

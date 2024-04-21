@@ -33,21 +33,6 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
         navigate("/")
     };
 
-    const fetchSearchResults = async (value: any) => {
-        try {
-            const response = await axios.get(`https://nominatim.openstreetmap.org/search`, {
-                params: {
-                    city: value,
-                    format: 'geojson',
-                },
-            });
-            setSearchResults(response.data.features);
-            setShowDropdown(true);
-        } catch (error) {
-            console.error('Error fetching search results:', error);
-        }
-    };
-
     const handleItemClick = (result: any) => {
         setSearchValue({ ...searchValue, 5: result });
         setSearchResults([]);

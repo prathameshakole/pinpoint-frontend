@@ -11,7 +11,7 @@ const CircularSearchBox = () => {
     };
 
     const handleSearch = (e: any) => {
-        if (searchTerm.length > 0) {
+        if (searchTerm.length >=3) {
             navigate(`/search/${searchTerm}`)
         }
     };
