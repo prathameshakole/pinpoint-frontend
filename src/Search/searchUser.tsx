@@ -1,8 +1,11 @@
+import { useNavigate } from "react-router"
+
 export const SearchUser = ({users}: any) => {
+    const navigate = useNavigate();
     return (
         <div className="col-lg-12">
             {users.slice(0, 10).map((user: any) => (
-                <div className="row g-0 card">
+                <div className="row g-0 card" onClick={() => navigate(`/profile/${user._id}`)}>
                     <div className="col-md-3">
                         <img
                             src={user.image === undefined || user.image === '' ? "/default.jpg" : user.image}
