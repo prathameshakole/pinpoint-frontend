@@ -1,104 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import * as client from './client';
-import { setAd, updateAd, deleteAd } from './reducer';
+import { setAds, deleteAd, updateAd } from './reducer';
+import { Link } from 'react-router-dom';
+import LeftNav from '../Home/leftnav';
+import AdCard from './adcomponent';
+import CreateAd from './create';
 
-const Ad = () => {
-    const { adId } = useParams();
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const ad = useSelector((state: any) => state.adReducer.ad);
+const AdList = () => {
+
     const user = useSelector((state: any) => state.userReducer.user);
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [image, setImage] = useState('');
-
+    const ads = useSelector((state: any) => state.adReducer.ads);
+    const dispatch = useDispatch();
+    const [adModalIsOpen, setAdModalIsOpen] = useState(false);
+    const openAdModal = () => setAdModalIsOpen(true);
+    const closeAdModal = () => setAdModalIsOpen(false);
     useEffect(() => {
-        const fetchAd = async () => {
+        const fetchAds = async () => {
             try {
-                const fetchedAd = await client.findAdsByUser(user._id);
-                dispatch(setAd(fetchedAd));
-                setTitle(fetchedAd.title);
-                setDescription(fetchedAd.description);
-                setImage(fetchedAd.image);
+                const userAds = await client.findAdByUser(user._id);
+                dispatch(setAds(userAds));
             } catch (error) {
-                console.error('Error fetching ad:', error);
+                console.error('Error fetching ads:', error);
             }
         };
 
-        fetchAd();
-    }, [adId, dispatch]);
-
-    const handleUpdate = async () => {
-        if (adId) {
-            const updatedAd = {
-                ...ad,
-                title,
-                description,
-                image,
-            };
-
-            try {
-                const response = await client.updateAd(adId, updatedAd);
-                dispatch(updateAd(response));
-                navigate('/');
-            } catch (error) {
-                console.error('Error updating ad:', error);
-            }
-        }
-    };
-
-    const handleDelete = async () => {
-        if (adId) {
-            try {
-                await client.deleteAd(adId);
-                dispatch(deleteAd(adId));
-                navigate('/');
-            } catch (error) {
-                console.error('Error deleting ad:', error);
-            }
-        }
-    };
-
-    const handleFileChange = (event: any) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader: any = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = () => {
-                setImage(reader.result);
-            };
-        }
-    };
+        fetchAds();
+    }, [user._id, dispatch]);
 
     return (
         <div>
-            {image === '' && <svg width="500" height="500" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CCC" /></svg>}
-            {image !== '' && <img width="500" height="500" style={{ objectFit: 'cover' }} src={image} alt="Ad Image" />}
-            <input type="file" className='form-control' id="image" onChange={handleFileChange} />
-            <input
-                className='form-control'
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Enter ad title"
-            />
-            <input
-                className='form-control'
-                type="text"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Enter ad description"
-            />
-            {user._id === ad.userid && (
-                <>
-                    <button className='btn btn-primary m-2' onClick={handleUpdate}>Update Ad</button>
-                    <button className='btn btn-danger m-2' onClick={handleDelete}>Delete Ad</button>
-                </>
-            )}
+            <nav className="nav nav-underline justify-content-center">
+                <Link to="/ads" className="nav-link">
+                    <h5>Your Ads</h5>
+                </Link>
+            </nav>
+
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-3 d-block-lg">
+                        <LeftNav />
+                    </div>
+                    <div className="col ps-4">
+                        {ads.map((ad: any) => (
+                            <AdCard
+                                ad={ad}
+                                editable={true}
+                                approvable={false}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
+            <div className="container">
+                <div className="row">
+                    <div className="col-3"></div>
+                    <div className="col-6" style={{textAlign: "center"}}>
+                        <button className='btn btn-primary' onClick={openAdModal}>Ads</button>
+                        <CreateAd isOpen={adModalIsOpen} onClose={closeAdModal} />
+                    </div>
+                </div>
+            </div>
+
         </div>
     );
 };
 
-export default Ad;
+export default AdList;

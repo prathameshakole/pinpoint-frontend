@@ -7,7 +7,7 @@ const api = axios.create({
     withCredentials: true
 });
 
-export const findAdsByUser = async (userid: string) => {
+export const findAdByUser = async (userid: string) => {
     try {
         const response = await api.get(`${ADS_API}/${userid}`);
         return response.data;
