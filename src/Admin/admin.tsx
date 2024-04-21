@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import * as client from './client';
-import { setAds, deleteAd, updateAd } from './reducer';
+import * as client from '../Ads/client';
+import { setAds, deleteAd, updateAd } from '../Ads/reducer';
 import { Link } from 'react-router-dom';
 import LeftNav from '../Home/leftnav';
-import AdCard from './adcomponent';
+import AdCard from '../Ads/adcomponent';
 
-const AdList = () => {
+const Admin = () => {
   
   const user = useSelector((state: any) => state.userReducer.user);
   const ads = useSelector((state: any) => state.adReducer.ads);
@@ -29,7 +29,7 @@ const AdList = () => {
     <div>
       <nav className="nav nav-underline justify-content-center">
         <Link to="/ads" className="nav-link">
-          <h5>Your Ads</h5>
+          <h5>Available Ads</h5>
         </Link>
       </nav>
 
@@ -42,8 +42,8 @@ const AdList = () => {
             {ads.map((ad: any) => (
               <AdCard
                 ad={ad}
-                editable={true}
-                approvable={false}
+                editable={false}
+                approvable={true}
               />
             ))}
           </div>
@@ -53,4 +53,4 @@ const AdList = () => {
   );
 };
 
-export default AdList;
+export default Admin;

@@ -9,6 +9,8 @@ import { setUser } from '../src/User/reducer'
 import Auth from './User/auth';
 import CreatePost from './Post/Create';
 import EditProfilePage from './User/editProfile';
+import Ad from './Ads/ad';
+import Admin from './Admin/admin';
 
 
 
@@ -32,6 +34,8 @@ function App() {
     <HashRouter>
       <div>
         <Routes>
+          <Route path="/admin"element={<Admin/>}></Route>
+          <Route path="/ads" element={<Ad/>}></Route>
           <Route path="/profile/*" element={localStorage.getItem('token') == null ? <Navigate to="/" replace /> : <Profile />} />
           <Route path="/profile/:profileId" element={<Profile />} />
           <Route path="/profile/edit" element={<EditProfilePage />} />

@@ -10,6 +10,7 @@ const initialState: {
         totalImpressions: number;
         date: string;
         approved: boolean;
+        url: string;
     };
 } = {
     ads: [],
@@ -21,6 +22,7 @@ const initialState: {
         totalImpressions: 0,
         date: "",
         approved: false,
+        url:""
     },
 };
 
@@ -49,6 +51,15 @@ const adSlice = createSlice({
           }
         });
       },
+      approveAd: (state, action) => {
+        state.ads = state.ads.map((ad) => {
+          if (ad._id === action.payload) {
+            return { ...ad, approved: true };
+          } else {
+            return ad;
+          }
+        });
+      },
       setAd: (state, action) => {
         state.ad = action.payload;
       },
@@ -58,5 +69,5 @@ const adSlice = createSlice({
     },
   });
 
-  export const {addAd, deleteAd, updateAd, setAd, setAds} = adSlice.actions;
+  export const {addAd, deleteAd, updateAd, setAd, setAds, approveAd} = adSlice.actions;
   export default adSlice.reducer;

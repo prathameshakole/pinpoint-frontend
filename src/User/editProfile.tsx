@@ -12,6 +12,7 @@ const EditProfilePage = () => {
     const [formData, setFormData] = useState({
         id: user._id,
         username: user.username,
+        password: user.password,
         dateOfBirth: user.dateOfBirth,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -26,6 +27,7 @@ const EditProfilePage = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        updateUser(formData);
     };
 
     return (
@@ -43,6 +45,17 @@ const EditProfilePage = () => {
                                 id="username"
                                 name="username"
                                 value={formData.username}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="password"
+                                name="password"
+                                value={formData.password}
                                 onChange={handleChange}
                             />
                         </div>
