@@ -6,6 +6,7 @@ import Trending from './trending';
 import LeftNav from './leftnav';
 import { useState } from 'react';
 import CreatePost from '../Post/Create';
+import CreateAd from '../Ads/create';
 
 const Home = () => {
   const { pathname } = useLocation();

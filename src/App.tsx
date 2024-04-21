@@ -35,7 +35,7 @@ function App() {
         <Routes>
           <Route path="/home/*" element={<Home />} />
           <Route path='/signin' element={<Auth />} />
-          <Route path="/admin" element={<Admin />}></Route>
+          <Route path="/admin/*" element={<Admin />}></Route>
           <Route path="/ads" element={<Ad />}></Route>
           <Route path="/search/:searchTerm" element={<Search />} />
           <Route path="/profile/:profileId" element={<Profile />} />
