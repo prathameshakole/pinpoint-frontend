@@ -62,24 +62,25 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
                             objectFit: 'cover',
                         }} />
                     </div>
-                    <input className='form-control'
+                    <input className='form-control mt-2'
                         type="text"
                         value={currentAd.title}
                         onChange={(e) => dispatch(adReducer.setAd({ ...currentAd, title: e.target.value }))}
                     />
-                    <input className='form-control mt-4'
+                    <input className='form-control mt-3'
                         type="text"
                         value={currentAd.description}
                         onChange={(e) => dispatch(adReducer.setAd({ ...currentAd, description: e.target.value }))}
                     />
+                    <input className="form-control mt-3" type="text" value={currentAd.url} onChange={(e) => dispatch(adReducer.setAd({...currentAd, url : e.target.value}))} />
                     <button className='nav-link w-100 mt-4' type="submit">Save</button>
                 </form>
             ) : (
                 <div>
                     <div className="container">
                         <div className="row">
-                                <Link className="nav-link" to={`/ads`}>
-                                    <h5>{ad.title}</h5>
+                                <Link className="nav-link ms-2" to={`/ads`}>
+                                    {ad.title}
                                 </Link>
                         </div>
                     </div>
@@ -92,15 +93,18 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
                     </div>
                     <div className='container m-2'>
                         <div className="row">
-                            <p className="card-text">{ad.description}</p>
+                            <p className="card-text"><h5>{ad.description}</h5></p>
+                        </div>
+                        <div className="row nav ">
+                            <a className='nav-link pt-0'  href={new URL(`https://${ad.url}`).href} target="_blank" rel="noopener noreferrer">{ad.url}</a>
                         </div>
                         {editable && (
                             <div className="row">
                                 <div className="col-6">
-                                    <p className="card-text">Impressions: {ad.totalImpressions}</p>
+                                    <p className="card-text"><h5>Impressions: {ad.totalImpressions}</h5></p>
                                 </div>
                                 <div className="col-6">
-                                    <p className="card-text">Approved : {ad.approved == true ? "Yes" : "No"} </p>
+                                    <p className="card-text"><h5>Approved : {ad.approved == true ? "Yes" : "No"}</h5></p>
                                 </div>
                             </div>
                         )}
@@ -110,12 +114,12 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
                             <div className="container">
                                 <div className="row">
                                     <div className="col-6">
-                                        <button onClick={() => handleUpdateClick(ad)} className="nav-link w-100 mb-2">
+                                        <button onClick={() => handleUpdateClick(ad)} className="btn btn-primary w-100 mb-2">
                                             Update
                                         </button>
                                     </div>
                                     <div className="col-6">
-                                        <button className="nav-link w-100 mb-2" onClick={() => handleDeleteClick(ad._id)}>
+                                        <button className="btn btn-primary w-100 mb-2" onClick={() => handleDeleteClick(ad._id)}>
                                             Delete
                                         </button>
                                     </div>

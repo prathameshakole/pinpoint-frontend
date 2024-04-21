@@ -22,17 +22,16 @@ const AdminAds = () => {
     }, [user._id, dispatch]);
 
     return (
-        <div className='row row-cols-1 row-cols-md-3 g-3'>
-            {ads.filter((e: any) => e.approved == false).map((ad: any) => (
-                <div key={ad._id} className="col-lg-6 col-md-12 d-flex">
-                    <AdCard
-                        ad={ad}
-                        editable={false}
-                        approvable={true}
-                    />
-                </div>
-
-            ))}
+        <div className="row row-cols-1 row-cols-lg-2 row-cols-md-2 g-3">
+            {ads
+                .filter((e: any) => e.approved === false)
+                .map((ad: any) => (
+                    <div key={ad._id} className="col-12 col-md-6 d-flex">
+                        <div className="h-100 w-100">
+                            <AdCard ad={ad} editable={false} approvable={true} />
+                        </div>
+                    </div>
+                ))}
         </div>
     );
 };

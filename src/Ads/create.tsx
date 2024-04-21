@@ -5,16 +5,18 @@ import * as client from '../Ads/client';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { addAd } from '../Ads/reducer';
+import { url } from 'inspector';
 
 const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
+    const [url, setUrl] = useState("");
     const user = useSelector((state: any) => state.userReducer.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleSubmit = (e :any) => {
+    const handleSubmit = (e: any) => {
         const ad = {
             userid: user._id,
             title: title,
@@ -22,7 +24,8 @@ const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
             image: image,
             totalImpressions: 0,
             date: new Date().toISOString(),
-            approved: false
+            approved: false,
+            url: url
         };
         try {
             client.createAd(ad);
@@ -72,6 +75,14 @@ const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Enter ad description"
+                />
+
+                <input
+                    className='form-control'
+                    type="text"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    placeholder="Enter URL"
                 />
                 <button className='btn btn-primary m-2' onClick={handleSubmit}>Create Ad</button>
                 <button className='btn btn-danger m-2' onClick={onClose}>Cancel</button>
