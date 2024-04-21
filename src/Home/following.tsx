@@ -5,41 +5,41 @@ import Post from '../Post/post';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-const targetLatitude = 40.845417; // Example: London
-const targetLongitude = -73.935713;
-const radius = 50000; // 50 km radius
+// const targetLatitude = 40.845417; // Example: London
+// const targetLongitude = -73.935713;
+// const radius = 50000; // 50 km radius
 
-const query = `
-  [out:json];
-  node
-    [place=city]
-    (around:${radius},${targetLatitude},${targetLongitude});
-  out;
-`;
+// const query = `
+//   [out:json];
+//   node
+//     [place=city]
+//     (around:${radius},${targetLatitude},${targetLongitude});
+//   out;
+// `;
 
-const overpassUrl = 'https://overpass-api.de/api/interpreter';
+// const overpassUrl = 'https://overpass-api.de/api/interpreter';
 
-axios
-  .post(overpassUrl, query, {
-    headers: {
-      'Content-Type': 'application/xml',
-    },
-  })
-  .then((response) => {
-    const nearestCities = response.data.elements
-      .filter((element: { type: string; }) => element.type === 'node')
-      .map((node: { tags: { name: any; }; lat: any; lon: any; }) => ({
-        name: node.tags.name,
-        latitude: node.lat,
-        longitude: node.lon,
-      }));
+// axios
+//   .post(overpassUrl, query, {
+//     headers: {
+//       'Content-Type': 'application/xml',
+//     },
+//   })
+//   .then((response) => {
+//     const nearestCities = response.data.elements
+//       .filter((element: { type: string; }) => element.type === 'node')
+//       .map((node: { tags: { name: any; }; lat: any; lon: any; }) => ({
+//         name: node.tags.name,
+//         latitude: node.lat,
+//         longitude: node.lon,
+//       }));
 
-    console.log(nearestCities);
-    // Process the nearest cities data as needed
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+//     console.log(nearestCities);
+//     // Process the nearest cities data as needed
+//   })
+//   .catch((error) => {
+//     console.error(error);
+//   });
 
 
 const Following = () => {

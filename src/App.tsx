@@ -36,9 +36,8 @@ function App() {
         <Routes>
           <Route path="/admin"element={<Admin/>}></Route>
           <Route path="/ads" element={<Ad/>}></Route>
-          <Route path="/profile/*" element={localStorage.getItem('token') == null ? <Navigate to="/" replace /> : <Profile />} />
-          <Route path="/profile/:profileId" element={<Profile />} />
-          <Route path="/profile/edit" element={<EditProfilePage />} />
+          <Route path="/profile/:profileId" element={localStorage.getItem('token') == null ? <Navigate to="/" replace /> : <Profile />} />
+          <Route path="/editprofile" element={localStorage.getItem('token') == null ? <Navigate to="/" replace /> : <Profile />} />
           <Route path="/" element={<Navigate to="/home/trending" replace />} />
           <Route path="/home/*" element={<Home />} />
           <Route path='/signin' element={localStorage.getItem('token') != null ? <Navigate to="/" replace /> : <Auth />} />

@@ -10,10 +10,12 @@ import CreatePost from '../Post/Create';
 const Home = () => {
   const { pathname } = useLocation();
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [adModalIsOpen, setAdModalIsOpen] = useState(false);
   const user = useSelector((state: any) => state.userReducer.user);
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
-
+  const openAdModal = () => setAdModalIsOpen(true);
+  const closeAdModal = () => setAdModalIsOpen(false);
   return (
     <div>
       <nav className="nav nav-underline justify-content-center">
@@ -27,8 +29,8 @@ const Home = () => {
           <div className='col-lg-3 d-block-lg'>
             <LeftNav />
           </div>
-          <div className='col-lg-6' style={{textAlign: "center"}}>
-            {user._id != '' && <div className='mt-4'>
+          <div className='col-lg-6'>
+            {user._id != '' && <div className='mt-4' style={{ textAlign: "center" }}>
               <button className='btn btn-primary' onClick={openModal}>Post</button>
               <CreatePost isOpen={modalIsOpen} onClose={closeModal} />
             </div>}
@@ -36,6 +38,8 @@ const Home = () => {
               <Route path="trending" element={<Trending />} />
               <Route path="following" element={<Following />} />
             </Routes>
+            <button className='btn btn-primary' onClick={openAdModal}>Ads</button>
+            <CreateAd isOpen={adModalIsOpen} onClose={closeAdModal} />
           </div>
           <div className='col-lg-3'>
           </div>

@@ -4,10 +4,6 @@ import { useNavigate } from 'react-router';
 import { updateUser } from './client';
 
 const EditProfilePage = () => {
-    const navigate = useNavigate();
-    const navigateBack = () => {
-        navigate('/profile/');
-    }
     const user = useSelector((state: any) => state.userReducer.user);
     const [formData, setFormData] = useState({
         id: user._id,
@@ -20,6 +16,10 @@ const EditProfilePage = () => {
         email: user.email,
         avatar: user.avatar,
     });
+    const navigate = useNavigate();
+    const navigateBack = () => {
+        navigate(`/profile/${user._id}`);
+    }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

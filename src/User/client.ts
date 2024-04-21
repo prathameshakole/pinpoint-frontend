@@ -32,6 +32,12 @@ export const findAllUsers = async () => {
     return response.data;
 };
 
+export const findUsers = async (userids: any) => {
+    const token = localStorage.getItem('token');
+    const response = await api.post(`${USERS_API}/fromList`, userids, {headers: { 'Authorization': `Bearer ${token}`,}});
+    return response.data;
+};
+
 export const createUser = async (user: any) => {
     const response = await api.post(`${USERS_API}`, user);
     return response.data;
@@ -43,6 +49,13 @@ export const deleteUser = async (user: any) => {
         `${USERS_API}/${user._id}`, {headers: { 'Authorization': `Bearer ${token}`,}});
     return response.data;
 };
+
+export const follow = async (followerId: any, followingId: any, follow: boolean) => {
+    const token = localStorage.getItem('token');
+    const response = await api.post(`${USERS_API}/follow/${followerId}/${followingId}/${follow}`, {headers: { 'Authorization': `Bearer ${token}`,}});
+    return response.data;
+};
+
 
 export const findUserById = async (id: string) => {
     const token = localStorage.getItem('token');

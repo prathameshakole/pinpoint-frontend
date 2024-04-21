@@ -5,19 +5,20 @@ import * as client from '../Home/client'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { addPost } from '../Home/reducer';
+import { User } from '../User/reducer';
+import { Post } from '../Home/reducer';
 
 const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
     const [image, setImage] = useState("");
-    const user = useSelector((state: any) => state.userReducer.user);
-    var posts = useSelector((state: any) => state.postsReducer.trendingPosts);
+    const userObj: User = useSelector((state: any) => state.userReducer.user);
     const [searchValue, setSearchValue] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleSubmit = (e: any) => {
-        const post = {
-            userid: user._id,
+        var post : Post = {
+            userid: userObj._id,
             image: image,
             options: {
                 1: searchValue, 2: searchValue, 3: searchValue, 4: searchValue,
@@ -26,6 +27,7 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
             reactions: []
         }
         client.createPost(post);
+        post.user = userObj;
         dispatch(addPost(post));
         navigate("/")
     };
