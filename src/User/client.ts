@@ -32,6 +32,12 @@ export const findAllUsers = async () => {
     return response.data;
 };
 
+export const findUsers = async (userids: any) => {
+    const token = localStorage.getItem('token');
+    const response = await api.post(`${USERS_API}/fromList`, userids, {headers: { 'Authorization': `Bearer ${token}`,}});
+    return response.data;
+};
+
 export const createUser = async (user: any) => {
     const response = await api.post(`${USERS_API}`, user);
     return response.data;
