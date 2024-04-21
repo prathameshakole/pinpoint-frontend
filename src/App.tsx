@@ -10,39 +10,40 @@ import Auth from './User/auth';
 import Ad from './Ads/ad';
 import Admin from './Admin/admin';
 import EditProfile from './User/editProfile';
-
-
-
-const fetchProfile = async () => {
-  try {
-    const account = await client.profile();
-    return account;
-  } catch (e) {
-    localStorage.removeItem('token')
-  }
-};
+import { useEffect } from 'react';
+import Search from './Search/search';
 
 function App() {
   const dispatch = useDispatch();
-  fetchProfile().then(e => {
-    if (e != null) {
-      dispatch(setUser(e))
-    }
-  });
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const account = await client.profile();
+        return account;
+      } catch (e) {
+        localStorage.removeItem('token')
+      }
+    };
+    fetchProfile().then((e) => {
+      if (e != null) {
+        dispatch(setUser(e));
+      }
+    });
+  }, []);
   return (
     <HashRouter>
-      <div>
         <Routes>
-          <Route path="/admin/*"element={<Admin/>}></Route>
-          <Route path="/ads" element={<Ad/>}></Route>
-          <Route path="/profile/:profileId" element={localStorage.getItem('token') == null ? <Navigate to="/" replace /> : <Profile />} />
-          <Route path="/editprofile" element={localStorage.getItem('token') == null ? <Navigate to="/" replace /> : <EditProfile />} />
-          <Route path="/" element={<Navigate to="/home/trending" replace />} />
           <Route path="/home/*" element={<Home />} />
-          <Route path='/signin' element={localStorage.getItem('token') != null ? <Navigate to="/" replace /> : <Auth />} />
+          <Route path='/signin' element={<Auth />} />
+          <Route path="/admin/*" element={<Admin />}></Route>
+          <Route path="/ads" element={<Ad />}></Route>
+          <Route path="/search/:searchTerm" element={<Search />} />
+          <Route path="/profile/:profileId" element={<Profile />} />
+          <Route path="/editprofile" element={<EditProfile />} />
+          <Route path="/editprofile" element={<EditProfile />} />
+          <Route path="*" element={<Navigate to="/home/trending" />} />
         </Routes>
-      </div>
-    </HashRouter>
+    </HashRouter >
   );
 }
 

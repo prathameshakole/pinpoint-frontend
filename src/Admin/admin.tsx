@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as client from '../Ads/client';
 import { setAds, deleteAd, updateAd } from '../Ads/reducer';
@@ -29,16 +29,16 @@ const Admin = () => {
 
     return (
         <div>
-            <nav className="nav nav-underline justify-content-center">
-                <Link to="/admin/ads" className={`nav-link ${pathname.includes("admin/ads") ? "active" : ""}`}><h5>Manage Ads</h5></Link>
-                <Link to="/admin/users" className={`nav-link ${pathname.includes("admin/users") ? "active" : ""}`}><h5>Manage Users</h5></Link>
-            </nav>
             <div className="container">
                 <div className="row">
-                    <div className="col-3 d-block-lg">
+                    <div className="col-4 d-block-lg">
                         <LeftNav />
                     </div>
-                    <div className="col">
+                    <div className="col-lg-8">
+                        <nav className="nav nav-underline justify-content-center mb-4">
+                            <Link to="/admin/ads" className={`nav-link ${pathname.includes("admin/ads") ? "active" : ""}`}><h5>Approve Ads</h5></Link>
+                            <Link to="/admin/users" className={`nav-link ${pathname.includes("admin/users") ? "active" : ""}`}><h5>Manage Users</h5></Link>
+                        </nav>
                         <Routes>
                             <Route path="ads" element={<AdminAds />} />
                             <Route path="users" element={<AdminUsers />} />

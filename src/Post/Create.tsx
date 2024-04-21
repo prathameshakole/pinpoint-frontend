@@ -11,34 +11,26 @@ import { Post } from '../Home/reducer';
 const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
     const [image, setImage] = useState("");
     const userObj: User = useSelector((state: any) => state.userReducer.user);
-    const [searchValue, setSearchValue] = useState('');
+    const [searchValue, setSearchValue] = useState({
+        1: '', 2: '', 3: '', 4: '', 5: ''
+    });
     const [searchResults, setSearchResults] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [userLocation, setUserLocation] = useState({ longitude: 0, latitude: 0 });
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleSubmit = (e: any) => {
-        var post : Post = {
+        var post: Post = {
             userid: userObj._id,
             image: image,
-            options: {
-                1: searchValue, 2: searchValue, 3: searchValue, 4: searchValue,
-            },
-            date: new Date,
+            options: searchValue,
+            date: new Date().toISOString(),
             reactions: []
         }
         client.createPost(post);
         post.user = userObj;
         dispatch(addPost(post));
         navigate("/")
-    };
-
-    const handleSearchChange = (e: any) => {
-        setSearchValue(e.target.value);
-        if (e.target.value.trim() !== '') {
-            fetchSearchResults(e.target.value);
-        } else {
-            setSearchResults([]);
-        }
     };
 
     const fetchSearchResults = async (value: any) => {
@@ -57,9 +49,8 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
     };
 
     const handleItemClick = (result: any) => {
-        setSearchValue(result.properties.display_name);
+        setSearchValue({ ...searchValue, 5: result });
         setSearchResults([]);
-        setShowDropdown(false);
     };
 
     const handleFileChange = (event: any) => {
@@ -72,37 +63,89 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
                 const img = new Image();
                 img.src = arrayBuffer;
                 img.onload = () => {
-                  const canvas = document.createElement('canvas');
-                  const MAX_WIDTH = 500;
-                  const MAX_HEIGHT = 500;
-          
-                  let width = img.width;
-                  let height = img.height;
-          
-                  if (width > height) {
-                    if (width > MAX_WIDTH) {
-                      height *= MAX_WIDTH / width;
-                      width = MAX_WIDTH;
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 500;
+                    const MAX_HEIGHT = 500;
+
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
                     }
-                  } else {
-                    if (height > MAX_HEIGHT) {
-                      width *= MAX_HEIGHT / height;
-                      height = MAX_HEIGHT;
-                    }
-                  }
-          
-                  canvas.width = width;
-                  canvas.height = height;
-          
-                  const ctx = canvas.getContext('2d');
-                  ctx?.drawImage(img, 0, 0, width, height);
-          
-                  const resizedArrayBuffer = canvas.toDataURL();
-                  setImage(resizedArrayBuffer);
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx?.drawImage(img, 0, 0, width, height);
+
+                    const resizedArrayBuffer = canvas.toDataURL();
+                    setImage(resizedArrayBuffer);
                 }
             };
         }
     };
+
+    const handleGetLocation = () => {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                setUserLocation({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                });
+            },
+            (error) => {
+                console.error('Error getting user location:', error);
+            }
+        );
+    }
+
+    const getCitiesFromLocation = () => {
+        handleGetLocation()
+        console.log(userLocation)
+        const radius = 50000
+        const targetLatitude = userLocation.latitude;
+        const targetLongitude = userLocation.longitude
+        const query = `
+          [out:json];
+          node
+            [place=city]
+            (around:${radius},${targetLatitude},${targetLongitude});
+          out;
+        `;
+        const overpassUrl = 'https://overpass-api.de/api/interpreter';
+        axios
+            .post(overpassUrl, query, {
+                headers: {
+                    'Content-Type': 'application/xml',
+                },
+            })
+            .then((response) => {
+                const nearestCities = response.data.elements
+                    .filter((element: { type: string; }) => element.type === 'node')
+                    .map((node: { tags: { name: any; }; lat: any; lon: any; }) => ({
+                        name: node.tags.name,
+                        latitude: node.lat,
+                        longitude: node.lon,
+                    }));
+                setSearchResults(nearestCities)
+                setSearchValue({ 1: nearestCities[0].name, 2: nearestCities[1].name, 3: nearestCities[2].name, 4: nearestCities[3].name, 5: "" });
+                setShowDropdown(true)
+                // Process the nearest cities data as needed
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
     return (
         <Modal style={{
@@ -120,26 +163,30 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
                 {image != "" && <img width="500" height="500" style={{ objectFit: 'cover' }} src={image} />}
                 <input type="file" className='form-control' id="image" onChange={handleFileChange} />
                 <div>
-                    <input
-                        className='form-control'
-                        type="text"
-                        value={searchValue}
-                        onChange={handleSearchChange}
-                        placeholder="Enter a city name"
-                        onFocus={() => setShowDropdown(true)}
-                        onBlur={() => setTimeout(() => setShowDropdown(false), 500)}
-                    />
                     {showDropdown && (
-                        <ul className="dropdown">
-                            {searchResults.map((result: any) => (
-                                <li key={result.properties.place_id} onClick={() => handleItemClick(result)}>
-                                    {result.properties.display_name}
-                                </li>
-                            ))}
-                        </ul>
+                        <div className="dropdown">
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+                                {Object.entries(searchValue).slice(0, 4).map(([key, value], index) => (
+                                    <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                                        <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            value={value}
+                                            checked={searchValue[5] == value}
+                                            onChange={() => handleItemClick(value)}
+                                            style={{ marginRight: '8px' }}
+                                        />
+                                        <label>{value}</label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     )}
                 </div>
-                <button className='btn btn-primary m-2' onClick={handleSubmit}>Post</button>
+                <button onClick={getCitiesFromLocation} className='btn btn-primary'>Get Location</button>
+                <button className={image == '' || searchValue[5] == '' ? 'btn btn-primary m-2 disabled' : 'btn btn-primary m-2'}
+                    onClick={handleSubmit}>Post</button>
+                <button className='btn btn-danger m-2' onClick={onClose}>Cancel</button>
             </div>
         </Modal>
     );

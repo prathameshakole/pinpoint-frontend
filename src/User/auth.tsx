@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import * as client from "./client";
 import { setUser } from "./reducer";
 import { useNavigate } from 'react-router';
@@ -12,6 +12,12 @@ const Auth = () => {
         const { name, value } = e.target;
         dispatch(setUser({ ...user, [name]: value }));
     };
+
+    useEffect(() => {
+        if (user._id != undefined && user._id != '') {
+          navigate("/")
+        }
+      }, [])
 
     const handleRegisterChange = (e: any) => {
         const { name, value } = e.target;
@@ -50,7 +56,7 @@ const Auth = () => {
     return (
         <div className='container' style={{ position: 'relative' }}>
             <div>
-                <div className='col-lg-6 col-md-8 col-10 card shadow-lg p-4' style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, 20%)' }}>
+                <div className='col-lg-6 col-md-8 col-10 card p-4' style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, 20%)' }}>
                     <div>
                         <h2>Login</h2>
                         <div>

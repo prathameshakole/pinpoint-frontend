@@ -51,6 +51,7 @@ const UserList = ({ isOpen, onClose, userList }: { isOpen: boolean, onClose: any
                         </div>
                     </div>
                 ))}
+                <button className='btn btn-danger m-2' onClick={onClose}>Close</button>
             </div>
         </Modal>
     );
