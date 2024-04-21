@@ -21,7 +21,7 @@ const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
             description: description,
             image: image,
             totalImpressions: 0,
-            date: new Date(),
+            date: new Date().toISOString(),
             approved: false
         };
         try {
@@ -43,7 +43,7 @@ const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
             };
         }
     };
-
+    const root: any = document.getElementsByName('root');
     return (
         <Modal style={{
             content: {
@@ -54,7 +54,7 @@ const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
                 marginRight: '-50%',
                 transform: 'translate(-50%, -50%)',
             }
-        }} isOpen={isOpen} onRequestClose={onClose} contentLabel="Create Ad">
+        }} isOpen={isOpen} onRequestClose={onClose} contentLabel="Create Ad" appElement={root}>
             <div style={{ textAlign: 'center' }}>
                 {image === "" && <svg width="500" height="500" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CCC" /></svg>}
                 {image !== "" && <img width="500" height="500" style={{ objectFit: 'cover' }} src={image} alt="Ad Image" />}

@@ -45,14 +45,13 @@ const Post = ({ post }: { post: any }) => {
                 <div className="row">
                     <div className="col-6">
                         <Link className='nav-link' to={`/profile/${post.userid}`}>{post.user.username}</Link>
-
                     </div>
-                    <div className="col-6">
-                        {user._id != '' && user.following.includes(post.userid) ?
+                    {user._id != '' && <div className="col-6">
+                        {user.following.includes(post.userid) ?
                             (<Link className='nav-link float-end' onClick={() => follow(false)} to={''}><RiUserFollowFill />Unfollow</Link>) :
                             (<Link className='nav-link float-end' onClick={() => follow(true)} to={''}><RiUserFollowLine />Follow</Link>)
                         }
-                    </div>
+                    </div>}
                 </div>
             </div>
 

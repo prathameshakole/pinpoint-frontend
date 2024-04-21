@@ -23,7 +23,7 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
             options: {
                 1: searchValue, 2: searchValue, 3: searchValue, 4: searchValue,
             },
-            date: new Date,
+            date: new Date().toISOString(),
             reactions: []
         }
         client.createPost(post);

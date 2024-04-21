@@ -6,7 +6,7 @@ export interface Post {
   options: {
     1: string, 2: string, 3: string, 4: string,
   },
-  date: Date,
+  date: string,
   reactions: []
   votes?: { [key: string]: number },
   user?: User
@@ -24,7 +24,7 @@ const initialState: {
     options: {
       1: "", 2: "", 3: "", 4: "",
     },
-    date: new Date,
+    date: new Date().toISOString(),
     reactions: [],
     votes: {},
     user: {
@@ -50,6 +50,13 @@ const postsSlice = createSlice({
     },
     updatePost: (state, action) => {
       state.trendingPosts = state.trendingPosts.map((post) => {
+        if (post._id === action.payload._id) {
+          return action.payload;
+        } else {
+          return post;
+        }
+      });
+      state.followingPosts = state.followingPosts.map((post) => {
         if (post._id === action.payload._id) {
           return action.payload;
         } else {
