@@ -59,11 +59,11 @@ const UserProfile = () => {
                 </div>
                 <div className="col-12 col-lg-8">
                     <nav className="nav nav-underline justify-content-center">
-                        <div className="nav-link active m-4">
+                        <div className="nav-link active mb-4">
                             <h5>Profile</h5>
                         </div>
                     </nav>
-                    <div className="card p-2 shadow-lg">
+                    <div className="card p-2">
                         <div className="container">
                             <div className="row align-items-center p-4">
                                 <div className="col-lg-4 d-flex align-items-center mb-3 mb-lg-0">

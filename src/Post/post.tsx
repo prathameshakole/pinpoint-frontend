@@ -40,7 +40,7 @@ const Post = ({ post }: { post: any }) => {
     };
 
     return (
-        <div className='card m-4 shadow-lg'>
+        <div className='card m-4 '>
             <div className="container">
                 <div className="row">
                     <div className="col-6">
@@ -72,7 +72,7 @@ const Post = ({ post }: { post: any }) => {
                         <div>
                             {post.votes && user._id in post.votes ? (<div className="container m-0 p-0">
                                 {`Voted - ${post.options[post.votes[user._id]]}`}<br/>
-                                {`Answer - ${post.options[1]}`}
+                                {`Answer - ${post.options[5]}`}
                             </div>) : (<div className="container">
                                 <div className="row">
                                     <button className='col-6' onClick={() => castVote(1)}>{post.options[1]}</button>

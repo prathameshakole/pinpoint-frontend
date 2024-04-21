@@ -4,7 +4,7 @@ import { User } from "../User/reducer";
 export interface Post {
   userid: string, image: string,
   options: {
-    1: string, 2: string, 3: string, 4: string,
+    1: string, 2: string, 3: string, 4: string, 5: string,
   },
   date: string,
   reactions: []
@@ -22,7 +22,7 @@ const initialState: {
   post: {
     userid: "", image: "",
     options: {
-      1: "", 2: "", 3: "", 4: "",
+      1: "", 2: "", 3: "", 4: "", 5: "",
     },
     date: new Date().toISOString(),
     reactions: [],

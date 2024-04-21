@@ -74,6 +74,7 @@ const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
                     placeholder="Enter ad description"
                 />
                 <button className='btn btn-primary m-2' onClick={handleSubmit}>Create Ad</button>
+                <button className='btn btn-danger m-2' onClick={onClose}>Cancel</button>
             </div>
         </Modal>
     );
