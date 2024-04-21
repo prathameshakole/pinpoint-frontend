@@ -3,18 +3,17 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { updateUser } from './client';
 
-const EditProfilePage = () => {
+const EditProfile = () => {
     const user = useSelector((state: any) => state.userReducer.user);
     const [formData, setFormData] = useState({
-        id: user._id,
+        _id: user._id,
         username: user.username,
         password: user.password,
-        dateOfBirth: user.dateOfBirth,
         firstName: user.firstName,
         lastName: user.lastName,
-        phone: user.phone,
         email: user.email,
-        avatar: user.avatar,
+        image: user.image,
+        bio: user.bio
     });
     const navigate = useNavigate();
     const navigateBack = () => {
@@ -25,8 +24,49 @@ const EditProfilePage = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const handleFileChange = (event: any) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader: any = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                const arrayBuffer = reader.result;
+                const img = new Image();
+                img.src = arrayBuffer;
+                img.onload = () => {
+                  const canvas = document.createElement('canvas');
+                  const MAX_WIDTH = 500;
+                  const MAX_HEIGHT = 500;
+          
+                  let width = img.width;
+                  let height = img.height;
+          
+                  if (width > height) {
+                    if (width > MAX_WIDTH) {
+                      height *= MAX_WIDTH / width;
+                      width = MAX_WIDTH;
+                    }
+                  } else {
+                    if (height > MAX_HEIGHT) {
+                      width *= MAX_HEIGHT / height;
+                      height = MAX_HEIGHT;
+                    }
+                  }
+          
+                  canvas.width = width;
+                  canvas.height = height;
+          
+                  const ctx = canvas.getContext('2d');
+                  ctx?.drawImage(img, 0, 0, width, height);
+          
+                  const resizedArrayBuffer = canvas.toDataURL();
+                  setFormData({...formData, image: resizedArrayBuffer});
+                }
+            };
+        }
+    };
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
         updateUser(formData);
     };
 
@@ -60,17 +100,6 @@ const EditProfilePage = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="dateOfBirth">Date of Birth</label>
-                            <input
-                                type="date"
-                                className="form-control"
-                                id="dateOfBirth"
-                                name="dateOfBirth"
-                                value={formData.dateOfBirth}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="form-group">
                             <label htmlFor="firstName">First Name</label>
                             <input
                                 type="text"
@@ -93,17 +122,6 @@ const EditProfilePage = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="phone">Phone</label>
-                            <input
-                                type="tel"
-                                className="form-control"
-                                id="phone"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="form-group">
                             <label htmlFor="email">Email</label>
                             <input
                                 type="email"
@@ -115,14 +133,14 @@ const EditProfilePage = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="avatar">Avatar</label>
+                            <label htmlFor="image">Avatar</label>
                             <input
                                 type="file"
                                 className="form-control-file"
-                                id="avatar"
-                                name="avatar"
+                                id="image"
+                                name="image"
                                 accept="image/*"
-                                onChange={handleChange}
+                                onChange={handleFileChange}
                             />
                         </div>
                         <button type="submit" className="btn btn-primary">
@@ -135,4 +153,4 @@ const EditProfilePage = () => {
     );
 };
 
-export default EditProfilePage;
+export default EditProfile;

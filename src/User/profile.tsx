@@ -10,12 +10,20 @@ const UserProfile = () => {
     const loggedInUser = useSelector((state: any) => state.userReducer.user);
     const navigate = useNavigate();
     const { profileId }: any = useParams();
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [adModalIsOpen, setAdModalIsOpen] = useState(false);
-    const openModal = () => setModalIsOpen(true);
-    const closeModal = () => setModalIsOpen(false);
-    const openAdModal = () => setAdModalIsOpen(true);
-    const closeAdModal = () => setAdModalIsOpen(false);
+    const [followerIsOpen, setFollowerIsOpen] = useState(false);
+    const [followingIsOpen, setFollowingIsOpen] = useState(false);
+    const openFollower = (open: boolean) => {
+        if (open) {
+            setFollowerIsOpen(true)
+        }
+    };
+    const closeFollower = () => setFollowerIsOpen(false);
+    const openFollowing = (open: boolean) => {
+        if (open) {
+            setFollowingIsOpen(true)
+        }
+    };
+    const closeFollowing = () => setFollowingIsOpen(false);
     const [user, setUser] = useState({
         username: "", password: "", bio: "", firstName: "", lastName: "", role: "USER", _id: "", email: "", image: "", following: [], follower: []
     });
@@ -37,38 +45,66 @@ const UserProfile = () => {
         fetchUserData();
     }, [profileId]);
     return (
-        <div className='container'>
+        <div className="container">
             <div className="row">
-                <div className='col-lg-3 d-block-lg'>
+                <div className="col-lg-3 d-none d-lg-block">
                     <LeftNav />
                 </div>
-                <div className='col-lg-6 col-md-8 col-10'>
+                <div className="col-12 col-lg-9">
                     <nav className="nav nav-underline justify-content-center">
-                        <p className='nav-link active'><h5>Profile</h5></p>
+                        <p className="nav-link active">
+                            <h5>Profile</h5>
+                        </p>
                     </nav>
-                    <div className='card p-2'>
-                        <div className="d-flex justify-content-between align-items-center">
-                            <div className='d-flex align-items-center'>
-                                <img src={user.image == undefined || user.image == '' ? "/default.jpg" : user.image} alt='profile-image' style={{ maxWidth: "100px" }} />
-                                <h5>{'@' + user.username}</h5>
+                    <div className="card p-2">
+                        <div className="container">
+                            <div className="row align-items-center p-4">
+                                <div className="col-lg-3 text-center mb-3 mb-lg-0">
+                                    <img
+                                        className="me-2"
+                                        src={user.image === undefined || user.image === '' ? "/default.jpg" : user.image}
+                                        alt="profile-image"
+                                        style={{ maxWidth: "80px", borderRadius: '50%' }}
+                                    />
+                                    <h5>{'@' + user.username}</h5>
+                                    <h5>{user.firstName + " " + user.lastName}</h5>
+                                    {user._id == loggedInUser._id && <h5>{user.email}</h5>}
+                                </div>
+                                <div className="col-lg-9">
+                                    <div className="row">
+                                        <div className="col-6 col-lg-5 mb-3 mb-lg-0 nav">
+                                            <UserList isOpen={followerIsOpen} onClose={closeFollower} userList={user.follower} />
+                                            <Link
+                                                className="nav-link"
+                                                to={''}
+                                                onClick={() => openFollower(user.follower.length !== 0)}
+                                            >
+                                                <h5>{'Followers ' + user.follower.length}</h5>
+                                            </Link>
+                                        </div>
+                                        <div className="col-6 col-lg-5 mb-3 mb-lg-0 nav float-end">
+                                            <UserList isOpen={followingIsOpen} onClose={closeFollowing} userList={user.following} />
+                                            <Link
+                                                className="nav-link"
+                                                to={''}
+                                                onClick={() => openFollowing(user.following.length !== 0)}
+                                            >
+                                                <h5>{`Following ${user.following.length}`}</h5>
+                                            </Link>
+                                        </div>
+                                        <div className="col-lg-2 text-center">
+                                            {loggedInUser._id === user._id && (
+                                                <button className="btn btn-primary" onClick={editProfile}>
+                                                    Edit
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className='nav'>
-                                <UserList isOpen={modalIsOpen} onClose={closeModal} userList={user.following} />
-                                <Link className='nav-link' to={''} onClick={openModal}><h5>Followers {user.follower.length}</h5></Link>
+                            <div className="text-center">
+                                <h6>{user.bio}</h6>
                             </div>
-                            <div className='nav'>
-                                <UserList isOpen={modalIsOpen} onClose={closeModal} userList={user.follower} />
-                                <Link className='nav-link' to={''} onClick={openModal}><h5>Following {user.following.length}</h5></Link>
-                            </div>
-                            <div>
-                                {loggedInUser._id == user._id && <button className='btn btn-primary me-2' onClick={editProfile}>
-                                    Edit
-                                </button>}
-                            </div>
-                        </div>
-                        <div className='ps-4'>
-                            <h5>{user.firstName + " " + user.lastName}</h5>
-                            <h6>{user.bio}</h6>
                         </div>
                     </div>
                 </div>
