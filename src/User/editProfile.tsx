@@ -90,7 +90,7 @@ const EditProfile = () => {
                 </div>
                 <div className="col-12 col-lg-8">
                     <nav className="nav nav-underline justify-content-center">
-                        <div className="nav-link active m-4">
+                        <div className="nav-link active mb-4">
                             <h5>Edit Profile</h5>
                         </div>
                     </nav>

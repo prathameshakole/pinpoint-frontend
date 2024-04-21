@@ -34,11 +34,19 @@ const AdList = () => {
     return (
         <div>
             <nav className="nav nav-underline justify-content-center">
-                <Link to="/ads" className="nav-link">
-                    <h5>Your Ads</h5>
-                </Link>
+                <div className="nav-link active mb-4">
+                    <h5>My Ads</h5>
+                </div>
             </nav>
-
+            <div className="container">
+                <div className="row">
+                    <div className="col-3"></div>
+                    <div className="col-6" style={{ textAlign: "center" }}>
+                        <button className='btn btn-primary' onClick={openAdModal}>Create Ad</button>
+                        <CreateAd isOpen={adModalIsOpen} onClose={closeAdModal} />
+                    </div>
+                </div>
+            </div>
             <div className="container">
                 <div className="row">
                     <div className="col-lg-3 d-block-lg">
@@ -55,16 +63,6 @@ const AdList = () => {
                     </div>
                 </div>
             </div>
-            <div className="container">
-                <div className="row">
-                    <div className="col-3"></div>
-                    <div className="col-6" style={{ textAlign: "center" }}>
-                        <button className='btn btn-primary' onClick={openAdModal}>Ads</button>
-                        <CreateAd isOpen={adModalIsOpen} onClose={closeAdModal} />
-                    </div>
-                </div>
-            </div>
-
         </div>
     );
 };

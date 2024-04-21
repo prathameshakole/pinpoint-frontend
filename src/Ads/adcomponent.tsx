@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { setAds, deleteAd, updateAd, approveAd } from './reducer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as adClient from './client';
+import * as adReducer from './reducer'
 
 const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvable: any }) => {
-    const [updatedAd, setUpdatedAd] = useState<any>(null);
+    const currentAd = useSelector((state: any) => state.adReducer.ad);
     const dispatch = useDispatch();
-    const [image, setImage] = useState("");
     const handleUpdateClick = async (ad: any) => {
-        setUpdatedAd(ad);
+        dispatch(adReducer.setAd(ad));
     };
 
-    const handleUpdateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleUpdateSubmit = async (e: any) => {
         try {
-            const updatedData = await adClient.updateAd(updatedAd._id, updatedAd);
-            dispatch(updateAd(updatedData));
-            setUpdatedAd(null);
+            const updatedData = await adClient.updateAd(currentAd._id, currentAd);
+            dispatch(adReducer.updateAd(currentAd));
+            dispatch(adReducer.resetAd());
         } catch (error) {
             console.error('Error updating ad:', error);
         }
@@ -26,16 +24,17 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
     const handleDeleteClick = async (adId: string) => {
         try {
             await adClient.deleteAd(adId);
-            dispatch(deleteAd(adId));
+            dispatch(adReducer.deleteAd(adId));
         } catch (error) {
             console.error('Error deleting ad:', error);
         }
     };
+
     useEffect(() => {
         const fetchUpdatedAds = async () => {
             try {
                 const userAds = await adClient.findAllAds();
-                dispatch(setAds(userAds));
+                dispatch(adReducer.setAds(userAds));
             } catch (error) {
                 console.error('Error fetching ads:', error);
             }
@@ -44,70 +43,66 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
         fetchUpdatedAds();
     }, [dispatch])
 
-    const fetchUpdatedAds = async () => {
-        try {
-            const userAds = await adClient.findAllAds();
-            dispatch(setAds(userAds));
-        } catch (error) {
-            console.error('Error fetching ads:', error);
-        }
-    };
-
     const handleApproved = async (ad: any) => {
         try {
-            dispatch(approveAd(ad._id));
-            await fetchUpdatedAds();
+            await adClient.updateAd(ad._id, { ...ad, approved: true })
+            dispatch(adReducer.updateAd({ ...ad, approved: true }));
         } catch (error) {
             console.error('Error approving ad:', error);
         }
     };
-
-   
-
     return (
-        <div key={ad._id} className="card m-4 col-7">
-            {updatedAd && updatedAd._id === ad._id ? (
+        <div key={ad._id} className="card m-4 col-12">
+            {currentAd && currentAd._id === ad._id ? (
                 <form onSubmit={handleUpdateSubmit}>
-                    <img src={ad.image} alt="Ad" className="card-img-top" />
+                    <div className='ratio ratio-1x1'>
+                        <img src={ad.image} alt="Ad" className="card-img-top" style={{
+                            height: '100%',
+                            width: '100%',
+                            objectFit: 'cover',
+                        }} />
+                    </div>
                     <input className='form-control'
                         type="text"
-                        value={updatedAd.title}
-                        onChange={(e) => setUpdatedAd({ ...updatedAd, title: e.target.value })}
+                        value={currentAd.title}
+                        onChange={(e) => dispatch(adReducer.setAd({ ...currentAd, title: e.target.value }))}
                     />
                     <input className='form-control mt-4'
                         type="text"
-                        value={updatedAd.description}
-                        onChange={(e) => setUpdatedAd({ ...updatedAd, description: e.target.value })}
+                        value={currentAd.description}
+                        onChange={(e) => dispatch(adReducer.setAd({ ...currentAd, description: e.target.value }))}
                     />
                     <button className='nav-link w-100 mt-4' type="submit">Save</button>
                 </form>
             ) : (
-                <div className="card">
+                <div>
                     <div className="container">
                         <div className="row">
-                            <div className="col-6 mt-2">
                                 <Link className="nav-link" to={`/ads`}>
                                     <h5>{ad.title}</h5>
                                 </Link>
-                            </div>
                         </div>
                     </div>
-                    <img src={ad.image} alt="Ad" className="card-img-top" />
-                    <div className='container'>
+                    <div className='ratio ratio-1x1'>
+                        <img src={ad.image} alt="Ad" className="card-img-top" style={{
+                            height: '100%',
+                            width: '100%',
+                            objectFit: 'cover',
+                        }} />
+                    </div>
+                    <div className='container m-2'>
                         <div className="row">
-                            <p className="card-text ms-3 mt-2">{ad.description}</p>
+                            <p className="card-text">{ad.description}</p>
                         </div>
                         {editable && (
-                            <>
-                                <div className="row">
-                                    <div className="col-6">
-                                        <p className="card-text m-3">Impressions: {ad.totalImpressions}</p>
-                                    </div>
-                                    <div className="col-6">
-                                        <p className="card-text m-3">Approved : {ad.Approved ? "Yes" : "No"} </p>
-                                    </div>
+                            <div className="row">
+                                <div className="col-6">
+                                    <p className="card-text">Impressions: {ad.totalImpressions}</p>
                                 </div>
-                            </>
+                                <div className="col-6">
+                                    <p className="card-text">Approved : {ad.approved == true ? "Yes" : "No"} </p>
+                                </div>
+                            </div>
                         )}
                     </div>
                     {editable && (
@@ -130,15 +125,13 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
                     )}
 
                     {approvable && (
-                        <>
-                            <div className="container">
-                                <div className="row me-4">
-                                    <button onClick={() => handleApproved(ad)} className="nav-link w-100 mb-2">
-                                        Approve
-                                    </button>
-                                </div>
+                        <div className="container">
+                            <div className="row p-2">
+                                {ad.approved == false && <button onClick={() => handleApproved(ad)} className="btn btn-primary">
+                                    Approve
+                                </button>}
                             </div>
-                        </>
+                        </div>
                     )}
                 </div>
             )}

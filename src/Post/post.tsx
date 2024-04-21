@@ -55,7 +55,14 @@ const Post = ({ post }: { post: any }) => {
                 </div>
             </div>
 
-            <img src={`${post.image}`} alt="image" />
+            <div className='ratio ratio-1x1'>
+                            <img src={`${post.image}`} alt="image" style={{
+                                            height: '100%',
+                                            width: '100%',
+                                            objectFit: 'cover',
+                                        }}/>
+            </div>
+
 
             <div className="container">
                 <div className="row">
