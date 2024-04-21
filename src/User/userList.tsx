@@ -28,11 +28,11 @@ const UserList = ({ isOpen, onClose, userList }: { isOpen: boolean, onClose: any
                 <div className='container'>
                     <div className="row">
                         <div className="col-6">
-                        <img src={user.image == undefined || user.image == '' ? "/default.jpg" : user.image} alt='profile-image' style={{ maxWidth: "40px" }} />
-                        <Link to={'/profile/' + user._id}><h6>{user.username}</h6></Link>
+                        <img src={user.image == undefined || user.image == '' ? "/default.jpg" : user.image} alt='profile-image' style={{ maxWidth: "40px", borderRadius: '50%' }} />
+                        <Link onClick={onClose} to={'/profile/' + user._id}><h6>{user.username}</h6></Link>
                         </div>
                         <div className='col-6'>
-                        <Link className='float-end' to={'/profile/' + user._id}><h6>Profile</h6></Link>
+                        <Link className='float-end' onClick={onClose} to={'/profile/' + user._id}><h6>Profile</h6></Link>
                         </div>
                     </div>
                 </div>

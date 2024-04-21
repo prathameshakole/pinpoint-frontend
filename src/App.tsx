@@ -7,10 +7,9 @@ import Home from './Home'
 import * as client from "../src/User/client";
 import { setUser } from '../src/User/reducer'
 import Auth from './User/auth';
-import CreatePost from './Post/Create';
-import EditProfilePage from './User/editProfile';
 import Ad from './Ads/ad';
 import Admin from './Admin/admin';
+import EditProfile from './User/editProfile';
 
 
 
@@ -37,7 +36,7 @@ function App() {
           <Route path="/admin"element={<Admin/>}></Route>
           <Route path="/ads" element={<Ad/>}></Route>
           <Route path="/profile/:profileId" element={localStorage.getItem('token') == null ? <Navigate to="/" replace /> : <Profile />} />
-          <Route path="/editprofile" element={localStorage.getItem('token') == null ? <Navigate to="/" replace /> : <Profile />} />
+          <Route path="/editprofile" element={localStorage.getItem('token') == null ? <Navigate to="/" replace /> : <EditProfile />} />
           <Route path="/" element={<Navigate to="/home/trending" replace />} />
           <Route path="/home/*" element={<Home />} />
           <Route path='/signin' element={localStorage.getItem('token') != null ? <Navigate to="/" replace /> : <Auth />} />
