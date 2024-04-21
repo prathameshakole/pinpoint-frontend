@@ -40,7 +40,7 @@ const Post = ({ post }: { post: any }) => {
     };
 
     return (
-        <div className='card m-4 '>
+        <div className='card m-4'>
             <div className="container">
                 <div className="row">
                     <div className="col-6">

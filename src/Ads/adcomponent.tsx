@@ -41,7 +41,7 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
         };
 
         fetchUpdatedAds();
-    }, [dispatch])
+    }, [])
 
     const handleApproved = async (ad: any) => {
         try {
@@ -52,7 +52,7 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
         }
     };
     return (
-        <div key={ad._id} className="card m-4 col-12">
+        <div key={ad._id} className="card m-4">
             {currentAd && currentAd._id === ad._id ? (
                 <form onSubmit={handleUpdateSubmit}>
                     <div className='ratio ratio-1x1'>

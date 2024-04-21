@@ -29,7 +29,7 @@ const AdList = () => {
         };
 
         fetchAds();
-    }, [user._id, dispatch]);
+    }, []);
 
     return (
         <div>
@@ -52,14 +52,14 @@ const AdList = () => {
                     <div className="col-lg-3 d-block-lg">
                         <LeftNav />
                     </div>
-                    <div className="col ps-4">
-                        {ads.map((ad: any) => (
-                            <AdCard
-                                ad={ad}
-                                editable={true}
-                                approvable={false}
-                            />
-                        ))}
+                    <div className="col-lg-6">
+                            {ads.map((ad: any) => (
+                                <AdCard
+                                    ad={ad}
+                                    editable={true}
+                                    approvable={false}
+                                />
+                            ))}
                     </div>
                 </div>
             </div>
