@@ -1,138 +1,187 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { updateUser } from './client';
+import * as client from './client';
+import * as userReducer from './reducer'
+import LeftNav from '../Home/leftnav';
 
-const EditProfilePage = () => {
+const EditProfile = () => {
+    const dispatch = useDispatch()
     const user = useSelector((state: any) => state.userReducer.user);
     const [formData, setFormData] = useState({
-        id: user._id,
         username: user.username,
         password: user.password,
-        dateOfBirth: user.dateOfBirth,
+        bio: user.bio,
         firstName: user.firstName,
         lastName: user.lastName,
-        phone: user.phone,
+        role: user.role,
+        _id: user._id,
         email: user.email,
-        avatar: user.avatar,
+        image: user.image,
+        following: user.following,
+        follower: user.follower
     });
     const navigate = useNavigate();
     const navigateBack = () => {
         navigate(`/profile/${user._id}`);
     }
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    useEffect(() => {
+        if (user._id === undefined || user._id === '') {
+            navigate("/");
+        }
+    }, [user, navigate]);
+    const handleChange = (e: any) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        updateUser(formData);
+    const handleFileChange = (event: any) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader: any = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                const arrayBuffer = reader.result;
+                const img = new Image();
+                img.src = arrayBuffer;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 500;
+                    const MAX_HEIGHT = 500;
+
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx?.drawImage(img, 0, 0, width, height);
+
+                    const resizedArrayBuffer = canvas.toDataURL();
+                    setFormData({ ...formData, image: resizedArrayBuffer });
+                }
+            };
+        }
+    };
+
+    const handleSubmit = async () => {
+        await client.updateUser(formData);
+        dispatch(userReducer.setUser(formData));
     };
 
     return (
-        <div className="container mt-5">
-            <button className='btn btn-primary mb-3' onClick={navigateBack}> Back</button>
-            <div className="card">
-                <h1 className="card-header text-center">Edit Profile</h1>
-                <div className="card-body">
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <label htmlFor="username">Username</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="username"
-                                name="username"
-                                value={formData.username}
-                                onChange={handleChange}
-                            />
+        <div className="container">
+            <div className="row">
+                <div className="col-lg-4 d-none d-lg-block">
+                    <LeftNav />
+                </div>
+                <div className="col-12 col-lg-8">
+                    <nav className="nav nav-underline justify-content-center">
+                        <div className="nav-link active m-4">
+                            <h5>Edit Profile</h5>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="password">Password</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="dateOfBirth">Date of Birth</label>
-                            <input
-                                type="date"
-                                className="form-control"
-                                id="dateOfBirth"
-                                name="dateOfBirth"
-                                value={formData.dateOfBirth}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="firstName">First Name</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="firstName"
-                                name="firstName"
-                                value={formData.firstName}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="lastName">Last Name</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="lastName"
-                                name="lastName"
-                                value={formData.lastName}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="phone">Phone</label>
-                            <input
-                                type="tel"
-                                className="form-control"
-                                id="phone"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <input
-                                type="email"
-                                className="form-control"
-                                id="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="avatar">Avatar</label>
-                            <input
-                                type="file"
-                                className="form-control-file"
-                                id="avatar"
-                                name="avatar"
-                                accept="image/*"
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <button type="submit" className="btn btn-primary">
-                            Save Changes
-                        </button>
-                    </form>
+                    </nav>
+                    <button className='btn btn-primary mb-3' onClick={navigateBack}> Back</button>
+                    <div className="form-group">
+                        <label htmlFor="username">Username</label>
+                        <input
+                            type="text"
+                            className="form-control mb-3"
+                            id="username"
+                            name="username"
+                            value={formData.username}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="text"
+                            className="form-control mb-3"
+                            id="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="firstName">First Name</label>
+                        <input
+                            type="text"
+                            className="form-control mb-3"
+                            id="firstName"
+                            name="firstName"
+                            value={formData.firstName}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="lastName">Last Name</label>
+                        <input
+                            type="text"
+                            className="form-control mb-3"
+                            id="lastName"
+                            name="lastName"
+                            value={formData.lastName}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="email"
+                            className="form-control mb-3"
+                            id="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="role">Role</label>
+                        <select
+                            className="form-control mb-3"
+                            id="role"
+                            name="role"
+                            value={formData.role}
+                            onChange={handleChange}
+                        >
+                            <option value="USER">USER</option>
+                            {user.role == 'ADMIN' && <option value="ADMIN">ADMIN</option>}
+                            <option value="ADVERTISER">ADVERTISER</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="image">Avatar</label>
+                        <input
+                            type="file"
+                            className="form-control mb-3"
+                            id="image"
+                            name="image"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                        />
+                    </div>
+                    <button onClick={handleSubmit} type="submit" className="btn btn-primary">
+                        Save Changes
+                    </button>
                 </div>
             </div>
         </div>
     );
 };
 
-export default EditProfilePage;
+export default EditProfile;

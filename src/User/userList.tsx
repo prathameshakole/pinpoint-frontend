@@ -14,29 +14,45 @@ const UserList = ({ isOpen, onClose, userList }: { isOpen: boolean, onClose: any
     }, [userList]);
 
     return (
-        <Modal style={{
-            content: {
-                top: '50%',
-                left: '50%',
-                right: 'auto',
-                bottom: 'auto',
-                marginRight: '-50%',
-                transform: 'translate(-50%, -50%)',
-            }
-        }} isOpen={isOpen} onRequestClose={onClose} contentLabel="Create Post">
-            {followers.map((user: any, index: any) => (
-                <div className='container'>
-                    <div className="row">
-                        <div className="col-6">
-                        <img src={user.image == undefined || user.image == '' ? "/default.jpg" : user.image} alt='profile-image' style={{ maxWidth: "40px" }} />
-                        <Link to={'/profile/' + user._id}><h6>{user.username}</h6></Link>
+        <Modal
+            style={{
+                content: {
+                    top: '50%',
+                    left: '50%',
+                    right: 'auto',
+                    bottom: 'auto',
+                    marginRight: '-50%',
+                    transform: 'translate(-50%, -50%)',
+                    maxWidth: '90%',
+                    maxHeight: '90vh',
+                    overflowY: 'auto',
+                },
+            }}
+            isOpen={isOpen}
+            onRequestClose={onClose}
+            contentLabel="Create Post"
+        >
+            <div className="container">
+                {followers.map((user: any, index) => (
+                    <div key={index} className="row mb-3 align-items-center">
+                        <div className="col-md-6 col-sm-12 d-flex align-items-center">
+                            <img
+                                src={user.image === undefined || user.image === '' ? "/default.jpg" : user.image}
+                                alt="profile-image"
+                                className="rounded-circle me-2"
+                                style={{ maxWidth: "40px" }}
+                            />
+                            <h6>{user.username}</h6>
                         </div>
-                        <div className='col-6'>
-                        <Link className='float-end' to={'/profile/' + user._id}><h6>Profile</h6></Link>
+                        <div className="col-md-6 col-sm-12 d-flex justify-content-end">
+                            <Link className="text-decoration-none" onClick={onClose} to={`/profile/${user._id}`}>
+                                <h6 className="mb-0">Profile</h6>
+                            </Link>
                         </div>
                     </div>
-                </div>
-            ))}
+                ))}
+                <button className='btn btn-danger m-2' onClick={onClose}>Close</button>
+            </div>
         </Modal>
     );
 };

@@ -65,7 +65,7 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
    
 
     return (
-        <div key={ad._id} className="card m-4 shadow-lg col-7">
+        <div key={ad._id} className="card m-4 col-7">
             {updatedAd && updatedAd._id === ad._id ? (
                 <form onSubmit={handleUpdateSubmit}>
                     <img src={ad.image} alt="Ad" className="card-img-top" />

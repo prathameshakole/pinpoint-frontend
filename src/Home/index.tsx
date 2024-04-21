@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import { Routes, Route, Navigate } from "react-router";
 import Following from './following';
 import Trending from './trending';
@@ -11,12 +11,9 @@ import CreateAd from '../Ads/create';
 const Home = () => {
   const { pathname } = useLocation();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [adModalIsOpen, setAdModalIsOpen] = useState(false);
   const user = useSelector((state: any) => state.userReducer.user);
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
-  const openAdModal = () => setAdModalIsOpen(true);
-  const closeAdModal = () => setAdModalIsOpen(false);
   return (
     <div>
       <nav className="nav nav-underline justify-content-center">
@@ -36,11 +33,10 @@ const Home = () => {
               <CreatePost isOpen={modalIsOpen} onClose={closeModal} />
             </div>}
             <Routes>
-              <Route path="trending" element={<Trending />} />
-              <Route path="following" element={<Following />} />
+              <Route path="/trending" element={<Trending />} />
+              <Route path="/following" element={<Following />} />
+              <Route path='*' element={<Navigate to={'/'}/>}/>
             </Routes>
-            <button className='btn btn-primary' onClick={openAdModal}>Ads</button>
-            <CreateAd isOpen={adModalIsOpen} onClose={closeAdModal} />
           </div>
           <div className='col-lg-3'>
           </div>

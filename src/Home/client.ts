@@ -24,7 +24,7 @@ export const createPost = async (post: any) => {
 }
 
 export const findUserPost = async (userid: any) => {
-    const Response = await api.post(`${POSTS_API}/${userid}`)
+    const Response = await api.get(`${POSTS_API}/user/${userid}`)
     return Response.data;
 }
 

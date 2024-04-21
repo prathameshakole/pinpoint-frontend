@@ -40,19 +40,18 @@ const Post = ({ post }: { post: any }) => {
     };
 
     return (
-        <div className='card m-4 shadow-lg'>
+        <div className='card m-4 '>
             <div className="container">
                 <div className="row">
                     <div className="col-6">
                         <Link className='nav-link' to={`/profile/${post.userid}`}>{post.user.username}</Link>
-
                     </div>
-                    <div className="col-6">
-                        {user._id != '' && user.following.includes(post.userid) ?
+                    {user._id != '' && <div className="col-6">
+                        {user.following.includes(post.userid) ?
                             (<Link className='nav-link float-end' onClick={() => follow(false)} to={''}><RiUserFollowFill />Unfollow</Link>) :
                             (<Link className='nav-link float-end' onClick={() => follow(true)} to={''}><RiUserFollowLine />Follow</Link>)
                         }
-                    </div>
+                    </div>}
                 </div>
             </div>
 
@@ -73,7 +72,7 @@ const Post = ({ post }: { post: any }) => {
                         <div>
                             {post.votes && user._id in post.votes ? (<div className="container m-0 p-0">
                                 {`Voted - ${post.options[post.votes[user._id]]}`}<br/>
-                                {`Answer - ${post.options[1]}`}
+                                {`Answer - ${post.options[5]}`}
                             </div>) : (<div className="container">
                                 <div className="row">
                                     <button className='col-6' onClick={() => castVote(1)}>{post.options[1]}</button>

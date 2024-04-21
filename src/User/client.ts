@@ -77,5 +77,5 @@ export const signup = async (user: any) => {
 };
 
 export const signout = async () => {
-    localStorage.removeItem('token')
+    localStorage.removeItem('token');
 };

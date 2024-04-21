@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import * as client from "./client";
 import { setUser } from "./reducer";
 import { useNavigate } from 'react-router';
@@ -13,9 +13,23 @@ const Auth = () => {
         dispatch(setUser({ ...user, [name]: value }));
     };
 
+    useEffect(() => {
+        if (user._id != undefined && user._id != '') {
+          navigate("/")
+        }
+      }, [])
+
     const handleRegisterChange = (e: any) => {
         const { name, value } = e.target;
-        dispatch(setUser({ ...user, [name]: value }));
+        if (name === "advertiser") {
+            if (value === 'on') {
+                dispatch(setUser({ ...user, role: "ADVERTISER" }));
+            } else {
+                dispatch(setUser({ ...user, role: "USER" }));
+            }
+        } else {
+            dispatch(setUser({ ...user, [name]: value }));
+        }
     };
 
     const handleLoginSubmit = async (e: any) => {
@@ -42,7 +56,7 @@ const Auth = () => {
     return (
         <div className='container' style={{ position: 'relative' }}>
             <div>
-                <div className='col-lg-6 col-md-8 col-10 card shadow-lg p-4' style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, 20%)'}}>
+                <div className='col-lg-6 col-md-8 col-10 card p-4' style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, 20%)' }}>
                     <div>
                         <h2>Login</h2>
                         <div>
@@ -68,6 +82,10 @@ const Auth = () => {
                         <div>
                             <label>Email</label>
                             <input type="email" className='form-control mb-2' name="email" value={user.email} onChange={handleRegisterChange} />
+                        </div>
+                        <div>
+                            <label>Register as Advertiser</label>
+                            <input type="checkbox" className='form-check mb-2' name="advertiser" onChange={handleRegisterChange} />
                         </div>
                         <button className='btn btn-success mt-4' onClick={handleRegisterSubmit} type="submit">Register</button>
                     </div>

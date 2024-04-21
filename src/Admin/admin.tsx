@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as client from '../Ads/client';
 import { setAds, deleteAd, updateAd } from '../Ads/reducer';
