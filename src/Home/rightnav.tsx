@@ -18,25 +18,13 @@ const RightNav = () => {
         approved: false,
         url: ""
     })
-    const [followers, setFollowers] = useState([])
-    useEffect(() => {
-        const fetchUsers = async () => {
-            const f = await userClient.findUsers(user.follower);
-            setFollowers(f)
-        };
-        fetchUsers();
-    }, [user]);
-
-    const [following, setFollowing] = useState([])
+    const [users, setUsers] = useState([])
     useEffect(() => {
         const fetchUsers = async () => {
             const f = await userClient.findUsers(user.following);
-            setFollowing(f)
+            setUsers(f)
         };
         fetchUsers();
-    }, [user]);
-
-    useEffect(() => {
         const getRandomAd = async () => {
             const ad = await adClient.getRandomAd();
             setAd(ad)
@@ -48,13 +36,9 @@ const RightNav = () => {
         <div>
             {user._id !== '' &&
                 <div>
-                    <h5 className='p-4 pb-0'>Following</h5>
+                    <h5 className='p-4 pb-0'>Suggested</h5>
                     <div className="container p-4">
-                        <UserList users={following} />
-                    </div>
-                    <h5 className='p-4 pb-0'>Followers</h5>
-                    <div className="container p-4">
-                        <UserList users={followers} />
+                        <UserList users={users} />
                     </div>
                 </div>}
             <h5 className='p-4 pb-0'>Ad</h5>

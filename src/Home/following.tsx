@@ -5,24 +5,27 @@ import Post from '../Post/post';
 import { useEffect } from 'react';
 
 const Following = () => {
-  const dispatch = useDispatch()
-  const followingPosts = useSelector((state: any) => state.postsReducer.followingPosts);
-  const { _id } = useSelector((state: any) => state.userReducer.user);
-  const fetchPosts = async () => {
-      const posts = await client.findFollowingPosts(_id)
-      dispatch(setFollowingPosts(posts))
-  }
+    const dispatch = useDispatch()
+    const followingPosts = useSelector((state: any) => state.postsReducer.followingPosts);
+    const user = useSelector((state: any) => state.userReducer.user);
+    const fetchPosts = async () => {
+        if (user._id !== undefined && user._id !== '') {
+            console.log(user)
+            const posts = await client.findFollowingPosts(user._id)
+            dispatch(setFollowingPosts(posts))
+        }
+    }
 
-  useEffect(() => {
-      fetchPosts()
-  }, [_id]);
+    useEffect(() => {
+        fetchPosts()
+    }, [user]);
 
-  return (
-      <div className='m-4'>
-          {followingPosts.map((post: any, index: any) => (
-              <Post key={post._id} post={post}/>
-          ))}
-      </div>
-  );
+    return (
+        <div className='m-4'>
+            {followingPosts.map((post: any, index: any) => (
+                <Post key={post._id} post={post} />
+            ))}
+        </div>
+    );
 };
 export default Following;
