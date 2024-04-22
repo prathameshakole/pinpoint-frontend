@@ -85,10 +85,10 @@ const EditProfile = () => {
     return (
         <div className="container">
             <div className="row">
-                <div className="col-lg-4 d-none d-lg-block">
+                <div className="col-lg-3 d-none d-lg-block">
                     <LeftNav />
                 </div>
-                <div className="col-12 col-lg-8">
+                <div className="col-lg-6">
                     <nav className="nav nav-underline justify-content-center">
                         <div className="nav-link active mb-4">
                             <h5>Edit Profile</h5>
@@ -178,6 +178,9 @@ const EditProfile = () => {
                     <button onClick={handleSubmit} type="submit" className="btn btn-primary">
                         Save Changes
                     </button>
+                </div>
+                <div className="col-lg-3">
+                    
                 </div>
             </div>
         </div>

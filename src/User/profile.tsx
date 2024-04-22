@@ -137,6 +137,7 @@ const UserProfile = () => {
                     </div>
                 </div>
                 <div className='col-lg-3 d-block-lg'>
+                    <RightNav/>
                 </div>
             </div>
         </div>
