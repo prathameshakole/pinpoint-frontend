@@ -95,7 +95,7 @@ const Search = () => {
                 className={`nav-link ${activeTab === "users" ? "active" : ""}`}
                 onClick={() => setActiveTab("users")}
               >
-                Users
+                <h5>Users</h5>
               </button>
             </li>
             <li className="nav-item">
@@ -103,7 +103,7 @@ const Search = () => {
                 className={`nav-link ${activeTab === "cities" ? "active" : ""}`}
                 onClick={() => setActiveTab("cities")}
               >
-                Cities
+                <h5>Cities</h5>
               </button>
             </li>
             <li className="nav-item">
@@ -111,7 +111,7 @@ const Search = () => {
                 className={`nav-link ${activeTab === "posts" ? "active" : ""}`}
                 onClick={() => setActiveTab("posts")}
               >
-                Posts
+                <h5>Posts</h5>
               </button>
             </li>
           </ul>

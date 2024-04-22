@@ -3,6 +3,8 @@ import * as client from "./client";
 import { setUser } from "./reducer";
 import { useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Auth = () => {
     var user = useSelector((state: any) => state.userReducer.user);
@@ -39,6 +41,7 @@ const Auth = () => {
             dispatch(setUser(newUser));
             navigate("/");
         } catch (err: any) {
+            toast.error(err.response.data);
         }
     };
 
@@ -50,11 +53,13 @@ const Auth = () => {
             dispatch(setUser(newUser));
             navigate("/");
         } catch (err: any) {
+            toast.error(err.response.data);
         }
     };
 
     return (
         <div className='container' style={{ position: 'relative' }}>
+            <ToastContainer/>
             <div>
                 <div className='col-lg-6 col-md-8 col-10 card p-4' style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, 20%)' }}>
                     <div>

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import LeftNav from '../Home/leftnav';
 import AdCard from './adcomponent';
 import CreateAd from './create';
+import RightNav from '../Home/rightnav';
 
 const AdList = () => {
     const navigate = useNavigate()
@@ -40,26 +41,24 @@ const AdList = () => {
             </nav>
             <div className="container">
                 <div className="row">
-                    <div className="col-3"></div>
-                    <div className="col-6" style={{ textAlign: "center" }}>
-                        <button className='btn btn-primary' onClick={openAdModal}>Create Ad</button>
-                        <CreateAd isOpen={adModalIsOpen} onClose={closeAdModal} />
-                    </div>
-                </div>
-            </div>
-            <div className="container">
-                <div className="row">
                     <div className="col-lg-3 d-block-lg">
                         <LeftNav />
                     </div>
                     <div className="col-lg-6">
-                            {ads.map((ad: any) => (
-                                <AdCard
-                                    ad={ad}
-                                    editable={true}
-                                    approvable={false}
-                                />
-                            ))}
+                        <div style={{ textAlign: "center" }}>
+                            <button className='btn btn-primary' onClick={openAdModal}>Create Ad</button>
+                            <CreateAd isOpen={adModalIsOpen} onClose={closeAdModal} />
+                        </div>
+                        {ads.map((ad: any) => (
+                            <AdCard
+                                ad={ad}
+                                editable={true}
+                                approvable={false}
+                            />
+                        ))}
+                    </div>
+                    <div className="col-lg-3 d-block-lg">
+                        <RightNav />
                     </div>
                 </div>
             </div>

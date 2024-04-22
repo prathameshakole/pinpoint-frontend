@@ -72,7 +72,7 @@ const Post = ({ post }: { post: any }) => {
                     )}
                 </div>
             </div>
-            <ClickableImage post={post}/>
+            <ClickableImage post={post} />
             <div className="container">
                 <div className="row align-items-center my-3">
                     {user._id !== '' ? (
@@ -92,20 +92,90 @@ const Post = ({ post }: { post: any }) => {
                     {user._id !== '' && (
                         <div className="col-12">
                             {post.votes && user._id in post.votes ? (
-                                <div className="container p-0">
-                                    <p className="mb-1">
-                                        <strong>Voted:</strong> {post.options[post.votes[user._id]]}
-                                    </p>
-                                    <p>
-                                        <strong>Answer:</strong> {post.options[5]}
-                                    </p>
+                                <div className="container">
+                                    <div className="row">
+                                        <div className="col-6">
+                                            {
+                                                post.options[1] == post.options[5] && post.votes[user._id] == 1 &&
+                                                <button className="btn btn-success w-100 mb-2 disabled">{post.options[1]}</button>
+                                            }
+                                            {
+                                                post.options[1] == post.options[5] && post.votes[user._id] != 1 &&
+                                                <button className="btn btn-primary w-100 mb-2 disabled">{post.options[1]}</button>
+                                            }
+                                            {
+                                                post.options[1] != post.options[5] && post.votes[user._id] == 1 &&
+                                                <button className="btn btn-danger w-100 mb-2 disabled">{post.options[1]}</button>
+                                            }
+                                            {
+                                                post.options[1] != post.options[5] && post.votes[user._id] != 1 &&
+                                                <button className="btn btn-outline-secondary w-100 mb-2 disabled">{post.options[1]}</button>
+                                            }
+                                        </div>
+                                        <div className="col-6">
+                                            {
+                                                post.options[2] == post.options[5] && post.votes[user._id] == 2 &&
+                                                <button className="btn btn-success w-100 mb-2 disabled">{post.options[2]}</button>
+                                            }
+                                            {
+                                                post.options[2] == post.options[5] && post.votes[user._id] != 2 &&
+                                                <button className="btn btn-primary w-100 mb-2 disabled">{post.options[2]}</button>
+                                            }
+                                            {
+                                                post.options[2] != post.options[5] && post.votes[user._id] == 2 &&
+                                                <button className="btn btn-danger w-100 mb-2 disabled">{post.options[2]}</button>
+                                            }
+                                            {
+                                                post.options[2] != post.options[5] && post.votes[user._id] != 2 &&
+                                                <button className="btn btn-outline-secondary w-100 mb-2 disabled">{post.options[2]}</button>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                    <div className="col-6">
+                                            {
+                                                post.options[3] == post.options[5] && post.votes[user._id] == 3 &&
+                                                <button className="btn btn-success w-100 mb-2 disabled">{post.options[3]}</button>
+                                            }
+                                            {
+                                                post.options[3] == post.options[5] && post.votes[user._id] != 3 &&
+                                                <button className="btn btn-primary w-100 mb-2 disabled">{post.options[3]}</button>
+                                            }
+                                            {
+                                                post.options[3] != post.options[5] && post.votes[user._id] == 3 &&
+                                                <button className="btn btn-danger w-100 mb-2 disabled">{post.options[3]}</button>
+                                            }
+                                            {
+                                                post.options[3] != post.options[5] && post.votes[user._id] != 3 &&
+                                                <button className="btn btn-outline-secondary w-100 mb-2 disabled">{post.options[3]}</button>
+                                            }
+                                        </div>
+                                        <div className="col-6">
+                                            {
+                                                post.options[4] == post.options[5] && post.votes[user._id] == 4 &&
+                                                <button className="btn btn-success w-100 mb-2 disabled">{post.options[4]}</button>
+                                            }
+                                            {
+                                                post.options[4] == post.options[5] && post.votes[user._id] != 4 &&
+                                                <button className="btn btn-primary w-100 mb-2 disabled">{post.options[4]}</button>
+                                            }
+                                            {
+                                                post.options[4] != post.options[5] && post.votes[user._id] == 4 &&
+                                                <button className="btn btn-danger w-100 mb-2 disabled">{post.options[4]}</button>
+                                            }
+                                            {
+                                                post.options[4] != post.options[5] && post.votes[user._id] != 4 &&
+                                                <button className="btn btn-outline-secondary w-100 mb-2 disabled">{post.options[4]}</button>
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
                             ) : (
                                 <div className="container">
                                     <div className="row">
                                         <div className="col-6">
                                             <button
-                                                className="btn btn-primary w-100 mb-2"
+                                                className="btn btn-outline-primary w-100 mb-2"
                                                 onClick={() => castVote(1)}
                                             >
                                                 {post.options[1]}
@@ -113,7 +183,7 @@ const Post = ({ post }: { post: any }) => {
                                         </div>
                                         <div className="col-6">
                                             <button
-                                                className="btn btn-primary w-100 mb-2"
+                                                className="btn btn-outline-primary w-100 mb-2"
                                                 onClick={() => castVote(2)}
                                             >
                                                 {post.options[2]}
@@ -123,7 +193,7 @@ const Post = ({ post }: { post: any }) => {
                                     <div className="row">
                                         <div className="col-6">
                                             <button
-                                                className="btn btn-primary w-100 mb-2"
+                                                className="btn btn-outline-primary w-100 mb-2"
                                                 onClick={() => castVote(3)}
                                             >
                                                 {post.options[3]}
@@ -131,7 +201,7 @@ const Post = ({ post }: { post: any }) => {
                                         </div>
                                         <div className="col-6">
                                             <button
-                                                className="btn btn-primary w-100 mb-2"
+                                                className="btn btn-outline-primary w-100 mb-2"
                                                 onClick={() => castVote(4)}
                                             >
                                                 {post.options[4]}
