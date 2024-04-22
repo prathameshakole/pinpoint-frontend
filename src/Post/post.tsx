@@ -15,7 +15,7 @@ const Post = ({ post }: { post: any }) => {
         if (add) {
             newPost = { ...post, reactions: [...post.reactions, user._id] }
         } else {
-            newPost = { ...post, reactions: post.reactions.filter((userid: any) => userid != user._id) }
+            newPost = { ...post, reactions: post.reactions.filter((userid: any) => userid !== user._id) }
         }
         await postClient.updatePost(post._id, newPost);
         dispatch(updatePost(newPost));
@@ -24,10 +24,10 @@ const Post = ({ post }: { post: any }) => {
     const follow = async (add: boolean) => {
         await userClient.follow(user._id, post.userid, add);
         var newUser = {}
-        if (add == true) {
+        if (add === true) {
             newUser = { ...user, following: [...user.following, post.userid] }
         } else {
-            newUser = { ...user, following: user.following.filter((userid: any) => userid != post.userid) }
+            newUser = { ...user, following: user.following.filter((userid: any) => userid !== post.userid) }
         }
         dispatch(setUser(newUser));
     }
@@ -46,7 +46,7 @@ const Post = ({ post }: { post: any }) => {
                     <div className="col-6">
                         <Link className='nav-link' to={`/profile/${post.userid}`}>{post.user.username}</Link>
                     </div>
-                    {user._id != '' && <div className="col-6">
+                    {user._id !== '' && <div className="col-6">
                         {user.following.includes(post.userid) ?
                             (<Link className='nav-link float-end' onClick={() => follow(false)} to={''}><RiUserFollowFill />Unfollow</Link>) :
                             (<Link className='nav-link float-end' onClick={() => follow(true)} to={''}><RiUserFollowLine />Follow</Link>)
@@ -66,7 +66,7 @@ const Post = ({ post }: { post: any }) => {
 
             <div className="container">
                 <div className="row">
-                    {user._id != '' ? <div>
+                    {user._id !== '' ? <div>
                         {post.reactions.includes(user._id) ? (<FaHeart onClick={() => react(false)} />) : (<FaRegHeart onClick={() => react(true)} />)}
                         {post.reactions.length > 0 && (' ' + post.reactions.length + ' likes')}
                     </div> :
@@ -75,7 +75,7 @@ const Post = ({ post }: { post: any }) => {
                         </div>}
                 </div>
                 <div className="row">
-                    {user._id != '' && (
+                    {user._id !== '' && (
                         <div>
                             {post.votes && user._id in post.votes ? (<div className="container m-0 p-0">
                                 {`Voted - ${post.options[post.votes[user._id]]}`}<br />

@@ -11,31 +11,44 @@ import { Post } from '../Home/reducer';
 const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
     const [image, setImage] = useState("");
     const userObj: User = useSelector((state: any) => state.userReducer.user);
-    const [searchValue, setSearchValue] = useState({
+    const [searchValues, setSearchValues] = useState<any>([])
+    const [voteOptions, setVoteOptions] = useState({
         1: '', 2: '', 3: '', 4: '', 5: ''
     });
-    const [searchResults, setSearchResults] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
-    const [userLocation, setUserLocation] = useState({ longitude: 0, latitude: 0 });
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleSubmit = (e: any) => {
         var post: Post = {
             userid: userObj._id,
             image: image,
-            options: searchValue,
+            options: voteOptions,
             date: new Date().toISOString(),
             reactions: []
         }
+        setShowDropdown(false)
         client.createPost(post);
         post.user = userObj;
         dispatch(addPost(post));
         navigate("/")
     };
 
+    const SearchDropdown = () => {
+        return (
+            <div className="dropdown">
+                {searchValues.map((result: any, index: any) => (
+                    <div key={index} className="dropdown-item" onClick={() => {
+                        getCitiesFromLocation({latitude: result.geometry.coordinates[1], longitude: result.geometry.coordinates[0]})
+                    }}>
+                        {result.properties.display_name}
+                    </div>
+                ))}
+            </div>
+        );
+    };
+
     const handleItemClick = (result: any) => {
-        setSearchValue({ ...searchValue, 5: result });
-        setSearchResults([]);
+        setVoteOptions({ ...voteOptions, 5: result });
     };
 
     const handleFileChange = (event: any) => {
@@ -80,26 +93,25 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
         }
     };
 
-    const handleGetLocation = () => {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                setUserLocation({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                });
-            },
-            (error) => {
-                console.error('Error getting user location:', error);
-            }
-        );
+    const handleGetLocation = async (value: any) => {
+        try {
+            const response = await axios.get(`https://nominatim.openstreetmap.org/search`, {
+                params: {
+                    city: value,
+                    format: 'geojson',
+                },
+            });
+            setSearchValues(response.data.features.filter((e: any) => e.properties.addresstype === 'city' || e.properties.addresstype === 'town'))
+        } catch (error) {
+            console.error('Error fetching search results:', error);
+        }
     }
 
-    const getCitiesFromLocation = () => {
-        handleGetLocation()
-        console.log(userLocation)
+    const getCitiesFromLocation = ({longitude, latitude} : {longitude: any, latitude: any}) => {
+        setSearchValues([])
         const radius = 50000
-        const targetLatitude = userLocation.latitude;
-        const targetLongitude = userLocation.longitude
+        const targetLatitude = latitude;
+        const targetLongitude = longitude
         const query = `
           [out:json];
           node
@@ -122,10 +134,8 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
                         latitude: node.lat,
                         longitude: node.lon,
                     }));
-                setSearchResults(nearestCities)
-                setSearchValue({ 1: nearestCities[0].name, 2: nearestCities[1].name, 3: nearestCities[2].name, 4: nearestCities[3].name, 5: "" });
+                setVoteOptions({ 1: nearestCities[0].name, 2: nearestCities[1].name, 3: nearestCities[2].name, 4: nearestCities[3].name, 5: "" });
                 setShowDropdown(true)
-                // Process the nearest cities data as needed
             })
             .catch((error) => {
                 console.error(error);
@@ -141,23 +151,27 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
                 bottom: 'auto',
                 marginRight: '-50%',
                 transform: 'translate(-50%, -50%)',
+                boxShadow: '0 0 20px rgba(0, 0, 0, 0.3)'
             }
         }} isOpen={isOpen} onRequestClose={onClose} contentLabel="Create Post">
             <div style={{ textAlign: 'center' }}>
-                {image == "" && <svg width="500" height="500" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CCC" /></svg>}
-                {image != "" && <img width="500" height="500" style={{ objectFit: 'cover' }} src={image} />}
+                {image === "" && <svg width="400" height="400" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CCC" /></svg>}
+                {image !== "" && <img width="400" height="400" style={{ objectFit: 'cover' }} src={image} />}
                 <input type="file" className='form-control' id="image" onChange={handleFileChange} />
+                {!showDropdown && <input type="text" className='form-control' onChange={(e) => handleGetLocation(e.target.value)}/>}
+                {searchValues.length > 0 && <SearchDropdown />}
                 <div>
                     {showDropdown && (
                         <div className="dropdown">
+                            <p>Choose The Correct Option</p>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
-                                {Object.entries(searchValue).slice(0, 4).map(([key, value], index) => (
+                                {Object.entries(voteOptions).slice(0, 4).map(([key, value], index) => (
                                     <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
                                         <input
                                             className="form-check-input"
                                             type="radio"
                                             value={value}
-                                            checked={searchValue[5] == value}
+                                            checked={voteOptions[5] === value}
                                             onChange={() => handleItemClick(value)}
                                             style={{ marginRight: '8px' }}
                                         />
@@ -168,8 +182,7 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
                         </div>
                     )}
                 </div>
-                <button onClick={getCitiesFromLocation} className='btn btn-primary'>Get Location</button>
-                <button className={image == '' || searchValue[5] == '' ? 'btn btn-primary m-2 disabled' : 'btn btn-primary m-2'}
+                <button className={image === '' || voteOptions[5] === '' ? 'btn btn-primary m-2 disabled' : 'btn btn-primary m-2'}
                     onClick={handleSubmit}>Post</button>
                 <button className='btn btn-danger m-2' onClick={onClose}>Cancel</button>
             </div>

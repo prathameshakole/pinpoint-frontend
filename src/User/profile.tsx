@@ -3,9 +3,10 @@ import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { findUserById } from './client';
 import LeftNav from '../Home/leftnav';
-import UserList from './userList';
+import UserListModal from './userListModal';
 import { useSelector } from 'react-redux';
 import { findUserPost } from '../Home/client';
+import RightNav from '../Home/rightnav';
 
 const UserProfile = () => {
     const [userPosts, setUserPosts] = useState([]);
@@ -36,7 +37,7 @@ const UserProfile = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                if (profileId != undefined) {
+                if (profileId !== undefined) {
                     const response = await findUserById(profileId);
                     setUser(response);
                 }
@@ -53,20 +54,20 @@ const UserProfile = () => {
     }, [profileId]);
     return (
         <div className="container">
+            <nav className="nav nav-underline justify-content-center">
+                <div className="nav-link active mb-4">
+                    <h5>Profile</h5>
+                </div>
+            </nav>
             <div className="row">
-                <div className="col-lg-4 d-none d-lg-block">
+                <div className="col-lg-3 d-none d-lg-block">
                     <LeftNav />
                 </div>
-                <div className="col-12 col-lg-8">
-                    <nav className="nav nav-underline justify-content-center">
-                        <div className="nav-link active mb-4">
-                            <h5>Profile</h5>
-                        </div>
-                    </nav>
-                    <div className="card p-2">
+                <div className="col-12 col-lg-6">
+                    <div className="card">
                         <div className="container">
                             <div className="row align-items-center p-4">
-                                <div className="col-lg-4 d-flex align-items-center mb-3 mb-lg-0">
+                                <div className="col-6 d-flex">
                                     <img
                                         className="me-2"
                                         src={user.image === undefined || user.image === '' ? "/default.jpg" : user.image}
@@ -78,43 +79,44 @@ const UserProfile = () => {
                                             <h5>{'@' + user.username}</h5>
                                         </div>
                                         <h6>{user.firstName + " " + user.lastName}</h6>
-                                        {user._id == loggedInUser._id && <h6>{user.email}</h6>}
+                                        {user._id === loggedInUser._id && <h6>{user.email}</h6>}
                                     </div>
                                 </div>
-                                <div className="col-lg-8">
-                                    <div className="row">
-                                        <div className="col-5 col-lg-5 mb-3 mb-lg-0 nav">
-                                            <UserList isOpen={followerIsOpen} onClose={closeFollower} userList={user.follower} />
-                                            <Link
-                                                className="nav-link"
-                                                to={''}
-                                                onClick={() => openFollower(user.follower.length !== 0)}
-                                            >
-                                                <h5>{'Followers ' + user.follower.length}</h5>
-                                            </Link>
-                                        </div>
-                                        <div className="col-5 col-lg-5 mb-3 mb-lg-0 nav float-end">
-                                            <UserList isOpen={followingIsOpen} onClose={closeFollowing} userList={user.following} />
-                                            <Link
-                                                className="nav-link"
-                                                to={''}
-                                                onClick={() => openFollowing(user.following.length !== 0)}
-                                            >
-                                                <h5>{`Following ${user.following.length}`}</h5>
-                                            </Link>
-                                        </div>
-                                        <div className="col-2 text-center">
-                                            {loggedInUser._id === user._id && (
-                                                <button className="btn btn-primary" onClick={editProfile}>
-                                                    Edit
-                                                </button>
-                                            )}
-                                        </div>
+                                <div className="col-6">
+                                    <div className='float-end'>
+                                        <h5>About</h5>
+                                        <h6>{user.bio}</h6>
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <h6>About : {user.bio}</h6>
+                            <div className="row mt-2">
+                                <div className="col-5 nav">
+                                    <UserListModal isOpen={followerIsOpen} onClose={closeFollower} userList={user.follower} />
+                                    <Link
+                                        className="nav-link"
+                                        to={''}
+                                        onClick={() => openFollower(user.follower.length !== 0)}
+                                    >
+                                        <h5>{'Followers ' + user.follower.length}</h5>
+                                    </Link>
+                                </div>
+                                <div className="col-5 nav float-end">
+                                    <UserListModal isOpen={followingIsOpen} onClose={closeFollowing} userList={user.following} />
+                                    <Link
+                                        className="nav-link"
+                                        to={''}
+                                        onClick={() => openFollowing(user.following.length !== 0)}
+                                    >
+                                        <h5>{`Following ${user.following.length}`}</h5>
+                                    </Link>
+                                </div>
+                                <div className="col-2 text-center">
+                                    {loggedInUser._id === user._id && (
+                                        <button className="btn btn-primary" onClick={editProfile}>
+                                            Edit
+                                        </button>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -131,15 +133,17 @@ const UserProfile = () => {
                                 <div className="card h-100">
                                     <div className='ratio ratio-1x1'>
                                         <img className="card-img-top" key={post._id} src={post.image} alt="image" style={{
-                                                height: '100%',
-                                                width: '100%',
-                                                objectFit: 'cover',
-                                            }}/>
-                                        </div>
+                                            height: '100%',
+                                            width: '100%',
+                                            objectFit: 'cover',
+                                        }} />
+                                    </div>
                                 </div>
                             </div>
                         ))}
                     </div>
+                </div>
+                <div className='col-lg-3 d-block-lg'>
                 </div>
             </div>
         </div>

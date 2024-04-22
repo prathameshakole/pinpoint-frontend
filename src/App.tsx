@@ -25,7 +25,7 @@ function App() {
       }
     };
     fetchProfile().then((e) => {
-      if (e != null) {
+      if (e !== null) {
         dispatch(setUser(e));
       }
     });
@@ -38,8 +38,8 @@ function App() {
           <Route path="/admin/*" element={<Admin />}></Route>
           <Route path="/ads" element={<Ad />}></Route>
           <Route path="/search/:searchTerm" element={<Search />} />
+          <Route path="/city/*" element={<Search />} />
           <Route path="/profile/:profileId" element={<Profile />} />
-          <Route path="/editprofile" element={<EditProfile />} />
           <Route path="/editprofile" element={<EditProfile />} />
           <Route path="*" element={<Navigate to="/home/trending" />} />
         </Routes>

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as client from './client';
-import { setAds, deleteAd, updateAd } from './reducer';
-import { Link, useNavigate } from 'react-router-dom';
+import { setAds } from './reducer';
+import { useNavigate } from 'react-router-dom';
 import LeftNav from '../Home/leftnav';
 import AdCard from './adcomponent';
 import CreateAd from './create';
@@ -16,7 +16,7 @@ const AdList = () => {
     const openAdModal = () => setAdModalIsOpen(true);
     const closeAdModal = () => setAdModalIsOpen(false);
     useEffect(() => {
-        if (user._id == undefined || user._id == '' || user.role != 'ADVERTISER') {
+        if (user._id === undefined || user._id === '' || user.role !== 'ADVERTISER') {
             navigate("/")
         }
         const fetchAds = async () => {
@@ -29,7 +29,7 @@ const AdList = () => {
         };
 
         fetchAds();
-    }, []);
+    }, [dispatch, user, navigate]);
 
     return (
         <div>

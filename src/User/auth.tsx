@@ -14,7 +14,7 @@ const Auth = () => {
     };
 
     useEffect(() => {
-        if (user._id != undefined && user._id != '') {
+        if (user._id !== undefined && user._id !== '') {
           navigate("/")
         }
       }, [])

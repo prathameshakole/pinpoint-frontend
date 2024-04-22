@@ -4,14 +4,12 @@ import { findAllUsers } from "../User/client";
 import * as client from '../User/client';
 import * as userReducer from '../User/reducer'
 const AdminUsers = () => {
-    const [users, setUsers] = useState([]);
     const dispatch = useDispatch();
     const [userList, setUserList] = useState<any[]>([]);
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const fetchedUsers = await findAllUsers();
-                setUsers(fetchedUsers);
                 setUserList(fetchedUsers);
             } catch (error) {
                 console.error("Error fetching user data:", error);
@@ -49,7 +47,7 @@ const AdminUsers = () => {
                             <div className="ratio ratio-1x1">
                                 <img
                                     src={u.image === undefined || u.image === '' ? "/default.jpg" : u.image}
-                                    alt="profile-image"
+                                    alt="profile"
                                     className="rounded-circle ms-5 mt-4 mb-4"
                                     style={{
                                         height: '70%',
@@ -79,7 +77,7 @@ const AdminUsers = () => {
                                     onChange={(e) => handleChange(e, u.id)}
                                 >
                                     <option value="USER">USER</option>
-                                    {user.role == 'ADMIN' && <option value="ADMIN">ADMIN</option>}
+                                    {user.role === 'ADMIN' && <option value="ADMIN">ADMIN</option>}
                                     <option value="ADVERTISER">ADVERTISER</option>
                                 </select>
                                 <button type="submit" style={{ width: '65%' }} onClick={() => handleSubmit(u)} className="btn btn-primary mt-1">

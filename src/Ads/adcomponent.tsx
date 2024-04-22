@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as adClient from './client';
@@ -13,7 +13,7 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
 
     const handleUpdateSubmit = async (e: any) => {
         try {
-            const updatedData = await adClient.updateAd(currentAd._id, currentAd);
+            await adClient.updateAd(currentAd._id, currentAd);
             dispatch(adReducer.updateAd(currentAd));
             dispatch(adReducer.resetAd());
         } catch (error) {
@@ -96,7 +96,7 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
                             <p className="card-text">{ad.description}</p>
                         </div>
                         <div className="row nav ">
-                            <a className='nav-link pt-0'  href={new URL(`https://${ad.url}`).href} target="_blank" rel="noopener noreferrer">{ad.url}</a>
+                            <a className='nav-link pt-0'  href={`https://${ad.url}`} target="_blank" rel="noopener noreferrer">{ad.url}</a>
                         </div>
                         {editable && (
                             <div className="row">
@@ -104,7 +104,7 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
                                     <p className="card-text"><h5>Impressions: {ad.totalImpressions}</h5></p>
                                 </div>
                                 <div className="col-6">
-                                    <p className="card-text"><h5>Approved : {ad.approved == true ? "Yes" : "No"}</h5></p>
+                                    <p className="card-text"><h5>Approved : {ad.approved === true ? "Yes" : "No"}</h5></p>
                                 </div>
                             </div>
                         )}
@@ -131,7 +131,7 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
                     {approvable && (
                         <div className="container">
                             <div className="row p-2">
-                                {ad.approved == false && <button onClick={() => handleApproved(ad)} className="btn btn-primary">
+                                {ad.approved === false && <button onClick={() => handleApproved(ad)} className="btn btn-primary">
                                     Approve
                                 </button>}
                             </div>

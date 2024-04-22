@@ -50,7 +50,7 @@ const Search = () => {
   useEffect(() => {
     const searchUsers = async () => {
       try {
-        if (searchTerm != undefined) {
+        if (searchTerm !== undefined) {
           const response = await searchClient.searchUsers(searchTerm);
           setUsers(response);
         }
@@ -60,7 +60,7 @@ const Search = () => {
     }
     const searchPosts = async () => {
       try {
-        if (searchTerm != undefined) {
+        if (searchTerm !== undefined) {
           const response = await searchClient.searchPosts(searchTerm);
           setPosts(response);
 
@@ -72,7 +72,7 @@ const Search = () => {
     
     const searchCities = async () => {
       try {
-        if (searchTerm != undefined) {
+        if (searchTerm !== undefined) {
           await fetchCities(searchTerm)
         }
       } catch (error) {

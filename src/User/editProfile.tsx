@@ -160,7 +160,7 @@ const EditProfile = () => {
                             onChange={handleChange}
                         >
                             <option value="USER">USER</option>
-                            {user.role == 'ADMIN' && <option value="ADMIN">ADMIN</option>}
+                            {user.role === 'ADMIN' && <option value="ADMIN">ADMIN</option>}
                             <option value="ADVERTISER">ADVERTISER</option>
                         </select>
                     </div>
