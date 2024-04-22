@@ -25,9 +25,9 @@ const Post = ({ post }: { post: any }) => {
         await userClient.follow(user._id, post.userid, add);
         var newUser = {}
         if (add == true) {
-            newUser = {...user, following: [...user.following, post.userid]}
+            newUser = { ...user, following: [...user.following, post.userid] }
         } else {
-            newUser = {...user, following: user.following.filter((userid: any) => userid != post.userid)}
+            newUser = { ...user, following: user.following.filter((userid: any) => userid != post.userid) }
         }
         dispatch(setUser(newUser));
     }
@@ -56,11 +56,11 @@ const Post = ({ post }: { post: any }) => {
             </div>
 
             <div className='ratio ratio-1x1'>
-                            <img src={`${post.image}`} alt="image" style={{
-                                            height: '100%',
-                                            width: '100%',
-                                            objectFit: 'cover',
-                                        }}/>
+                <img src={`${post.image}`} alt="image" style={{
+                    height: '100%',
+                    width: '100%',
+                    objectFit: 'cover',
+                }} />
             </div>
 
 
@@ -71,14 +71,14 @@ const Post = ({ post }: { post: any }) => {
                         {post.reactions.length > 0 && (' ' + post.reactions.length + ' likes')}
                     </div> :
                         <div>
-                            {post.reactions.length > 0 && (' ' + post.reactions[0] + ', and ' + (post.reactions.length - 1) + ' more')}
+                            {(' ' + post.reactions.length + ' likes')}
                         </div>}
                 </div>
                 <div className="row">
                     {user._id != '' && (
                         <div>
                             {post.votes && user._id in post.votes ? (<div className="container m-0 p-0">
-                                {`Voted - ${post.options[post.votes[user._id]]}`}<br/>
+                                {`Voted - ${post.options[post.votes[user._id]]}`}<br />
                                 {`Answer - ${post.options[5]}`}
                             </div>) : (<div className="container">
                                 <div className="row">

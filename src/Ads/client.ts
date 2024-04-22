@@ -59,3 +59,8 @@ export const deleteAd = async (adId: string)=> {
         throw error;
     }
 };
+
+export const getRandomAd = async () => {
+    const Response = await api.get(`${BASE_API}/api/randomad`)
+    return Response.data;
+}

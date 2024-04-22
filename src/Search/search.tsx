@@ -2,11 +2,11 @@ import { useLocation, useParams } from 'react-router-dom';
 import LeftNav from '../Home/leftnav';
 import { useEffect, useState } from 'react';
 import * as searchClient from './client'
-import Post from '../Post/post';
 import axios from 'axios';
 import { SearchUser } from './searchUser';
 import { SearchCities } from './searchCities';
 import { SearchPosts } from './searchPosts';
+import { Spinner } from './Spinner';
 
 const Search = () => {
   const { searchTerm } = useParams();
@@ -14,6 +14,7 @@ const Search = () => {
   const [posts, setPosts] = useState([])
   const [cities, setCities] = useState([])
   const [activeTab, setActiveTab] = useState('users');
+  const [loading, setLoading] = useState(true);
 
   const fetchCities = async (value: any) => {
     const query = `
@@ -39,7 +40,7 @@ const Search = () => {
                   longitude: node.lon,
               }));
           setCities(cities)
-          console.log(cities)
+          setLoading(false)
       })
       .catch((error) => {
           console.error(error);
@@ -124,7 +125,8 @@ const Search = () => {
           <div className="container">
             <div className="row justify-content-center">
               {activeTab === 'users' && <SearchUser users={users}/>}
-              {activeTab === 'cities' && <SearchCities cities={cities}/>}
+              {activeTab === 'cities' && loading && <Spinner/> }
+              {activeTab === 'cities' && !loading && <SearchCities cities={cities}/> }
               {activeTab === 'posts' && <SearchPosts posts={posts}/>}
             </div>
           </div>

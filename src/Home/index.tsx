@@ -4,15 +4,35 @@ import { Routes, Route, Navigate } from "react-router";
 import Following from './following';
 import Trending from './trending';
 import LeftNav from './leftnav';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CreatePost from '../Post/Create';
+import * as adClient from '../Ads/client'
+import AdCard from '../Ads/adcomponent';
 
 const Home = () => {
   const { pathname } = useLocation();
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [ad, setAd] = useState({
+    userid: "",
+    image: "",
+    title: "",
+    description: "",
+    totalImpressions: 0,
+    date: "",
+    approved: false,
+    url: ""
+  })
   const user = useSelector((state: any) => state.userReducer.user);
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
+
+  useEffect(() => {
+    const getRandomAd = async () => {
+      const ad = await adClient.getRandomAd();
+      setAd(ad)
+    }
+    getRandomAd()
+  }, [])
   return (
     <div>
       <nav className="nav nav-underline justify-content-center">
@@ -34,10 +54,13 @@ const Home = () => {
             <Routes>
               <Route path="/trending" element={<Trending />} />
               <Route path="/following" element={<Following />} />
-              <Route path='*' element={<Navigate to={'/'}/>}/>
+              <Route path='*' element={<Navigate to={'/'} />} />
             </Routes>
           </div>
-          <div className='col-lg-3'>
+          <div className='col-lg-3 d-none d-lg-block position-fixed' style={{ top: '25%', right: 0, height: '100vh' }}>
+            <AdCard ad={ad}
+              editable={false}
+              approvable={false} />
           </div>
         </div>
       </div>

@@ -52,7 +52,7 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
         }
     };
     return (
-        <div key={ad._id} className="card m-4">
+        <div className="card m-4">
             {currentAd && currentAd._id === ad._id ? (
                 <form onSubmit={handleUpdateSubmit}>
                     <div className='ratio ratio-1x1'>
@@ -93,7 +93,7 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
                     </div>
                     <div className='container m-2'>
                         <div className="row">
-                            <p className="card-text"><h5>{ad.description}</h5></p>
+                            <p className="card-text">{ad.description}</p>
                         </div>
                         <div className="row nav ">
                             <a className='nav-link pt-0'  href={new URL(`https://${ad.url}`).href} target="_blank" rel="noopener noreferrer">{ad.url}</a>
