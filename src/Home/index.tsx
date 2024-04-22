@@ -57,7 +57,7 @@ const Home = () => {
               <Route path='*' element={<Navigate to={'/'} />} />
             </Routes>
           </div>
-          <div className='col-lg-3 d-none d-lg-block position-fixed' style={{ top: '25%', right: 0, height: '100vh' }}>
+          <div className='col-lg-3 d-none d-lg-block position-fixed' style={{ top: 50, right: 0, height: '100vh' }}>
             <AdCard ad={ad}
               editable={false}
               approvable={false} />
