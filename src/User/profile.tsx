@@ -7,6 +7,7 @@ import UserListModal from './userListModal';
 import { useSelector } from 'react-redux';
 import { findUserPost } from '../Home/client';
 import RightNav from '../Home/rightnav';
+import { ClickableImage } from '../Post/clickableImage';
 
 const UserProfile = () => {
     const [userPosts, setUserPosts] = useState([]);
@@ -130,15 +131,7 @@ const UserProfile = () => {
                     <div className='row row-cols-1 row-cols-md-3 g-3'>
                         {userPosts.map((post: any, index: any) => (
                             <div key={post._id} className="col-lg-4 col-md-6 col-sm-12 mb-4">
-                                <div className="card h-100">
-                                    <div className='ratio ratio-1x1'>
-                                        <img className="card-img-top" key={post._id} src={post.image} alt="image" style={{
-                                            height: '100%',
-                                            width: '100%',
-                                            objectFit: 'cover',
-                                        }} />
-                                    </div>
-                                </div>
+                                <ClickableImage post={post} />
                             </div>
                         ))}
                     </div>

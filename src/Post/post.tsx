@@ -6,6 +6,7 @@ import * as postClient from '../Home/client';
 import { updatePost } from '../Home/reducer';
 import * as userClient from '../User/client';
 import { setUser } from '../User/reducer';
+import { ClickableImage } from './clickableImage';
 
 const Post = ({ post }: { post: any }) => {
     const dispatch = useDispatch();
@@ -71,14 +72,7 @@ const Post = ({ post }: { post: any }) => {
                     )}
                 </div>
             </div>
-            <div className="ratio ratio-1x1">
-                <img
-                    src={`${post.image}`}
-                    alt="image"
-                    className="img-fluid"
-                    style={{ objectFit: 'cover' }}
-                />
-            </div>
+            <ClickableImage post={post}/>
             <div className="container">
                 <div className="row align-items-center my-3">
                     {user._id !== '' ? (

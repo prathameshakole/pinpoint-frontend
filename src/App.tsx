@@ -1,17 +1,19 @@
-import './App.css';
+import "./App.css";
 import { HashRouter } from "react-router-dom";
 import { Routes, Route, Navigate } from "react-router";
 import { useDispatch } from "react-redux";
-import Profile from './User/profile';
-import Home from './Home'
+import Profile from "./User/profile";
+import Home from "./Home";
 import * as client from "../src/User/client";
-import { setUser } from '../src/User/reducer'
-import Auth from './User/auth';
-import Ad from './Ads/ad';
-import Admin from './Admin/admin';
-import EditProfile from './User/editProfile';
-import { useEffect } from 'react';
-import Search from './Search/search';
+import { setUser } from "../src/User/reducer";
+import Auth from "./User/auth";
+import Ad from "./Ads/ad";
+import Admin from "./Admin/admin";
+import EditProfile from "./User/editProfile";
+import { useEffect } from "react";
+import Search from "./Search/search";
+import { City } from "./City/city";
+import { PostDetails } from "./Post/postDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,7 +23,7 @@ function App() {
         const account = await client.profile();
         return account;
       } catch (e) {
-        localStorage.removeItem('token')
+        localStorage.removeItem("token");
       }
     };
     fetchProfile().then((e) => {
@@ -32,18 +34,19 @@ function App() {
   }, []);
   return (
     <HashRouter>
-        <Routes>
-          <Route path="/home/*" element={<Home />} />
-          <Route path='/signin' element={<Auth />} />
-          <Route path="/admin/*" element={<Admin />}></Route>
-          <Route path="/ads" element={<Ad />}></Route>
-          <Route path="/search/:searchTerm" element={<Search />} />
-          <Route path="/city/*" element={<Search />} />
-          <Route path="/profile/:profileId" element={<Profile />} />
-          <Route path="/editprofile" element={<EditProfile />} />
-          <Route path="*" element={<Navigate to="/home/trending" />} />
-        </Routes>
-    </HashRouter >
+      <Routes>
+        <Route path="/home/*" element={<Home />} />
+        <Route path="/signin" element={<Auth />} />
+        <Route path="/admin/*" element={<Admin />}></Route>
+        <Route path="/ads" element={<Ad />}></Route>
+        <Route path="/search/:searchTerm" element={<Search />} />
+        <Route path="/city/*" element={<City />} />
+        <Route path="/post/:postId" element={<PostDetails />} />
+        <Route path="/profile/:profileId" element={<Profile />} />
+        <Route path="/editprofile" element={<EditProfile />} />
+        <Route path="*" element={<Navigate to="/home/trending" />} />
+      </Routes>
+    </HashRouter>
   );
 }
 

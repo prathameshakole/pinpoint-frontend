@@ -1,50 +1,44 @@
-import { useLocation, useParams } from 'react-router-dom';
-import LeftNav from '../Home/leftnav';
-import { useEffect, useState } from 'react';
-import * as searchClient from './client'
-import axios from 'axios';
-import { SearchUser } from './searchUser';
-import { SearchCities } from './searchCities';
-import { SearchPosts } from './searchPosts';
-import { Spinner } from './Spinner';
+import { useParams } from "react-router-dom";
+import LeftNav from "../Home/leftnav";
+import { useEffect, useState } from "react";
+import * as searchClient from "./client";
+import axios from "axios";
+import { SearchUser } from "./searchUser";
+import { SearchCities } from "./searchCities";
+import { SearchPosts } from "./searchPosts";
+import { Spinner } from "./Spinner";
+import RightNav from "../Home/rightnav";
 
 const Search = () => {
   const { searchTerm } = useParams();
-  const [users, setUsers] = useState([])
-  const [posts, setPosts] = useState([])
-  const [cities, setCities] = useState([])
-  const [activeTab, setActiveTab] = useState('users');
+  const [users, setUsers] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [activeTab, setActiveTab] = useState("users");
   const [loading, setLoading] = useState(true);
 
-  const fetchCities = async (value: any) => {
-    const query = `
-    [out:json];
-    node
-      [place=city]
-      [name~${value},i];
-    out;
-  `;
-  const overpassUrl = 'https://overpass-api.de/api/interpreter';
-  axios
-      .post(overpassUrl, query, {
-          headers: {
-              'Content-Type': 'application/xml',
+  const fetchCities = async (value: String) => {
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search`,
+        {
+          params: {
+            city: value,
+            format: "geojson",
           },
-      })
-      .then((response) => {
-          const cities = response.data.elements
-              .filter((element: { type: string; }) => element.type === 'node')
-              .map((node: { tags: { name: any; }; lat: any; lon: any; }) => ({
-                  name: node.tags.name,
-                  latitude: node.lat,
-                  longitude: node.lon,
-              }));
-          setCities(cities)
-          setLoading(false)
-      })
-      .catch((error) => {
-          console.error(error);
-      });
+        },
+      );
+      setCities(
+        response.data.features.filter(
+          (e: any) =>
+            e.properties.addresstype === "city" ||
+            e.properties.addresstype === "town",
+        ),
+      );
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
   };
 
   useEffect(() => {
@@ -55,42 +49,41 @@ const Search = () => {
           setUsers(response);
         }
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
-    }
+    };
     const searchPosts = async () => {
       try {
         if (searchTerm !== undefined) {
           const response = await searchClient.searchPosts(searchTerm);
           setPosts(response);
-
         }
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
-    }
-    
+    };
+
     const searchCities = async () => {
       try {
         if (searchTerm !== undefined) {
-          await fetchCities(searchTerm)
+          await fetchCities(searchTerm);
         }
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
-    }
+    };
     searchUsers();
     searchPosts();
     searchCities();
-  }, [searchTerm])
+  }, [searchTerm]);
 
   return (
-    <div className='container'>
-      <div className='row'>
-        <div className='col-lg-4 d-none d-lg-block'>
+    <div className="container">
+      <div className="row">
+        <div className="col-lg-3 d-none d-lg-block">
           <LeftNav />
         </div>
-        <div className='col-lg-8 col-12'>
+        <div className="col-lg-6">
           <nav className="nav nav-underline justify-content-center">
             <div className="nav-link active">
               <h5>Search</h5>
@@ -99,24 +92,24 @@ const Search = () => {
           <ul className="nav nav-underline justify-content-center mb-3">
             <li className="nav-item">
               <button
-                className={`nav-link ${activeTab === 'users' ? 'active' : ''}`}
-                onClick={() => setActiveTab('users')}
+                className={`nav-link ${activeTab === "users" ? "active" : ""}`}
+                onClick={() => setActiveTab("users")}
               >
                 Users
               </button>
             </li>
             <li className="nav-item">
               <button
-                className={`nav-link ${activeTab === 'cities' ? 'active' : ''}`}
-                onClick={() => setActiveTab('cities')}
+                className={`nav-link ${activeTab === "cities" ? "active" : ""}`}
+                onClick={() => setActiveTab("cities")}
               >
                 Cities
               </button>
             </li>
             <li className="nav-item">
               <button
-                className={`nav-link ${activeTab === 'posts' ? 'active' : ''}`}
-                onClick={() => setActiveTab('posts')}
+                className={`nav-link ${activeTab === "posts" ? "active" : ""}`}
+                onClick={() => setActiveTab("posts")}
               >
                 Posts
               </button>
@@ -124,12 +117,15 @@ const Search = () => {
           </ul>
           <div className="container">
             <div className="row justify-content-center">
-              {activeTab === 'users' && <SearchUser users={users}/>}
-              {activeTab === 'cities' && loading && <Spinner/> }
-              {activeTab === 'cities' && !loading && <SearchCities cities={cities}/> }
-              {activeTab === 'posts' && <SearchPosts posts={posts}/>}
+              {activeTab === "users" && <SearchUser users={users} />}
+              {activeTab === "cities" && loading && <Spinner />}
+              {activeTab === "cities" && !loading && (<SearchCities cities={cities} />)}
+              {activeTab === "posts" && <SearchPosts posts={posts} />}
             </div>
           </div>
+        </div>
+        <div className="col-lg-3">
+          <RightNav />
         </div>
       </div>
     </div>

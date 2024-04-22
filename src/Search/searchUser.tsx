@@ -6,7 +6,7 @@ export const SearchUser = ({ users }: any) => {
         <div className="row">
             {users.slice(0, 10).map((user: any) => (
                 <div
-                    className="col-md-6 col-lg-4 mb-4"
+                    className="col-lg-6 col-10"
                     onClick={() => navigate(`/profile/${user._id}`)}
                 >
                     <div className="card h-100">
