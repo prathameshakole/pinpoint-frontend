@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import * as userClient from './client';
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import UserList from './UserList';
+import UserList from './userList';
 
 const UserListModal = ({ isOpen, onClose, userList }: { isOpen: boolean, onClose: any, userList: any }) => {
     const [users, setUsers] = useState([])

@@ -11,7 +11,6 @@ import RightNav from './rightnav';
 const Home = () => {
   const { pathname } = useLocation();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
   const user = useSelector((state: any) => state.userReducer.user);
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);

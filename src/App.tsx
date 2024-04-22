@@ -27,7 +27,7 @@ function App() {
       }
     };
     fetchProfile().then((e) => {
-      if (e !== null) {
+      if (e != null) {
         dispatch(setUser(e));
       }
     });

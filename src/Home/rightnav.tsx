@@ -3,7 +3,7 @@ import AdCard from "../Ads/adcomponent";
 import { useState, useEffect } from "react";
 import * as adClient from "../Ads/client";
 import * as userClient from "../User/client";
-import UserList from "../User/UserList";
+import UserList from "../User/userList";
 
 const RightNav = () => {
   const user = useSelector((state: any) => state.userReducer.user);
