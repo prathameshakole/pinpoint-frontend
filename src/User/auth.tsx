@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as client from "./client";
 import { setUser } from "./reducer";
 import { useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import logo from '../logo.png'
 
 const Auth = () => {
     var user = useSelector((state: any) => state.userReducer.user);
+    const [login, setLogin] = useState<boolean>(true);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleLoginChange = (e: any) => {
@@ -17,9 +19,9 @@ const Auth = () => {
 
     useEffect(() => {
         if (user._id !== undefined && user._id !== '') {
-          navigate("/")
+            navigate("/")
         }
-      }, [])
+    }, [])
 
     const handleRegisterChange = (e: any) => {
         const { name, value } = e.target;
@@ -57,45 +59,81 @@ const Auth = () => {
         }
     };
 
+    const handleToggle = () => {
+        setLogin(!login);
+    }
+
     return (
-        <div className='container' style={{ position: 'relative' }}>
-            <ToastContainer/>
-            <div>
-                <div className='col-lg-6 col-md-8 col-10 card p-4' style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, 20%)' }}>
-                    <div>
-                        <h2>Login</h2>
-                        <div>
-                            <label>Username</label>
-                            <input type="text" className='form-control mb-2' name="username" value={user.username} onChange={handleLoginChange} />
-                        </div>
-                        <div>
-                            <label>Password</label>
-                            <input type="password" className='form-control' name="password" value={user.password} onChange={handleLoginChange} />
-                        </div>
-                        <button className='btn btn-primary mt-4 mb-4' onClick={handleLoginSubmit}>Login</button>
+        <div className="container">
+            <div className=" m-4">
+                <div className="row justify-content-center align-items-center">
+                    <div className="col-md-6 m-4">
+                            <div className="text-center m-2">
+                                <img src={logo} alt="login" className="rounded-circle"/>
+                            </div>
                     </div>
-                    <div>
-                        <h2>Register</h2>
-                        <div>
-                            <label>Username</label>
-                            <input type="text" className='form-control mb-2' name="username" value={user.username} onChange={handleRegisterChange} />
+                    <div className="col-md-4">
+                        {
+                            login ? (
+                            <div className="card mt-1">
+                            <div className="card-body">
+                                <div className="text-center">
+                                    <h3>Login</h3>
+                                </div>
+                                <div className="mb-1">
+                                    <label htmlFor="username" className="form-label">Username</label>
+                                    <input type="text" className="form-control" id="username" name="username" value={user.username} onChange={handleLoginChange} />
+                                </div>
+                                <div className="mb-1">
+                                    <label htmlFor="password" className="form-label">Password</label>
+                                    <input type="password" className="form-control" id="password" name="password" value={user.password} onChange={handleLoginChange} />
+                                </div>
+                                <div className="d-grid">
+                                    <button className="btn btn-primary mt-3" onClick={handleLoginSubmit}>Login</button>
+                                </div>
+                                <div className='mt-2 d-flex'>
+                                    <h5 className='mt-2'>New User ?</h5><button className='btn btn-outline-success ms-2' onClick={handleToggle}>Register</button>
+                                </div>
+                            </div>
+                        </div>) : (
+                            <div className="card mt-2">
+                            <div className="card-body">
+                                <div className="text-center">
+                                    <h3>Register</h3>
+                                </div>
+                                <div className="mb-1">
+                                    <label htmlFor="registerUsername" className="form-label">Username</label>
+                                    <input type="text" className="form-control" id="registerUsername" name="username" value={user.username} onChange={handleRegisterChange} />
+                                </div>
+                                <div className="mb-2">
+                                    <label htmlFor="registerPassword" className="form-label">Password</label>
+                                    <input type="password" className="form-control" id="registerPassword" name="password" value={user.password} onChange={handleRegisterChange} />
+                                </div>
+                                <div className="mb-2">
+                                    <label htmlFor="registerEmail" className="form-label">Email</label>
+                                    <input type="email" className="form-control" id="registerEmail" name="email" value={user.email} onChange={handleRegisterChange} />
+                                </div>
+                                <div className="mb-2 form-check">
+                                    <input type="checkbox" className="form-check-input" id="advertiser" name="advertiser" onChange={handleRegisterChange} />
+                                    <label className="form-check-label" htmlFor="advertiser">Register as Advertiser</label>
+                                </div>
+                                <div className="d-grid">
+                                    <button className="btn btn-primary" onClick={handleRegisterSubmit} type="submit">Register</button>
+                                </div>
+                                <div className='mt-2 d-flex'>
+                                    <h5 className='mt-2'>Already Registered ?</h5><button className='btn btn-outline-primary ms-2' onClick={handleToggle}>Login</button>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <label>Password</label>
-                            <input type="password" className='form-control mb-2' name="password" value={user.password} onChange={handleRegisterChange} />
-                        </div>
-                        <div>
-                            <label>Email</label>
-                            <input type="email" className='form-control mb-2' name="email" value={user.email} onChange={handleRegisterChange} />
-                        </div>
-                        <div>
-                            <label>Register as Advertiser</label>
-                            <input type="checkbox" className='form-check mb-2' name="advertiser" onChange={handleRegisterChange} />
-                        </div>
-                        <button className='btn btn-success mt-4' onClick={handleRegisterSubmit} type="submit">Register</button>
+
+                        )
+                        }
+                        
+                        
                     </div>
                 </div>
             </div>
+
         </div>
     );
 };
