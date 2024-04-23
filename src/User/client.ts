@@ -16,25 +16,31 @@ export const signin = async (credentials: User) => {
 
 export const profile = async () => {
     const token = localStorage.getItem('token');
-    const response = await axios.post(`${USERS_API}/profile`, null, {headers: { 'Authorization': `Bearer ${token}`,}});
+    const response = await axios.post(`${USERS_API}/profile`, null, { headers: { 'Authorization': `Bearer ${token}`, } });
     return response.data;
 };
 
 export const updateUser = async (user: any) => {
     const token = localStorage.getItem('token');
-    const response = await api.put(`${USERS_API}/${user._id}`, user, {headers: { 'Authorization': `Bearer ${token}`,}});
+    const response = await api.put(`${USERS_API}/${user._id}`, user, { headers: { 'Authorization': `Bearer ${token}`, } });
     return response.data;
 };
 
 export const findAllUsers = async () => {
     const token = localStorage.getItem('token');
-    const response = await api.get(`${USERS_API}`, {headers: { 'Authorization': `Bearer ${token}`,}});
+    const response = await api.get(`${USERS_API}`, { headers: { 'Authorization': `Bearer ${token}`, } });
     return response.data;
 };
 
 export const findUsers = async (userids: any) => {
     const token = localStorage.getItem('token');
-    const response = await api.post(`${USERS_API}/fromList`, userids, {headers: { 'Authorization': `Bearer ${token}`,}});
+    const response = await api.post(`${USERS_API}/fromList`, userids, { headers: { 'Authorization': `Bearer ${token}`, } });
+    return response.data;
+};
+
+export const fetchSuggestedUsers = async () => {
+    const token = localStorage.getItem('token');
+    const response = await api.get(`${USERS_API}/suggested`, {headers: { 'Authorization': `Bearer ${token}`, }});
     return response.data;
 };
 
@@ -46,27 +52,27 @@ export const createUser = async (user: any) => {
 export const deleteUser = async (user: any) => {
     const token = localStorage.getItem('token');
     const response = await api.delete(
-        `${USERS_API}/${user._id}`, {headers: { 'Authorization': `Bearer ${token}`,}});
+        `${USERS_API}/${user._id}`, { headers: { 'Authorization': `Bearer ${token}`, } });
     return response.data;
 };
 
 export const follow = async (followerId: any, followingId: any, follow: boolean) => {
     const token = localStorage.getItem('token');
-    const response = await api.post(`${USERS_API}/follow/${followerId}/${followingId}/${follow}`, {headers: { 'Authorization': `Bearer ${token}`,}});
+    const response = await api.post(`${USERS_API}/follow/${followerId}/${followingId}/${follow}`, { headers: { 'Authorization': `Bearer ${token}`, } });
     return response.data;
 };
 
 
 export const findUserById = async (id: string) => {
     const token = localStorage.getItem('token');
-    const response = await api.get(`${USERS_API}/${id}`, {headers: { 'Authorization': `Bearer ${token}`,}});
+    const response = await api.get(`${USERS_API}/${id}`, { headers: { 'Authorization': `Bearer ${token}`, } });
     return response.data;
 };
 
 export const findUsersByRole = async (role: string) => {
     const token = localStorage.getItem('token');
     const response = await
-        api.get(`${USERS_API}?role=${role}`, {headers: { 'Authorization': `Bearer ${token}`,}});
+        api.get(`${USERS_API}?role=${role}`, { headers: { 'Authorization': `Bearer ${token}`, } });
     return response.data;
 };
 

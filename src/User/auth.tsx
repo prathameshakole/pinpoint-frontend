@@ -65,14 +65,15 @@ const Auth = () => {
 
     return (
         <div className="container">
+            <ToastContainer/>
             <div className=" m-4">
                 <div className="row justify-content-center align-items-center">
-                    <div className="col-md-6 m-4">
-                            <div className="text-center m-2">
+                    <div className="col-lg-6 p-2 m-5">
+                            <div className="text-center">
                                 <img src={logo} alt="login" className="rounded-circle"/>
                             </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-lg-4">
                         {
                             login ? (
                             <div className="card mt-1">
