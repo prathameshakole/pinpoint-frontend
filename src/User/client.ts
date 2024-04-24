@@ -38,9 +38,12 @@ export const findUsers = async (userids: any) => {
     return response.data;
 };
 
-export const fetchSuggestedUsers = async () => {
+export const fetchSuggestedUsers = async (userid: any) => {
+    if (userid === '' || userid === undefined) {
+        return []
+    }
     const token = localStorage.getItem('token');
-    const response = await api.get(`${USERS_API}/suggested`, {headers: { 'Authorization': `Bearer ${token}`, }});
+    const response = await api.get(`${USERS_API}/suggested/${userid}`, {headers: { 'Authorization': `Bearer ${token}`, }});
     return response.data;
 };
 

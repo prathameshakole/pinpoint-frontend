@@ -19,37 +19,35 @@ const RightNav = () => {
     approved: false,
     url: "",
   });
-  const [users, setUsers] = useState([]);
   const [suggestedUsers, setSuggestedUsers] = useState([]);
   useEffect(() => {
-    const fetchUsers = async () => {
-      const f = await userClient.findUsers(user.following);
-      setUsers(f);
+    const fetchSuggestedUsers = async () => {
+      const suggestedUsers = await userClient.fetchSuggestedUsers(user._id);
+      setSuggestedUsers(suggestedUsers);
     };
-    fetchUsers();
-    // const fetchSuggestedUsers = async () => {
-    //   const suggestedUsers = await userClient.fetchSuggestedUsers();
-    //   setSuggestedUsers(suggestedUsers);
-    // };
-    // fetchSuggestedUsers();
+    fetchSuggestedUsers();
     const getRandomAd = async () => {
       const ad = await adClient.getRandomAd();
       setAd(ad);
     };
     getRandomAd();
-  }, []);
+  }, [user]);
   return (
     <div>
       {user._id !== "" && (
         <div>
           <h5 className="p-4 pb-0">Suggested</h5>
-            <div className="container p-4">
-              <UserList users={users} />
-            </div>
+          <div className="container p-4">
+            <UserList users={suggestedUsers} />
+          </div>
         </div>
       )}
-      <h5 className="p-4 pb-0">Ad</h5>
-      <AdCard ad={ad} editable={false} approvable={false} />
+      {ad.approved == true &&
+        <>
+          <h5 className="p-4 pb-0">Ad</h5>
+          <AdCard ad={ad} editable={false} approvable={false} />
+        </>
+      }
     </div>
   );
 };
