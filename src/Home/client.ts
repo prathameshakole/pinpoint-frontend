@@ -7,13 +7,13 @@ const api = axios.create({
     withCredentials: true
 })
 
-export const findTrendingPosts = async () => {
-    const response = await api.get(`${POSTS_API}/trending`);
+export const findTrendingPosts = async (page: any, size: any) => {
+    const response = await api.get(`${POSTS_API}/trending?page=${page}&size=${size}`);
     return response.data;
 };
 
-export const findFollowingPosts = async (userid: any) => {
-    const response = await api.get(`${POSTS_API}/following/${userid}`);
+export const findFollowingPosts = async (userid: any, page: any, size: any) => {
+    const response = await api.get(`${POSTS_API}/following/${userid}?page=${page}&size=${size}`);
     return response.data;
 };
 
