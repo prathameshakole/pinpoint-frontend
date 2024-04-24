@@ -79,12 +79,6 @@ export const findUsersByRole = async (role: string) => {
     return response.data;
 };
 
-export const signup = async (user: any) => {
-    const response = await api.post(`${USERS_API}/register`, user);
-    localStorage.setItem('token', response.data.token);
-    return response.data;
-};
-
 export const signout = async () => {
     localStorage.removeItem('token');
 };
