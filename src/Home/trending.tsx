@@ -28,33 +28,48 @@ const Trending = () => {
             {currentPosts.map((post: any, index: any) => (
                 <Post key={post._id} post={post} />
             ))}
-            <div>
-                <button
-                    disabled={currentPage === 1}
-                    onClick={() => paginate(currentPage - 1)}
-                >
-                    Previous
-                </button>
-                {Array.from(
-                    { length: Math.ceil(trendingPosts.length / postsPerPage) },
-                    (_, i) => (
-                        <button
-                            key={i + 1}
-                            onClick={() => paginate(i + 1)}
-                            style={{
-                                backgroundColor: currentPage === i + 1 ? "gray" : "white",
-                            }}
+            <div className="d-flex justify-content-center mb-4">
+                <nav aria-label="Page navigation">
+                    <ul className="pagination">
+                        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                            <button
+                                className="page-link"
+                                disabled={currentPage === 1}
+                                onClick={() => paginate(currentPage - 1)}
+                            >
+                                Previous
+                            </button>
+                        </li>
+                        {Array.from(
+                            { length: Math.ceil(trendingPosts.length / postsPerPage) },
+                            (_, i) => (
+                                <li
+                                    key={i + 1}
+                                    className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                                >
+                                    <button
+                                        className="page-link"
+                                        onClick={() => paginate(i + 1)}
+                                    >
+                                        {i + 1}
+                                    </button>
+                                </li>
+                            )
+                        )}
+                        <li
+                            className={`page-item ${indexOfLastPost >= trendingPosts.length ? 'disabled' : ''
+                                }`}
                         >
-                            {i + 1}
-                        </button>
-                    )
-                )}
-                <button
-                    disabled={indexOfLastPost >= trendingPosts.length}
-                    onClick={() => paginate(currentPage + 1)}
-                >
-                    Next
-                </button>
+                            <button
+                                className="page-link"
+                                disabled={indexOfLastPost >= trendingPosts.length}
+                                onClick={() => paginate(currentPage + 1)}
+                            >
+                                Next
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     );

@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import * as adClient from "../Ads/client";
 import * as userClient from "../User/client";
 import UserList from "../User/userList";
-import { setUser } from "../User/reducer";
 
 const RightNav = () => {
   const user = useSelector((state: any) => state.userReducer.user);

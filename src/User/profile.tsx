@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { Link, Route, Routes, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { findUserById } from './client';
+import * as userClient from './client';
 import LeftNav from '../Home/leftnav';
 import UserListModal from './userListModal';
-import { useSelector } from 'react-redux';
-import { findUserPost } from '../Home/client';
+import { useDispatch, useSelector } from 'react-redux';
+import * as postClient from '../Home/client';
 import RightNav from '../Home/rightnav';
 import { ClickableImage } from '../Post/clickableImage';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import * as userReducer from './reducer'
 
 const UserProfile = () => {
+    const dispatch = useDispatch();
     const [userPosts, setUserPosts] = useState([]);
     const loggedInUser = useSelector((state: any) => state.userReducer.user);
     const navigate = useNavigate();
@@ -37,20 +39,35 @@ const UserProfile = () => {
         navigate('/editprofile');
     };
 
+    const follow = async (add: boolean) => {
+        await userClient.follow(loggedInUser._id, profileId, add);
+        var newLoggedInUser = loggedInUser;
+        var newProfileUser: any = {};
+        if (add === true) {
+            newLoggedInUser = { ...loggedInUser, following: [...loggedInUser.following, profileId] }
+            newProfileUser = {...user, follower: [...user.follower, loggedInUser._id]}
+        } else {
+            newLoggedInUser = { ...loggedInUser, following: loggedInUser.following.filter((userid: any) => userid !== profileId) }
+            newProfileUser = { ...user, follower: user.follower.filter((userid: any) => userid !== loggedInUser._id) }
+        }
+        setUser(newProfileUser)
+        dispatch(userReducer.setUser(newLoggedInUser));
+    }
+
     useEffect(() => {
         const fetchUserData = async () => {
             try {
                 if (profileId !== undefined) {
-                    const response = await findUserById(profileId);
+                    const response = await userClient.findUserById(profileId);
                     setUser(response);
                 }
-            } catch (error:any) {
+            } catch (error: any) {
                 toast.error(error.response.data);
                 console.error('Error fetching user data:', error);
             }
         };
         const fetchUserPosts = async () => {
-            const response = await findUserPost(profileId)
+            const response = await postClient.findUserPost(profileId)
             setUserPosts(response)
         }
         fetchUserData();
@@ -58,7 +75,7 @@ const UserProfile = () => {
     }, [profileId]);
     return (
         <div className="container">
-            <ToastContainer/>
+            <ToastContainer />
             <nav className="nav nav-underline justify-content-center">
                 <div className="nav-link active">
                     <h5>Profile</h5>
@@ -116,11 +133,22 @@ const UserProfile = () => {
                                     </Link>
                                 </div>
                                 <div className="col-2 text-center">
-                                    {loggedInUser._id === user._id && (
+                                    {loggedInUser._id === user._id ? (
                                         <button className="btn btn-primary" onClick={editProfile}>
                                             Edit
                                         </button>
-                                    )}
+                                    ) : (
+                                        <>{user._id !== '' && (
+                                            <>
+                                                {loggedInUser.following.includes(profileId) ? (
+                                                    <button className="btn btn-danger" onClick={() => follow(false)}> Unfollow</button>
+
+                                                ) : (
+                                                    <button className="btn btn-primary" onClick={() => follow(true)}> Follow</button>
+                                                )}
+                                            </>
+                                        )}
+                                    </>)}
                                 </div>
                             </div>
                         </div>
@@ -141,7 +169,7 @@ const UserProfile = () => {
                     </div>
                 </div>
                 <div className='col-lg-3 d-block-lg'>
-                    <RightNav/>
+                    <RightNav />
                 </div>
             </div>
         </div>
