@@ -1,14 +1,12 @@
-import { Routes, Route, Navigate, useParams } from "react-router"
+import { useParams } from "react-router"
 import LeftNav from "../Home/leftnav"
 import RightNav from "../Home/rightnav"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import * as client from "../Home/client"
-import { setPosts } from "../Home/reducer"
 import { useEffect, useState } from "react"
 import Post from "./post"
 
 export const PostDetails = () => {
-    const dispatch = useDispatch();
     const { postId } = useParams();
     const [currentPost, setCurrentPost] = useState(null);
 
@@ -21,7 +19,7 @@ export const PostDetails = () => {
 
     useEffect(() => {
         findPost();
-    }, []);
+    }, [currentPost]);
 
     return (
         <div className='container'>
