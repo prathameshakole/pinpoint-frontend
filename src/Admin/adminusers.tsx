@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { findAllUsers } from "../User/client";
 import * as client from '../User/client';
 import * as userReducer from '../User/reducer'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const AdminUsers = () => {
     const dispatch = useDispatch();
     const [userList, setUserList] = useState<any[]>([]);
@@ -11,7 +14,8 @@ const AdminUsers = () => {
             try {
                 const fetchedUsers = await findAllUsers();
                 setUserList(fetchedUsers);
-            } catch (error) {
+            } catch (error: any) {
+                toast.error(error.response.data);
                 console.error("Error fetching user data:", error);
             }
         };
@@ -30,13 +34,15 @@ const AdminUsers = () => {
         try {
             const updatedUser = await client.updateUser({ ...currentUser, });
             dispatch(userReducer.setUser(updatedUser));
-        } catch (error) {
+        } catch (error : any) {
+            toast.error(error.response.data);
             console.error('Error updating user:', error);
         }
     };
 
     return (
         <div className="m-2">
+            <ToastContainer/>
             {userList.map((u: any) => (
                 <div key={u._id} className="card m-2">
                     <div className="row m-2">

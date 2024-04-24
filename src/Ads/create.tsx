@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { addAd } from '../Ads/reducer';
 import { url } from 'inspector';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
     const [title, setTitle] = useState("");
@@ -31,7 +33,8 @@ const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
             client.createAd(ad);
             dispatch(addAd(ad));
             navigate("/");
-        } catch (error) {
+        } catch (error :any) {
+            toast.error(error.response.data);
             console.error('Error creating ad:', error);
         }
     };
@@ -59,6 +62,7 @@ const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
             }
         }} isOpen={isOpen} onRequestClose={onClose} contentLabel="Create Ad" appElement={root}>
             <div style={{ textAlign: 'center' }}>
+                <ToastContainer/>
                 {image === "" && <svg width="500" height="500" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CCC" /></svg>}
                 {image !== "" && <img width="500" height="500" style={{ objectFit: 'cover' }} src={image} alt="Ad Image" />}
                 <input type="file" className='form-control' id="image" onChange={handleFileChange} />

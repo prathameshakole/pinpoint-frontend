@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as adClient from './client';
 import * as adReducer from './reducer'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvable: any }) => {
     const currentAd = useSelector((state: any) => state.adReducer.ad);
@@ -16,7 +18,8 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
             await adClient.updateAd(currentAd._id, currentAd);
             dispatch(adReducer.updateAd(currentAd));
             dispatch(adReducer.resetAd());
-        } catch (error) {
+        } catch (error:any) {
+            toast.error(error.response.data);
             console.error('Error updating ad:', error);
         }
     };
@@ -25,7 +28,8 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
         try {
             await adClient.deleteAd(adId);
             dispatch(adReducer.deleteAd(adId));
-        } catch (error) {
+        } catch (error:any) {
+            toast.error(error.response.data);
             console.error('Error deleting ad:', error);
         }
     };
@@ -35,7 +39,8 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
             try {
                 const userAds = await adClient.findAllAds();
                 dispatch(adReducer.setAds(userAds));
-            } catch (error) {
+            } catch (error:any) {
+                toast.error(error.response.data);
                 console.error('Error fetching ads:', error);
             }
         };
@@ -47,12 +52,14 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
         try {
             await adClient.updateAd(ad._id, { ...ad, approved: true })
             dispatch(adReducer.updateAd({ ...ad, approved: true }));
-        } catch (error) {
+        } catch (error:any) {
+            toast.error(error.response.data);
             console.error('Error approving ad:', error);
         }
     };
     return (
         <div className="card m-4">
+            <ToastContainer/>
             {currentAd && currentAd._id === ad._id ? (
                 <form onSubmit={handleUpdateSubmit}>
                     <div className='ratio ratio-1x1'>
