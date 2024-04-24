@@ -138,7 +138,7 @@ const UserProfile = () => {
                                             Edit
                                         </button>
                                     ) : (
-                                        <>{user._id !== '' && (
+                                        <>{loggedInUser._id !== '' && (
                                             <>
                                                 {loggedInUser.following.includes(profileId) ? (
                                                     <button className="btn btn-danger" onClick={() => follow(false)}> Unfollow</button>
