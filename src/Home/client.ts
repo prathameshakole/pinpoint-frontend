@@ -33,3 +33,8 @@ export const updatePost = async (postId: any, post: any) => {
     const Response = await api.put(`${POSTS_API}/${postId}`, post, {headers: { 'Authorization': `Bearer ${token}`,}})
     return Response.data;
 }
+
+export const getPostById = async (postId: any) => {
+    const Response = await api.get(`${POSTS_API}/${postId}`)
+    return Response.data;
+}
