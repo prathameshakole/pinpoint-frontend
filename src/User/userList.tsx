@@ -14,7 +14,7 @@ const UserList = ({users}: any) => {
                         />
                         <h6>{user.username}</h6>
                     </div>
-                    <div className="col-6 d-flex justify-content-end">
+                    <div className="col-6 text-end">
                         <Link className="text-decoration-none" to={`/profile/${user._id}`}>
                             <h6 className="mb-0">Profile</h6>
                         </Link>

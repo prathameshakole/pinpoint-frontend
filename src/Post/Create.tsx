@@ -10,9 +10,11 @@ import { Post } from "../Home/reducer";
 import _ from "lodash";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Spinner } from "../Search/Spinner";
 
 const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
   const [image, setImage] = useState("");
+  const [loading, setLoading] = useState(false);
   const userObj: User = useSelector((state: any) => state.userReducer.user);
   const [searchValues, setSearchValues] = useState<any>([]);
   const [voteOptions, setVoteOptions] = useState({
@@ -160,7 +162,8 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
     latitude: any;
   }) => {
     setSearchValues([]);
-    const radius = 50000;
+    setLoading(true)
+    const radius = 100000;
     const targetLatitude = latitude;
     const targetLongitude = longitude;
     const query = `
@@ -192,6 +195,7 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
           4: nearestCities[3].name,
           5: "",
         });
+        setLoading(false)
         setShowDropdown(true);
       })
       .catch((error:any) => {
@@ -248,6 +252,7 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
         )}
         {searchValues.length > 0 && <SearchDropdown />}
         <div>
+          {loading && <Spinner /> }
           {showDropdown && (
             <div className="dropdown">
               <p>Choose The Correct Option</p>

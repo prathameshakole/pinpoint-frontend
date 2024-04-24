@@ -23,12 +23,17 @@ export const PostDetails = () => {
 
     return (
         <div className='container'>
+            <nav className="nav nav-underline justify-content-center">
+                <div className="nav-link active">
+                    <h5>Post</h5>
+                </div>
+            </nav>
             <div className='row'>
                 <div className='col-lg-3 d-block-lg'>
                     <LeftNav />
                 </div>
                 <div className='col-lg-6'>
-                {currentPost && <Post key={postId} post={currentPost} />}
+                    {currentPost && <Post key={postId} post={currentPost} />}
                 </div>
                 <div className='col-lg-3 d-block-lg'>
                     <RightNav />
