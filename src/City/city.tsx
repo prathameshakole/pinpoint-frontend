@@ -66,9 +66,9 @@ export const City = () => {
             </div>
           </div>
           <div className="row m-3">
-            <nav className="nav nav-underline justify-content-center pb-2">
+            <nav className="nav nav-underline justify-content-center mb-4">
               <div className="nav-link active">
-                <h5>Posts</h5>
+                <h5>Related Posts</h5>
               </div>
             </nav>
             {posts.slice(0, 10).map((post: any) => (
