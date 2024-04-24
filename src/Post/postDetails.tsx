@@ -15,9 +15,8 @@ export const PostDetails = () => {
     const user = useSelector((state: any) => state.userReducer.user);
 
     const findPost = async () => {
-        const currentPostsByUser = await client.findTrendingPosts();
-        const currentPost = currentPostsByUser.find((post: any) => post._id === postId);
-        setCurrentPost(currentPost);
+        const currentPostsByUser = await client.getPostById(postId);
+        setCurrentPost(currentPostsByUser);
     }
 
     useEffect(() => {
