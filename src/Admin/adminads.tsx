@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import AdCard from "../Ads/adcomponent";
 import { setAds } from "../Ads/reducer";
 import * as client from "../Ads/client"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AdminAds = () => {
     const dispatch = useDispatch();
@@ -13,7 +15,8 @@ const AdminAds = () => {
             try {
                 const userAds = await client.findAllAds();
                 dispatch(setAds(userAds));
-            } catch (error) {
+            } catch (error :any ) {
+                toast.error(error.response.data);
                 console.error('Error fetching ads:', error);
             }
         };
@@ -23,6 +26,7 @@ const AdminAds = () => {
 
     return (
         <div className="row row-cols-1 row-cols-lg-2 row-cols-md-2 g-3">
+            <ToastContainer/>
             {ads
                 .filter((e: any) => e.approved === false)
                 .map((ad: any) => (

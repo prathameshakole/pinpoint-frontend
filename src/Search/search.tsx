@@ -8,6 +8,8 @@ import { SearchCities } from "./searchCities";
 import { SearchPosts } from "./searchPosts";
 import { Spinner } from "./Spinner";
 import RightNav from "../Home/rightnav";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Search = () => {
   const { searchTerm } = useParams();
@@ -36,7 +38,8 @@ const Search = () => {
         ),
       );
       setLoading(false);
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(error.response.data);
       console.error("Error fetching search results:", error);
     }
   };
@@ -48,7 +51,8 @@ const Search = () => {
           const response = await searchClient.searchUsers(searchTerm);
           setUsers(response);
         }
-      } catch (error) {
+      } catch (error:any) {
+        toast.error(error.response.data);
         console.error("Error fetching user data:", error);
       }
     };
@@ -58,7 +62,8 @@ const Search = () => {
           const response = await searchClient.searchPosts(searchTerm);
           setPosts(response);
         }
-      } catch (error) {
+      } catch (error:any) {
+        toast.error(error.response.data);
         console.error("Error fetching user data:", error);
       }
     };
@@ -68,7 +73,8 @@ const Search = () => {
         if (searchTerm !== undefined) {
           await fetchCities(searchTerm);
         }
-      } catch (error) {
+      } catch (error:any) {
+        toast.error(error.response.data);
         console.error("Error fetching user data:", error);
       }
     };
@@ -79,6 +85,7 @@ const Search = () => {
 
   return (
     <div className="container">
+      <ToastContainer/>
       <div className="row">
         <div className="col-lg-3 d-none d-lg-block">
           <LeftNav />

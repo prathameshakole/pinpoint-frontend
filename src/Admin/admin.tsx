@@ -8,6 +8,8 @@ import AdCard from '../Ads/adcomponent';
 import AdminAds from './adminads';
 import AdminUsers from './adminusers';
 import RightNav from '../Home/rightnav';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Admin = () => {
     const { pathname } = useLocation();
@@ -20,7 +22,8 @@ const Admin = () => {
             try {
                 const userAds = await client.findAllAds();
                 dispatch(setAds(userAds));
-            } catch (error) {
+            } catch (error : any) {
+                toast.error(error.response.data);
                 console.error('Error fetching ads:', error);
             }
         };
@@ -30,6 +33,7 @@ const Admin = () => {
 
     return (
         <div>
+            <ToastContainer/>
             <div className="container">
                 <div className="row">
                     <div className="col-3 d-block-lg">

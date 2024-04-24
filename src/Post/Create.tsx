@@ -8,6 +8,8 @@ import { addPost } from "../Home/reducer";
 import { User } from "../User/reducer";
 import { Post } from "../Home/reducer";
 import _ from "lodash";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
   const [image, setImage] = useState("");
@@ -142,7 +144,8 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
             e.properties.addresstype === "town",
         ),
       );
-    } catch (error) {
+    } catch (error :any) {
+      toast.error(error.response.data);
       console.error("Error fetching search results:", error);
     }
   };
@@ -191,7 +194,8 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
         });
         setShowDropdown(true);
       })
-      .catch((error) => {
+      .catch((error:any) => {
+        toast.error(error.response.data);
         console.error(error);
       });
   };
@@ -213,6 +217,7 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
       onRequestClose={onClose}
       contentLabel="Create Post"
     >
+      <ToastContainer/>
       <div style={{ textAlign: "center" }}>
         {image === "" && (
           <svg width="400" height="400" viewBox="0 0 100 100">

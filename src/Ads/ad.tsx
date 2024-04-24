@@ -7,6 +7,8 @@ import LeftNav from '../Home/leftnav';
 import AdCard from './adcomponent';
 import CreateAd from './create';
 import RightNav from '../Home/rightnav';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AdList = () => {
     const navigate = useNavigate()
@@ -24,7 +26,8 @@ const AdList = () => {
             try {
                 const userAds = await client.findAdByUser(user._id);
                 dispatch(setAds(userAds));
-            } catch (error) {
+            } catch (error :any) {
+                toast.error(error.response.data);
                 console.error('Error fetching ads:', error);
             }
         };
@@ -34,6 +37,7 @@ const AdList = () => {
 
     return (
         <div>
+            <ToastContainer/>
             <nav className="nav nav-underline justify-content-center">
                 <div className="nav-link active mb-4">
                     <h5>My Ads</h5>

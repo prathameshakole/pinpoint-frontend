@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 import { findUserPost } from '../Home/client';
 import RightNav from '../Home/rightnav';
 import { ClickableImage } from '../Post/clickableImage';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserProfile = () => {
     const [userPosts, setUserPosts] = useState([]);
@@ -42,7 +44,8 @@ const UserProfile = () => {
                     const response = await findUserById(profileId);
                     setUser(response);
                 }
-            } catch (error) {
+            } catch (error:any) {
+                toast.error(error.response.data);
                 console.error('Error fetching user data:', error);
             }
         };
@@ -55,6 +58,7 @@ const UserProfile = () => {
     }, [profileId]);
     return (
         <div className="container">
+            <ToastContainer/>
             <nav className="nav nav-underline justify-content-center">
                 <div className="nav-link active mb-4">
                     <h5>Profile</h5>
