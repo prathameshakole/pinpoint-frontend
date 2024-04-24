@@ -84,16 +84,16 @@ const EditProfile = () => {
 
     return (
         <div className="container">
+            <nav className="nav nav-underline justify-content-center">
+                <div className="nav-link active mb-4">
+                    <h5>Edit Profile</h5>
+                </div>
+            </nav>
             <div className="row">
                 <div className="col-lg-3 d-none d-lg-block">
                     <LeftNav />
                 </div>
                 <div className="col-lg-6">
-                    <nav className="nav nav-underline justify-content-center">
-                        <div className="nav-link active mb-4">
-                            <h5>Edit Profile</h5>
-                        </div>
-                    </nav>
                     <button className='btn btn-primary mb-3' onClick={navigateBack}> Back</button>
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
@@ -180,7 +180,7 @@ const EditProfile = () => {
                     </button>
                 </div>
                 <div className="col-lg-3">
-                    
+
                 </div>
             </div>
         </div>

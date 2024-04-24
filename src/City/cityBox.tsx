@@ -11,15 +11,14 @@ export const CityBox = ({ city }: any) => {
       </div>
       <div className="row">
         <div className="col-6">
-          <h6>Coordinates</h6>
-          {city.geometry.coordinates[0]}
+          {'Latitude: ' + city.geometry.coordinates[1]}
           <br />
-          {city.geometry.coordinates[1]}
+          {'Longitude: ' + city.geometry.coordinates[0]}
         </div>
         <div className="col-6">
           <button className="btn btn-primary float-end m-4" onClick={() =>
             navigate(
-              `/city?name=${city.properties.name}&longitude=${city.geometry.coordinates[0]}&latitude=${city.geometry.coordinates[0]}&display_name=${city.properties.display_name}
+              `/city?name=${city.properties.name}&longitude=${city.geometry.coordinates[0]}&latitude=${city.geometry.coordinates[1]}&display_name=${city.properties.display_name}
           `,
             )
           }>Go</button>

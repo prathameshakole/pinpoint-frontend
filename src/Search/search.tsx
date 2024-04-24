@@ -51,7 +51,7 @@ const Search = () => {
           const response = await searchClient.searchUsers(searchTerm);
           setUsers(response);
         }
-      } catch (error:any) {
+      } catch (error: any) {
         toast.error(error.response.data);
         console.error("Error fetching user data:", error);
       }
@@ -62,7 +62,7 @@ const Search = () => {
           const response = await searchClient.searchPosts(searchTerm);
           setPosts(response);
         }
-      } catch (error:any) {
+      } catch (error: any) {
         toast.error(error.response.data);
         console.error("Error fetching user data:", error);
       }
@@ -73,7 +73,7 @@ const Search = () => {
         if (searchTerm !== undefined) {
           await fetchCities(searchTerm);
         }
-      } catch (error:any) {
+      } catch (error: any) {
         toast.error(error.response.data);
         console.error("Error fetching user data:", error);
       }
@@ -85,17 +85,17 @@ const Search = () => {
 
   return (
     <div className="container">
-      <ToastContainer/>
+      <ToastContainer />
+      <nav className="nav nav-underline justify-content-center">
+        <div className="nav-link active">
+          <h5>Search</h5>
+        </div>
+      </nav>
       <div className="row">
         <div className="col-lg-3 d-none d-lg-block">
           <LeftNav />
         </div>
         <div className="col-lg-6">
-          <nav className="nav nav-underline justify-content-center">
-            <div className="nav-link active">
-              <h5>Search</h5>
-            </div>
-          </nav>
           <ul className="nav nav-underline justify-content-center mb-3">
             <li className="nav-item">
               <button

@@ -22,7 +22,7 @@ const Admin = () => {
             try {
                 const userAds = await client.findAllAds();
                 dispatch(setAds(userAds));
-            } catch (error : any) {
+            } catch (error: any) {
                 toast.error(error.response.data);
                 console.error('Error fetching ads:', error);
             }
@@ -33,17 +33,17 @@ const Admin = () => {
 
     return (
         <div>
-            <ToastContainer/>
+            <nav className="nav nav-underline justify-content-center">
+                <Link to="/admin/ads" className={`nav-link ${pathname.includes("admin/ads") ? "active" : ""}`}><h5>Approve Ads</h5></Link>
+                <Link to="/admin/users" className={`nav-link ${pathname.includes("admin/users") ? "active" : ""}`}><h5>Manage Users</h5></Link>
+            </nav>
+            <ToastContainer />
             <div className="container">
                 <div className="row">
                     <div className="col-3 d-block-lg">
                         <LeftNav />
                     </div>
                     <div className="col-lg-6">
-                        <nav className="nav nav-underline justify-content-center mb-4">
-                            <Link to="/admin/ads" className={`nav-link ${pathname.includes("admin/ads") ? "active" : ""}`}><h5>Approve Ads</h5></Link>
-                            <Link to="/admin/users" className={`nav-link ${pathname.includes("admin/users") ? "active" : ""}`}><h5>Manage Users</h5></Link>
-                        </nav>
                         <Routes>
                             <Route path="ads" element={<AdminAds />} />
                             <Route path="users" element={<AdminUsers />} />

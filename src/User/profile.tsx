@@ -60,7 +60,7 @@ const UserProfile = () => {
         <div className="container">
             <ToastContainer/>
             <nav className="nav nav-underline justify-content-center">
-                <div className="nav-link active mb-4">
+                <div className="nav-link active">
                     <h5>Profile</h5>
                 </div>
             </nav>
@@ -68,7 +68,7 @@ const UserProfile = () => {
                 <div className="col-lg-3 d-none d-lg-block">
                     <LeftNav />
                 </div>
-                <div className="col-12 col-lg-6">
+                <div className="col-12 col-lg-6 mt-4">
                     <div className="card">
                         <div className="container">
                             <div className="row align-items-center p-4">

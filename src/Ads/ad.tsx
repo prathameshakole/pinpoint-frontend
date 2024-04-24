@@ -39,7 +39,7 @@ const AdList = () => {
         <div>
             <ToastContainer/>
             <nav className="nav nav-underline justify-content-center">
-                <div className="nav-link active mb-4">
+                <div className="nav-link active">
                     <h5>My Ads</h5>
                 </div>
             </nav>
