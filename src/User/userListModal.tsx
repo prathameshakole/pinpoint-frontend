@@ -33,7 +33,7 @@ const UserListModal = ({ isOpen, onClose, userList }: { isOpen: boolean, onClose
             onRequestClose={onClose}
             contentLabel="Create Post"
         >
-            <div className="container">
+            <div className="container mt-4">
                 {users.map((user: any, index: any) => (
                     <div key={index} className="row mb-3 align-items-center">
                         <div className="col-6 d-flex align-items-center">
@@ -47,12 +47,15 @@ const UserListModal = ({ isOpen, onClose, userList }: { isOpen: boolean, onClose
                         </div>
                         <div className="col-6 d-flex justify-content-end">
                             <Link className="text-decoration-none" onClick={onClose} to={`/profile/${user._id}`}>
-                                <h6 className="mb-0">Profile</h6>
+                                <h6>Profile</h6>
                             </Link>
                         </div>
                     </div>
                 ))}
-                <button className='btn btn-danger m-2' onClick={onClose}>Close</button>
+                <button
+                    className="btn btn-danger rounded-circle ps-2 pe-2 position-absolute top-0 end-0 m-2" onClick={onClose}>
+                    X
+                </button>
             </div>
         </Modal>
     );

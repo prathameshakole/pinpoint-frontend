@@ -239,14 +239,14 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
         )}
         <input
           type="file"
-          className="form-control"
+          className="form-control mt-1"
           id="image"
           onChange={handleFileChange}
         />
         {!showDropdown && (
           <input
             type="text"
-            className="form-control"
+            className="form-control mt-1"
             onChange={(e) => handleSearchDebounced(e.target.value)}
           />
         )}
