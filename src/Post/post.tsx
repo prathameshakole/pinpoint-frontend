@@ -57,10 +57,10 @@ const Post = ({ currentPost }: { currentPost: any }) => {
                     <div className="col-6">
                         <Link className="nav-link" to={`/profile/${post.userid}`}>
                             <img
-                                className="me-2 rounded-circle ratio ratio-1x1"
+                                className="me-2 rounded-circle"
                                 src={post.user.image === undefined || post.user.image === '' ? "/default.jpg" : post.user.image}
                                 alt="profile-image"
-                                style={{ maxWidth: "40px"}}
+                                style={{ width: "40px", height: "40px", objectFit: 'cover'}}
                             />
                             {post.user.username}
                         </Link>
