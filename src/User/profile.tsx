@@ -90,7 +90,7 @@ const UserProfile = () => {
                     <LeftNav />
                 </div>
                 <div className="col-12 col-lg-6 mt-4">
-                    <div className="card">
+                    <div className="card mt-4">
                         <div className="container">
                             <div className="row align-items-center p-4">
                                 <div className="col-6 d-flex">

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import * as client from '../Ads/client';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,10 +14,17 @@ const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
     const [url, setUrl] = useState("");
+    const [isFormValid, setIsFormValid] = useState(false);
     const user = useSelector((state: any) => state.userReducer.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const validateForm = () => {
+        return title.trim() !== "" && description.trim() !== "" && image !== "" && url.trim() !== "";
+    };
 
+    useEffect(() => {
+        setIsFormValid(validateForm());
+    }, [title, description, image, url]);
     const handleSubmit = (e: any) => {
         const ad = {
             userid: user._id,
@@ -33,7 +40,7 @@ const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
             client.createAd(ad);
             dispatch(addAd(ad));
             navigate("/");
-        } catch (error :any) {
+        } catch (error: any) {
             toast.error(error.response.data);
             console.error('Error creating ad:', error);
         }
@@ -62,19 +69,23 @@ const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
             }
         }} isOpen={isOpen} onRequestClose={onClose} contentLabel="Create Ad" appElement={root}>
             <div style={{ textAlign: 'center' }}>
-                <ToastContainer/>
-                {image === "" && <svg width="500" height="500" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CCC" /></svg>}
+                <ToastContainer />
+                {image === "" && <svg width="400" height="400" viewBox="0 0 100 100"><rect width="100" height="100" fill="#CCC" /></svg>}
                 {image !== "" && <img width="500" height="500" style={{ objectFit: 'cover' }} src={image} alt="Ad Image" />}
-                <input type="file" className='form-control' id="image" onChange={handleFileChange} />
+                <input type="file"
+                    className='form-control mt-1'
+                    id="image"
+                    onChange={handleFileChange}
+                />
                 <input
-                    className='form-control'
+                    className='form-control mt-1'
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Enter ad title"
                 />
                 <input
-                    className='form-control'
+                    className='form-control mt-1'
                     type="text"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
@@ -82,13 +93,13 @@ const CreateAd = ({ isOpen, onClose }: { isOpen: boolean, onClose: any }) => {
                 />
 
                 <input
-                    className='form-control'
+                    className='form-control mt-1'
                     type="text"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="Enter URL"
                 />
-                <button className='btn btn-primary m-2' onClick={handleSubmit}>Create Ad</button>
+                <button className={`btn btn-primary m-2 ${!isFormValid && 'disabled'}`} onClick={handleSubmit} disabled={!isFormValid}>Create Ad</button>
                 <button className='btn btn-danger m-2' onClick={onClose}>Cancel</button>
             </div>
         </Modal>
