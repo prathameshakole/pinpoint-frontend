@@ -3,67 +3,107 @@ import * as client from '../User/client';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetUser } from '../User/reducer';
 import CircularSearchBox from '../Search/searchBar';
+import logo from '../logo.png';
 import { useState } from 'react';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { TiThMenu } from "react-icons/ti";
-import logo from '../logo.png'
+
 const LeftNavSm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.userReducer.user);
-    const [showMenu, setShowMenu] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+
     const handleSignout = async () => {
         await client.signout();
         dispatch(resetUser());
-        navigate("/");
+        navigate('/');
     };
+
     const toggleMenu = () => {
-        setShowMenu(!showMenu);
+        setIsOpen(!isOpen);
     };
 
     return (
         <>
-            <div>
-                <button className="btn btn-primary position-fixed d-none d-sm-block" type="button" data-bs-toggle="collapse" data-bs-target="#leftNavMenu" aria-expanded="false" aria-controls="leftNavMenu">
-                    <TiThMenu />
-                </button>
-            </div>
-            <div className={`collapse col-lg-3 p-2 position-fixed card ${showMenu ? 'show' : ''}`} id="leftNavMenu" style={{ height: '80%', zIndex: 9999 }}>
-                <button className="btn-close position-absolute top-0 end-0 m-3" onClick={toggleMenu}></button>
-                <div className="d-flex">
-                    <div className="col-3">
-                        <img src={logo} alt="login" className="rounded-circle m-2" style={{ height: '80%', width: '80%' }} />
-                    </div>
-                    <div className='pt-4'>
-                        <Link to="/home/trending" className="d-flex align-items-center p-4 text-decoration-none fs-4">
+            <nav className="navbar navbar-expand-lg navbar-light bg-white d-lg-none fixed-top">
+                <div className="container-fluid">
+                    <Link to="/home/trending" className="navbar-brand d-flex justify-content-center align-items-center">
+                        <img
+                            src={logo}
+                            alt="logo"
+                            className="rounded-circle me-2"
+                            height="30"
+                            width="30"
+                        />
+                        <Link to="/home/trending" className="d-flex align-items-center text-decoration-none fs-4">
                             Pin Point
                         </Link>
+                    </Link>
+                    <button
+                        className="navbar-toggler"
+                        type="button"
+                        onClick={toggleMenu}
+                        aria-controls="navbarNav"
+                        aria-expanded={isOpen}
+                        aria-label="Toggle navigation"
+                    >
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div
+                        className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`}
+                        id="navbarNav"
+                    >
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <Link to="/home/trending" className="nav-link">
+                                    Home
+                                </Link>
+                            </li>
+                            {localStorage.getItem('token') !== null ? (
+                                <>
+                                    <li className="nav-item">
+                                        <Link to={`/profile/${user._id}`} className="nav-link">
+                                            Profile
+                                        </Link>
+                                    </li>
+                                    {user.role === 'ADVERTISER' && (
+                                        <li className="nav-item">
+                                            <Link to="/ads" className="nav-link">
+                                                My Ads
+                                            </Link>
+                                        </li>
+                                    )}
+                                    {user.role === 'ADMIN' && (
+                                        <li className="nav-item">
+                                            <Link to="/admin/ads" className="nav-link">
+                                                Admin Panel
+                                            </Link>
+                                        </li>
+                                    )}
+                                    <li className="nav-item">
+                                        <Link
+                                            to=""
+                                            onClick={handleSignout}
+                                            className="nav-link"
+                                        >
+                                            Sign out
+                                        </Link>
+                                    </li>
+                                </>
+                            ) : (
+                                <li className="nav-item">
+                                    <Link to="/signin" className="nav-link">
+                                        Sign in
+                                    </Link>
+                                </li>
+                            )}
+                        </ul>
+                        <CircularSearchBox />
                     </div>
                 </div>
-                <div>
-                    <CircularSearchBox />
-                </div>
-                <ul className="nav nav-pills flex-column mb-auto">
-                    <li className="nav-item">
-                        <Link to="/home/trending" className="nav-link w-100 mb-2" aria-current="page">
-                            <h5>Home</h5>
-                        </Link>
-                    </li>
-                    {localStorage.getItem("token") !== null ? (
-                        <>
-                            <Link to={"/profile/" + user._id} className="nav-link w-100 mb-2"><h5>Profile</h5></Link>
-                            {user.role === 'ADVERTISER' &&
-                                <Link to="/ads" className="nav-link w-100 mb-2"><h5>My Ads</h5></Link>
-                            }
-                            {user.role === 'ADMIN' &&
-                                <Link to="/admin/ads" className="nav-link w-100 mb-2"> <h5>Admin Panel</h5></Link>
-                            }
-                            <Link onClick={handleSignout} className="nav-link w-100 mb-2" to={''}><h5>Sign out</h5></Link>
-                        </>
-                    ) : <Link to="/signin" className="nav-link w-100"><h5>Sign in</h5></Link>}
-                </ul>
-            </div>
+            </nav>
+            <div className="pt-5 d-lg-none"></div>
         </>
     );
 };
+
 export default LeftNavSm;

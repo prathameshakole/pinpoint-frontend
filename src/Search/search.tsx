@@ -86,6 +86,7 @@ const Search = () => {
 
   return (
     <div className="container">
+      <LeftNavSm/>
       <ToastContainer />
       <nav className="nav nav-underline justify-content-center">
         <div className="nav-link active">
@@ -93,9 +94,6 @@ const Search = () => {
         </div>
       </nav>
       <div className="row">
-        <div className="d-none d-sm-block">
-          <LeftNavSm />
-        </div>
         <div className="col-lg-3 d-none d-lg-block">
           <LeftNav />
         </div>
@@ -135,7 +133,7 @@ const Search = () => {
             </div>
           </div>
         </div>
-        <div className="col-lg-3 d-none d-lg-block">
+        <div className="col-lg-3">
           <RightNav />
         </div>
       </div>

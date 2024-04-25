@@ -32,7 +32,7 @@ const RightNav = () => {
     getRandomAd();
   }, [user]);
   return (
-    <div>
+    <div className="d-none d-lg-block">
       {user._id !== "" && (
         <div>
           <h5 className="p-4 pb-0">Suggested</h5>

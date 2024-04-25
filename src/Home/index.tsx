@@ -18,6 +18,7 @@ const Home = () => {
 
   return (
     <div>
+      <LeftNavSm/>
       <nav className="nav nav-underline justify-content-center">
         <Link to="/home/trending" className={`nav-link ${pathname.includes("trending") ? "active" : ""}`}><h5>Trending</h5></Link>
         {localStorage.getItem("token") !== null &&
@@ -26,10 +27,7 @@ const Home = () => {
       </nav>
       <div className='container'>
         <div className='row'>
-          <div className="d-none d-sm-block">
-            <LeftNavSm/>
-          </div>
-          <div className='col-lg-3 d-block-lg'>
+          <div className='col-lg-3'>
             <LeftNav />
           </div>
           <div className='col-lg-6'>
@@ -43,7 +41,7 @@ const Home = () => {
               <Route path='*' element={<Navigate to={'/'} />} />
             </Routes>
           </div>
-          <div className='col-lg-3 d-none d-lg-block'>
+          <div className='col-lg-3'>
             <RightNav />
           </div>
         </div>

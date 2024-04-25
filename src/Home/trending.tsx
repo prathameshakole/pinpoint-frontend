@@ -24,11 +24,11 @@ const Trending = () => {
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     const currentPosts = trendingPosts.slice(indexOfFirstPost, indexOfLastPost);
     return (
-        <div className='m-4'>
+        <div className='mt-4'>
             {currentPosts.map((post: any, index: any) => (
                 <Post key={post._id} post={post} />
             ))}
-            <div className="d-flex justify-content-center mb-4">
+            <div className="d-flex justify-content-center m-4">
                 <nav aria-label="Page navigation">
                     <ul className="pagination">
                         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>

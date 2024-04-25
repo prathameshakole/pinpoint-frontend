@@ -5,6 +5,7 @@ import { useSelector } from "react-redux"
 import * as client from "../Home/client"
 import { useEffect, useState } from "react"
 import Post from "./post"
+import LeftNavSm from "../Home/leftnavsm"
 
 export const PostDetails = () => {
     const { postId } = useParams();
@@ -23,19 +24,20 @@ export const PostDetails = () => {
 
     return (
         <div className='container'>
+            <LeftNavSm />
             <nav className="nav nav-underline justify-content-center">
                 <div className="nav-link active">
                     <h5>Post</h5>
                 </div>
             </nav>
-            <div className='row'>
-                <div className='col-lg-3 d-block-lg'>
+            <div className='row mt-4'>
+                <div className='col-lg-3'>
                     <LeftNav />
                 </div>
                 <div className='col-lg-6'>
                     {currentPost && <Post key={postId} post={currentPost} />}
                 </div>
-                <div className='col-lg-3 d-block-lg'>
+                <div className='col-lg-3'>
                     <RightNav />
                 </div>
             </div>

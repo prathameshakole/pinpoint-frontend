@@ -38,6 +38,7 @@ const AdList = () => {
 
     return (
         <div>
+            <LeftNavSm />
             <ToastContainer />
             <nav className="nav nav-underline justify-content-center">
                 <div className="nav-link active">
@@ -46,13 +47,10 @@ const AdList = () => {
             </nav>
             <div className="container">
                 <div className="row">
-                    <div className="d-none d-sm-block">
-                        <LeftNavSm />
-                    </div>
-                    <div className="col-lg-3 d-block-lg">
+                    <div className="col-lg-3">
                         <LeftNav />
                     </div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-6 mt-4">
                         <div style={{ textAlign: "center" }}>
                             <button className='btn btn-primary' onClick={openAdModal}>Create Ad</button>
                             <CreateAd isOpen={adModalIsOpen} onClose={closeAdModal} />
@@ -65,7 +63,7 @@ const AdList = () => {
                             />
                         ))}
                     </div>
-                    <div className="col-lg-3 d-none d-lg-block">
+                    <div className="col-lg-3">
                         <RightNav />
                     </div>
                 </div>

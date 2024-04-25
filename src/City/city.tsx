@@ -7,6 +7,7 @@ import * as searchClient from '../Search/client'
 import { ClickableImage } from "../Post/clickableImage";
 import _ from 'lodash';
 import logo from '../logo.png'
+import LeftNavSm from "../Home/leftnavsm";
 
 export const City = () => {
   const [posts, setPosts] = useState([]);
@@ -29,13 +30,14 @@ export const City = () => {
   }, [searchTerm]);
   return (
     <div className='container'>
+      <LeftNavSm/>
       <nav className="nav nav-underline justify-content-center">
         <div className="nav-link active">
           <h5>City</h5>
         </div>
       </nav>
       <div className='row'>
-        <div className='col-lg-3 d-block-lg'>
+        <div className='col-lg-3'>
           <LeftNav />
         </div>
         <div className='col-lg-6'>
@@ -78,7 +80,7 @@ export const City = () => {
             ))}
           </div>
         </div>
-        <div className='col-lg-3 d-block-lg'>
+        <div className='col-lg-3'>
           <RightNav />
         </div>
       </div>

@@ -4,7 +4,7 @@ import * as client from '../Ads/client';
 import { setAds, deleteAd, updateAd } from '../Ads/reducer';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import LeftNav from '../Home/leftnav';
-import AdCard from '../Ads/adcomponent';
+import LeftNavSm from '../Home/leftnavsm';
 import AdminAds from './adminads';
 import AdminUsers from './adminusers';
 import RightNav from '../Home/rightnav';
@@ -33,6 +33,7 @@ const Admin = () => {
 
     return (
         <div>
+            <LeftNavSm />
             <nav className="nav nav-underline justify-content-center">
                 <Link to="/admin/ads" className={`nav-link ${pathname.includes("admin/ads") ? "active" : ""}`}><h5>Approve Ads</h5></Link>
                 <Link to="/admin/users" className={`nav-link ${pathname.includes("admin/users") ? "active" : ""}`}><h5>Manage Users</h5></Link>
@@ -40,7 +41,7 @@ const Admin = () => {
             <ToastContainer />
             <div className="container">
                 <div className="row">
-                    <div className="col-3 d-block-lg">
+                    <div className="col-3">
                         <LeftNav />
                     </div>
                     <div className="col-lg-6">

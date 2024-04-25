@@ -41,16 +41,16 @@ const Post = ({ post }: { post: any }) => {
     };
 
     return (
-        <div className="card m-4">
+        <div className="card">
             <div className="container">
                 <div className="row align-items-center">
-                    <div className="col-md-6">
+                    <div className="col-6">
                         <Link className="nav-link" to={`/profile/${post.userid}`}>
                             {post.user.username}
                         </Link>
                     </div>
                     {user._id !== '' && (
-                        <div className="col-md-6 text-end">
+                        <div className="col-6 text-end">
                             {user.following.includes(post.userid) ? (
                                 <Link
                                     className="nav-link"

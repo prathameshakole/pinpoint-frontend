@@ -85,15 +85,13 @@ const EditProfile = () => {
 
     return (
         <div className="container">
+            <LeftNavSm />
             <nav className="nav nav-underline justify-content-center">
                 <div className="nav-link active mb-4">
                     <h5>Edit Profile</h5>
                 </div>
             </nav>
             <div className="row">
-                <div className="d-none d-sm-block">
-                    <LeftNavSm />
-                </div>
                 <div className="col-lg-3 d-none d-lg-block">
                     <LeftNav />
                 </div>

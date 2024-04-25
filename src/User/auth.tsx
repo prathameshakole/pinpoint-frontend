@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as client from "./client";
 import { setUser } from "./reducer";
 import { useNavigate } from 'react-router';
@@ -92,8 +92,9 @@ const Auth = () => {
                                 <div className="d-grid">
                                     <button className="btn btn-primary mt-3" onClick={handleLoginSubmit}>Login</button>
                                 </div>
-                                <div className='mt-2 d-flex'>
-                                    <h5 className='mt-2'>New User ?</h5><button className='btn btn-outline-success ms-2' onClick={handleToggle}>Register</button>
+                                <h5 className='mt-2'>New User ?</h5>
+                                <div className="d-grid">
+                                    <button className="btn btn-outline-success" onClick={handleToggle}>Register</button>
                                 </div>
                             </div>
                         </div>) : (
@@ -121,16 +122,13 @@ const Auth = () => {
                                 <div className="d-grid">
                                     <button className="btn btn-primary" onClick={handleRegisterSubmit} type="submit">Register</button>
                                 </div>
-                                <div className='mt-2 d-flex'>
-                                    <h5 className='mt-2'>Already Registered ?</h5><button className='btn btn-outline-primary ms-2' onClick={handleToggle}>Login</button>
+                                <div className="d-grid">
+                                    <h5 className='mt-2'>Already Registered ?</h5><button className='btn btn-outline-primary' onClick={handleToggle}>Login</button>
                                 </div>
                             </div>
                         </div>
-
                         )
                         }
-                        
-                        
                     </div>
                 </div>
             </div>

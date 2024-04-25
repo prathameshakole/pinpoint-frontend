@@ -31,37 +31,52 @@ const Following = () => {
   const paginate = (pageNumber: SetStateAction<number>) => setCurrentPage(pageNumber);
 
   return (
-    <div className="m-4">
+    <div className="mt-4">
       {currentPosts.map((post: any, index: any) => (
         <Post key={post._id} post={post} />
       ))}
-      <div>
-        <button
-          disabled={currentPage === 1}
-          onClick={() => paginate(currentPage - 1)}
-        >
-          Previous
-        </button>
-        {Array.from(
-          { length: Math.ceil(followingPosts.length / postsPerPage) },
-          (_, i) => (
-            <button
-              key={i + 1}
-              onClick={() => paginate(i + 1)}
-              style={{
-                backgroundColor: currentPage === i + 1 ? "gray" : "white",
-              }}
+      <div className="d-flex justify-content-center m-4">
+        <nav aria-label="Page navigation">
+          <ul className="pagination">
+            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+              <button
+                className="page-link"
+                disabled={currentPage === 1}
+                onClick={() => paginate(currentPage - 1)}
+              >
+                Previous
+              </button>
+            </li>
+            {Array.from(
+              { length: Math.ceil(followingPosts.length / postsPerPage) },
+              (_, i) => (
+                <li
+                  key={i + 1}
+                  className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => paginate(i + 1)}
+                  >
+                    {i + 1}
+                  </button>
+                </li>
+              )
+            )}
+            <li
+              className={`page-item ${indexOfLastPost >= followingPosts.length ? 'disabled' : ''
+                }`}
             >
-              {i + 1}
-            </button>
-          )
-        )}
-        <button
-          disabled={indexOfLastPost >= followingPosts.length}
-          onClick={() => paginate(currentPage + 1)}
-        >
-          Next
-        </button>
+              <button
+                className="page-link"
+                disabled={indexOfLastPost >= followingPosts.length}
+                onClick={() => paginate(currentPage + 1)}
+              >
+                Next
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   );
