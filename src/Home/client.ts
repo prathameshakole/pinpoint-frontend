@@ -38,3 +38,8 @@ export const getPostById = async (postId: any) => {
     const Response = await api.get(`${POSTS_API}/${postId}`)
     return Response.data;
 }
+
+export const deletePost = async (postId: any) => {
+    const Response = await api.delete(`${POSTS_API}/${postId}`)
+    return Response.data;
+}

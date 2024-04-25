@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { Link, useNavigate } from 'react-router-dom';
+import { FaHeart, FaRegHeart, FaTrash } from "react-icons/fa";
 import { RiUserFollowFill, RiUserFollowLine } from "react-icons/ri";
 import * as postClient from '../Home/client';
 import { updatePost } from '../Home/reducer';
@@ -9,6 +9,7 @@ import { setUser } from '../User/reducer';
 import { ClickableImage } from './clickableImage';
 
 const Post = ({ post }: { post: any }) => {
+    const navigate = useNavigate()
     const dispatch = useDispatch();
     var user = useSelector((state: any) => state.userReducer.user);
     const react = async (add: boolean) => {
@@ -39,6 +40,14 @@ const Post = ({ post }: { post: any }) => {
         await postClient.updatePost(post._id, newPost);
         dispatch(updatePost(newPost));
     };
+
+    const deletePost = async () => {
+        try {
+            await postClient.deletePost(post._id);
+            navigate('/');
+        } catch(e) {
+        }
+    }
 
     return (
         <div className="card">
@@ -76,7 +85,7 @@ const Post = ({ post }: { post: any }) => {
             <div className="container">
                 <div className="row align-items-center my-3">
                     {user._id !== '' ? (
-                        <div className="col-auto">
+                        <div className="col-6">
                             {post.reactions.includes(user._id) ? (
                                 <FaHeart onClick={() => react(false)} />
                             ) : (
@@ -85,8 +94,13 @@ const Post = ({ post }: { post: any }) => {
                             {post.reactions.length > 0 && ` ${post.reactions.length} likes`}
                         </div>
                     ) : (
-                        <div className="col-auto">{` ${post.reactions.length} likes`}</div>
+                        <div className="col-6">{` ${post.reactions.length} likes`}</div>
                     )}
+                    {user._id === post.userid &&
+                        <div className="col-6">
+                            <FaTrash className='float-end' onClick={deletePost} />
+                        </div>
+                    }
                 </div>
                 <div className="row">
                     {user._id !== '' && (
@@ -132,7 +146,7 @@ const Post = ({ post }: { post: any }) => {
                                         </div>
                                     </div>
                                     <div className="row">
-                                    <div className="col-6">
+                                        <div className="col-6">
                                             {
                                                 post.options[3] == post.options[5] && post.votes[user._id] == 3 &&
                                                 <button className="btn btn-success w-100 mb-2 disabled">{post.options[3]}</button>
