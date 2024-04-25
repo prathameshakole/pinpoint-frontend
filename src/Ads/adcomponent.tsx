@@ -34,20 +34,6 @@ const AdCard = ({ ad, editable, approvable }: { ad: any, editable: any, approvab
         }
     };
 
-    useEffect(() => {
-        const fetchUpdatedAds = async () => {
-            try {
-                const userAds = await adClient.findAllAds();
-                dispatch(adReducer.setAds(userAds));
-            } catch (error:any) {
-                toast.error(error.response.data);
-                console.error('Error fetching ads:', error);
-            }
-        };
-
-        fetchUpdatedAds();
-    }, [])
-
     const handleApproved = async (ad: any) => {
         try {
             await adClient.updateAd(ad._id, { ...ad, approved: true })

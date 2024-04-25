@@ -1,7 +1,3 @@
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import * as client from '../Ads/client';
-import { setAds, deleteAd, updateAd } from '../Ads/reducer';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import LeftNav from '../Home/leftnav';
 import LeftNavSm from '../Home/leftnavsm';
@@ -13,22 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Admin = () => {
     const { pathname } = useLocation();
-    const user = useSelector((state: any) => state.userReducer.user);
-    const ads = useSelector((state: any) => state.adReducer.ads);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        const fetchAds = async () => {
-            try {
-                const userAds = await client.findAllAds();
-                dispatch(setAds(userAds));
-            } catch (error: any) {
-                toast.error(error.response.data);
-            }
-        };
-
-        fetchAds();
-    }, [user._id, dispatch]);
 
     return (
         <div>

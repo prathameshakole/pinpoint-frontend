@@ -15,7 +15,7 @@ const AdminAds = () => {
             try {
                 const userAds = await client.findAllAds();
                 dispatch(setAds(userAds));
-            } catch (error :any ) {
+            } catch (error: any) {
                 toast.error(error.response.data);
                 console.error('Error fetching ads:', error);
             }
@@ -25,18 +25,20 @@ const AdminAds = () => {
     }, [user._id, dispatch]);
 
     return (
-        <div className="row row-cols-1 row-cols-lg-2 row-cols-md-2 g-3">
-            <ToastContainer/>
-            {ads
-                .filter((e: any) => e.approved === false)
-                .map((ad: any) => (
-                    <div key={ad._id} className="col-12 col-md-6 d-flex">
-                        <div className="h-100 w-100">
-                            <AdCard ad={ad} editable={false} approvable={true} />
+        <>
+            <ToastContainer />
+            <div className="row row-cols-1 row-cols-lg-2 row-cols-md-2 g-3">
+                {ads
+                    .filter((e: any) => e.approved === false)
+                    .map((ad: any) => (
+                        <div key={ad._id} className="col-12 col-md-6 d-flex">
+                            <div className="h-100 w-100">
+                                <AdCard ad={ad} editable={false} approvable={true} />
+                            </div>
                         </div>
-                    </div>
-                ))}
-        </div>
+                    ))}
+            </div>
+        </>
     );
 };
 export default AdminAds;
