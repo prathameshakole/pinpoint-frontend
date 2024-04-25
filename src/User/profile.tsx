@@ -141,7 +141,7 @@ const UserProfile = () => {
                                         <h5>{`Following ${user.following.length}`}</h5>
                                     </Link>
                                 </div>
-                                <div className="col-2 text-center">
+                                <div className="col-2 d-flex justify-content-end my-2">
                                     {loggedInUser._id === user._id ? (
                                         <button className="btn btn-primary" onClick={editProfile}>
                                             Edit

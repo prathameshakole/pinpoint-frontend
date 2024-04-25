@@ -32,9 +32,22 @@ const RightNav = () => {
     getRandomAd();
   }, [user]);
   return (
-    <div className="d-none d-lg-block">
-      {user._id !=='' && user._id !== undefined &&
-      <div className="card"></div>
+    <div className="d-none d-lg-block col-lg-3 p-4 position-fixed card" style={{ top: 0, right: 0, height: '100vh' }}>
+      {user._id !== '' && user._id !== undefined &&
+        <div className="card my-4">
+          <div className="d-flex align-items-center p-2">
+            <img
+              className="me-2 rounded-circle"
+              src={user.image === undefined || user.image === '' ? "/default.jpg" : user.image}
+              alt="profile-image"
+              style={{ maxWidth: "60px" }}
+            />
+            <div>
+              <h5 className="mb-0">{'@' + user.username}</h5>
+              <p className="mb-0 text-muted">{user.firstName + " " + user.lastName}</p>
+            </div>
+          </div>
+        </div>
       }
       {user._id !== "" && suggestedUsers.length > 0 && (
         <div>

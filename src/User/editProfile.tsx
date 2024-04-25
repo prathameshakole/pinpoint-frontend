@@ -6,6 +6,7 @@ import * as userReducer from './reducer'
 import LeftNav from '../Home/leftnav';
 import LeftNavSm from '../Home/leftnavsm';
 import { ToastContainer, toast } from 'react-toastify';
+import RightNav from '../Home/rightnav';
 
 const EditProfile = () => {
     const [changePassword, setChangePassword] = useState<boolean>(true);
@@ -211,6 +212,7 @@ const EditProfile = () => {
                     </div>
                 }
                 <div className="col-lg-3">
+                    <RightNav />
                 </div>
             </div>
         </div>

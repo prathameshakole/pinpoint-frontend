@@ -4,6 +4,7 @@ import * as client from "../Home/client"
 import { useEffect, useState } from "react"
 import Post from "./post"
 import LeftNavSm from "../Home/leftnavsm"
+import RightNav from "../Home/rightnav"
 
 export const PostDetails = () => {
     const { postId } = useParams();
@@ -29,7 +30,10 @@ export const PostDetails = () => {
                     <LeftNav />
                 </div>
                 <div className='col-lg-6'>
-                            {currentPost && <Post key={postId} currentPost={currentPost} />}
+                    {currentPost && <Post key={postId} currentPost={currentPost} />}
+                </div>
+                <div className="col-lg-3">
+                    <RightNav />
                 </div>
             </div>
         </div>
