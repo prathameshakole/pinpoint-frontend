@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import * as searchClient from '../Search/client'
 import { ClickableImage } from "../Post/clickableImage";
 import _ from 'lodash';
-import logo from '../logo.png'
 import LeftNavSm from "../Home/leftnavsm";
 
 export const City = () => {
@@ -46,7 +45,7 @@ export const City = () => {
               <div className="col-3">
                 {posts.length > 0 ? 
                 <ClickableImage post={_.sample(posts)} /> 
-                : <img src={logo} alt="city image" className="card-img-top" style={{
+                : <img src='logo.png' alt="city image" className="card-img-top" style={{
                   height: '100%',
                   width: '100%',
                   objectFit: 'cover',

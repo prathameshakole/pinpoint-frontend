@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import logo from '../logo.png'
 
 const Auth = () => {
     var user = useSelector((state: any) => state.userReducer.user);
@@ -70,7 +69,7 @@ const Auth = () => {
                 <div className="row justify-content-center align-items-center">
                     <div className="col-lg-6 p-2 m-5">
                             <div className="text-center">
-                                <img src={logo} alt="login" className="rounded-circle"/>
+                                <img src='logo.png' alt="login" className="rounded-circle"/>
                             </div>
                     </div>
                     <div className="col-lg-4">

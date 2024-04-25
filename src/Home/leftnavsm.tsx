@@ -3,7 +3,6 @@ import * as client from '../User/client';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetUser } from '../User/reducer';
 import CircularSearchBox from '../Search/searchBar';
-import logo from '../logo.png';
 import { useState } from 'react';
 
 const LeftNavSm = () => {
@@ -28,7 +27,7 @@ const LeftNavSm = () => {
                 <div className="container-fluid">
                     <Link to="/home/trending" className="navbar-brand d-flex justify-content-center align-items-center">
                         <img
-                            src={logo}
+                            src='logo.png'
                             alt="logo"
                             className="rounded-circle me-2"
                             height="30"

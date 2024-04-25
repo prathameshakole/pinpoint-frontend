@@ -3,7 +3,7 @@ import * as client from '../User/client';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetUser } from '../User/reducer';
 import CircularSearchBox from '../Search/searchBar';
-import logo from '../logo.png'
+
 const LeftNav = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -15,45 +15,41 @@ const LeftNav = () => {
     };
 
     return (
-        <>
-            <div className="d-none d-lg-block col-lg-3 p-4 position-fixed card" style={{ top: 0, left: 0, height: '100vh' }}>
-                <div className="d-flex">
-                    <div className="col-3 pb-2">
-                        <img src={logo} alt="login" className="rounded-circle" style={{ height: '100%', width: '100%' }} />
-                    </div>
-                    <div className="text-center">
-                        <Link to="/home/trending" className="d-flex align-items-center ps-3 pt-2 text-decoration-none fs-4">
-                            Pin Point
-                        </Link>
-                    </div>
+        <div className="d-none d-lg-block col-lg-3 p-4 position-fixed card" style={{ top: 0, left: 0, height: '100vh' }}>
+            <div className="d-flex">
+                <div className="col-3">
+                    <img src='logo.png' alt="login" className="rounded-circle" style={{ height: '50px', width: '50px' }} />
                 </div>
-                <div>
-                    <CircularSearchBox />
+                <div className="text-center">
+                    <Link to="/home/trending" className="d-flex align-items-center ps-3 pt-2 text-decoration-none fs-4">
+                        Pin Point
+                    </Link>
                 </div>
-
-                <ul className="nav nav-pills flex-column mb-auto">
-                    <li className="nav-item">
-                        <Link to="/home/trending" className="nav-link w-100 mb-2" aria-current="page">
-                            <h5>Home</h5>
-                        </Link>
-                    </li>
-                    {localStorage.getItem("token") !== null ? (
-                        <>
-                            <Link to={"/profile/" + user._id} className="nav-link w-100 mb-2"><h5>Profile</h5></Link>
-                            {user.role === 'ADVERTISER' &&
-                                <Link to="/ads" className="nav-link w-100 mb-2"><h5>My Ads</h5></Link>
-                            }
-                            {user.role === 'ADMIN' &&
-                                <Link to="/admin/ads" className="nav-link w-100 mb-2"> <h5>Admin Panel</h5></Link>
-                            }
-                            <Link onClick={handleSignout} className="nav-link w-100 mb-2" to={''}><h5>Sign out</h5></Link>
-                        </>
-                    ) : <Link to="/signin" className="nav-link w-100"><h5>Sign in</h5></Link>}
-                </ul>
             </div>
-        </>
+            <div>
+                <CircularSearchBox />
+            </div>
 
-
+            <ul className="nav nav-pills flex-column mb-auto">
+                <li className="nav-item">
+                    <Link to="/home/trending" className="nav-link w-100 mb-2" aria-current="page">
+                        <h5>Home</h5>
+                    </Link>
+                </li>
+                {localStorage.getItem("token") !== null ? (
+                    <>
+                        <Link to={"/profile/" + user._id} className="nav-link w-100 mb-2"><h5>Profile</h5></Link>
+                        {user.role === 'ADVERTISER' &&
+                            <Link to="/ads" className="nav-link w-100 mb-2"><h5>My Ads</h5></Link>
+                        }
+                        {user.role === 'ADMIN' &&
+                            <Link to="/admin/ads" className="nav-link w-100 mb-2"> <h5>Admin Panel</h5></Link>
+                        }
+                        <Link onClick={handleSignout} className="nav-link w-100 mb-2" to={''}><h5>Sign out</h5></Link>
+                    </>
+                ) : <Link to="/signin" className="nav-link w-100"><h5>Sign in</h5></Link>}
+            </ul>
+        </div>
     );
 };
 export default LeftNav;
