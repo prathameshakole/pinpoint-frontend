@@ -11,6 +11,7 @@ import { ClickableImage } from '../Post/clickableImage';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as userReducer from './reducer'
+import LeftNavSm from '../Home/leftnavsm';
 
 const UserProfile = () => {
     const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const UserProfile = () => {
         var newProfileUser: any = {};
         if (add === true) {
             newLoggedInUser = { ...loggedInUser, following: [...loggedInUser.following, profileId] }
-            newProfileUser = {...user, follower: [...user.follower, loggedInUser._id]}
+            newProfileUser = { ...user, follower: [...user.follower, loggedInUser._id] }
         } else {
             newLoggedInUser = { ...loggedInUser, following: loggedInUser.following.filter((userid: any) => userid !== profileId) }
             newProfileUser = { ...user, follower: user.follower.filter((userid: any) => userid !== loggedInUser._id) }
@@ -82,6 +83,9 @@ const UserProfile = () => {
                 </div>
             </nav>
             <div className="row">
+                <div className="d-none d-sm-block">
+                    <LeftNavSm />
+                </div>
                 <div className="col-lg-3 d-none d-lg-block">
                     <LeftNav />
                 </div>
@@ -148,7 +152,7 @@ const UserProfile = () => {
                                                 )}
                                             </>
                                         )}
-                                    </>)}
+                                        </>)}
                                 </div>
                             </div>
                         </div>
@@ -168,7 +172,7 @@ const UserProfile = () => {
                         ))}
                     </div>
                 </div>
-                <div className='col-lg-3 d-block-lg'>
+                <div className='col-lg-3 d-none d-lg-block'>
                     <RightNav />
                 </div>
             </div>

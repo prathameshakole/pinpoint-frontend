@@ -10,6 +10,7 @@ import { Spinner } from "./Spinner";
 import RightNav from "../Home/rightnav";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LeftNavSm from "../Home/leftnavsm";
 
 const Search = () => {
   const { searchTerm } = useParams();
@@ -92,6 +93,9 @@ const Search = () => {
         </div>
       </nav>
       <div className="row">
+        <div className="d-none d-sm-block">
+          <LeftNavSm />
+        </div>
         <div className="col-lg-3 d-none d-lg-block">
           <LeftNav />
         </div>
@@ -131,7 +135,7 @@ const Search = () => {
             </div>
           </div>
         </div>
-        <div className="col-lg-3">
+        <div className="col-lg-3 d-none d-lg-block">
           <RightNav />
         </div>
       </div>

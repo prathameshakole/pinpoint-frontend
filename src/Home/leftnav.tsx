@@ -3,7 +3,7 @@ import * as client from '../User/client';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetUser } from '../User/reducer';
 import CircularSearchBox from '../Search/searchBar';
-
+import logo from '../logo.png'
 const LeftNav = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -16,9 +16,16 @@ const LeftNav = () => {
 
     return (
         <div className="d-none d-lg-block col-lg-3 p-4 position-fixed card" style={{ top: 0, left: 0, height: '100vh' }}>
-            <Link to="/home/trending" className="d-flex align-items-center mb-3 text-decoration-none fs-4">
-                Pin Point
-            </Link>
+            <div className="d-flex">
+                    <div className="col-3 pb-2">
+                        <img src={logo} alt="login" className="rounded-circle" style={{ height: '100%', width: '100%' }} />
+                    </div>
+                    <div className="text-center">
+                        <Link to="/home/trending" className="d-flex align-items-center ps-3 pt-2 text-decoration-none fs-4">
+                            Pin Point
+                        </Link>
+                    </div>
+                </div>
             <CircularSearchBox />
             <ul className="nav nav-pills flex-column mb-auto">
                 <li className="nav-item">
