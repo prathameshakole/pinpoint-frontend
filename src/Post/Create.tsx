@@ -14,6 +14,7 @@ import { Spinner } from "../Search/Spinner";
 
 const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
   const [image, setImage] = useState("");
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const userObj: User = useSelector((state: any) => state.userReducer.user);
   const [searchValues, setSearchValues] = useState<any>([]);
@@ -41,6 +42,8 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
         });
         setShowDropdown(false);
         setSearchValues([]);
+        setError(false);
+        setLoading(false);
       }
     };
     return cleanupFunction;
@@ -147,7 +150,8 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
         ),
       );
     } catch (error :any) {
-      toast.error(error.response.data);
+      setLoading(false);
+      setError(true);
       console.error("Error fetching search results:", error);
     }
   };
@@ -199,8 +203,7 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
         setShowDropdown(true);
       })
       .catch((error:any) => {
-        toast.error(error.response.data);
-        console.error(error);
+        setError(true)
       });
   };
 
@@ -285,6 +288,7 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
             </div>
           )}
         </div>
+        {error && <h5>Not enough cities present in vicinity. Please try a different location.</h5>}
         <button
           className={
             image === "" || voteOptions[5] === ""

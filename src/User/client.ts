@@ -82,3 +82,10 @@ export const findUsersByRole = async (role: string) => {
 export const signout = async () => {
     localStorage.removeItem('token');
 };
+
+export const updatePassword = async ( password: string ) => {
+    const token = localStorage.getItem('token');
+    const response = await
+        api.put(`${USERS_API}/password/:id`, {password: password}, { headers: { 'Authorization': `Bearer ${token}`, } });
+    return response.data;
+}
