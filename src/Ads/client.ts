@@ -9,7 +9,8 @@ const api = axios.create({
 
 export const findAdByUser = async (userid: string) => {
     try {
-        const response = await api.get(`${ADS_API}/${userid}`);
+        const token = localStorage.getItem('token');
+        const response = await api.get(`${ADS_API}/${userid}`, { headers: { 'Authorization': `Bearer ${token}`, } });
         return response.data;
     } catch (error) {
         console.error("Error fetching ads by user:", error);
@@ -19,7 +20,8 @@ export const findAdByUser = async (userid: string) => {
 
 export const findAllAds = async () => {
     try {
-        const response = await api.get(`${ADS_API}`);
+        const token = localStorage.getItem('token');
+        const response = await api.get(`${ADS_API}`, { headers: { 'Authorization': `Bearer ${token}`, } });
         return response.data;
     } catch (error) {
         console.error("Error fetching all ads:", error);

@@ -33,6 +33,9 @@ const RightNav = () => {
   }, [user]);
   return (
     <div className="d-none d-lg-block">
+      {user._id !=='' && user._id !== undefined &&
+      <div className="card"></div>
+      }
       {user._id !== "" && suggestedUsers.length > 0 && (
         <div>
           <h5 className="p-4 pb-0">Suggested Users</h5>

@@ -132,6 +132,7 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
   };
 
   const handleSearch = async (value: any) => {
+    setError(false);
     try {
       const response = await axios.get(
         `https://nominatim.openstreetmap.org/search`,
@@ -288,7 +289,7 @@ const CreatePost = ({ isOpen, onClose }: { isOpen: boolean; onClose: any }) => {
             </div>
           )}
         </div>
-        {error && <h5>Not enough cities present in vicinity. Please try a different location.</h5>}
+        {error && <h6>Not enough cities present in vicinity. Please try a different location.</h6>}
         <button
           className={
             image === "" || voteOptions[5] === ""

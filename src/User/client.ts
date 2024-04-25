@@ -23,6 +23,8 @@ export const profile = async () => {
 export const updateUser = async (user: any) => {
     const token = localStorage.getItem('token');
     const response = await api.put(`${USERS_API}/${user._id}`, user, { headers: { 'Authorization': `Bearer ${token}`, } });
+    console.log(response.data.token);
+    localStorage.setItem('token', response.data.token);
     return response.data;
 };
 
