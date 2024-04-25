@@ -1,7 +1,5 @@
 import { useParams } from "react-router"
 import LeftNav from "../Home/leftnav"
-import RightNav from "../Home/rightnav"
-import { useSelector } from "react-redux"
 import * as client from "../Home/client"
 import { useEffect, useState } from "react"
 import Post from "./post"
@@ -9,19 +7,15 @@ import LeftNavSm from "../Home/leftnavsm"
 
 export const PostDetails = () => {
     const { postId } = useParams();
-    const [currentPost, setCurrentPost] = useState(null);
-
-    const user = useSelector((state: any) => state.userReducer.user);
-
+    const [currentPost, setCurrentPost]: [currentPost: any, setCurrentPost: any] = useState(null);
     const findPost = async () => {
         const currentPostsByUser = await client.getPostById(postId);
         setCurrentPost(currentPostsByUser);
     }
-
     useEffect(() => {
         findPost();
-    }, [currentPost]);
-
+        console.log(currentPost);
+    }, []);
     return (
         <div className='container'>
             <LeftNavSm />
@@ -30,15 +24,12 @@ export const PostDetails = () => {
                     <h5>Post</h5>
                 </div>
             </nav>
-            <div className='row mt-4'>
+            <div className='row mb-4'>
                 <div className='col-lg-3'>
                     <LeftNav />
                 </div>
                 <div className='col-lg-6'>
-                    {currentPost && <Post key={postId} post={currentPost} />}
-                </div>
-                <div className='col-lg-3'>
-                    <RightNav />
+                            {currentPost && <Post key={postId} currentPost={currentPost} />}
                 </div>
             </div>
         </div>

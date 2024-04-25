@@ -3,14 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaHeart, FaRegHeart, FaTrash } from "react-icons/fa";
 import { RiUserFollowFill, RiUserFollowLine } from "react-icons/ri";
 import * as postClient from '../Home/client';
-import { updatePost } from '../Home/reducer';
 import * as userClient from '../User/client';
 import { setUser } from '../User/reducer';
 import { ClickableImage } from './clickableImage';
+import { useState } from 'react';
 
-const Post = ({ post }: { post: any }) => {
+const Post = ({ currentPost }: { currentPost: any }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
+    const [post, setPost]: [post: any, setPost: any] = useState(currentPost);
     var user = useSelector((state: any) => state.userReducer.user);
     const react = async (add: boolean) => {
         var newPost = {}
@@ -20,7 +21,7 @@ const Post = ({ post }: { post: any }) => {
             newPost = { ...post, reactions: post.reactions.filter((userid: any) => userid !== user._id) }
         }
         await postClient.updatePost(post._id, newPost);
-        dispatch(updatePost(newPost));
+        setPost(newPost);
     }
 
     const follow = async (add: boolean) => {
@@ -38,28 +39,34 @@ const Post = ({ post }: { post: any }) => {
         const newVotes = { ...post.votes, [user._id]: option };
         const newPost = { ...post, votes: newVotes };
         await postClient.updatePost(post._id, newPost);
-        dispatch(updatePost(newPost));
+        setPost(newPost);
     };
 
     const deletePost = async () => {
         try {
             await postClient.deletePost(post._id);
             navigate('/');
-        } catch(e) {
+        } catch (e) {
         }
     }
 
     return (
-        <div className="card">
+        <div className="card my-4 m-md-4">
             <div className="container">
-                <div className="row align-items-center">
+                <div className="row my-1">
                     <div className="col-6">
                         <Link className="nav-link" to={`/profile/${post.userid}`}>
+                            <img
+                                className="me-2 rounded-circle"
+                                src={post.user.image === undefined || post.user.image === '' ? "/default.jpg" : post.user.image}
+                                alt="profile-image"
+                                style={{ maxWidth: "40px"}}
+                            />
                             {post.user.username}
                         </Link>
                     </div>
                     {user._id !== '' && (
-                        <div className="col-6 text-end">
+                        <div className="col-6 d-flex justify-content-end align-items-center">
                             {user.following.includes(post.userid) ? (
                                 <Link
                                     className="nav-link"

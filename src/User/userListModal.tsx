@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import * as userClient from './client';
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import UserList from './userList';
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 const UserListModal = ({ isOpen, onClose, userList }: { isOpen: boolean, onClose: any, userList: any }) => {
     const [users, setUsers] = useState([])
@@ -53,8 +53,8 @@ const UserListModal = ({ isOpen, onClose, userList }: { isOpen: boolean, onClose
                     </div>
                 ))}
                 <button
-                    className="btn btn-danger rounded-circle ps-2 pe-2 position-absolute top-0 end-0 m-2" onClick={onClose}>
-                    X
+                    className="btn btn-danger position-absolute top-0 end-0 m-1" onClick={onClose}>
+                    <IoMdCloseCircleOutline size={24} onClick={onClose}/>
                 </button>
             </div>
         </Modal>

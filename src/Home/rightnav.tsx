@@ -33,9 +33,9 @@ const RightNav = () => {
   }, [user]);
   return (
     <div className="d-none d-lg-block">
-      {user._id !== "" && (
+      {user._id !== "" && suggestedUsers.length > 0 && (
         <div>
-          <h5 className="p-4 pb-0">Suggested</h5>
+          <h5 className="p-4 pb-0">Suggested Users</h5>
           <div className="container p-4">
             <UserList users={suggestedUsers} />
           </div>

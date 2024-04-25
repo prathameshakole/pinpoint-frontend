@@ -16,6 +16,8 @@ import LeftNavSm from '../Home/leftnavsm';
 const UserProfile = () => {
     const dispatch = useDispatch();
     const [userPosts, setUserPosts] = useState([]);
+    const [votedPosts, setVotedPosts] = useState([]);
+    const [activeTab, setActiveTab] = useState("posts");
     const loggedInUser = useSelector((state: any) => state.userReducer.user);
     const navigate = useNavigate();
     const { profileId }: any = useParams();
@@ -71,8 +73,13 @@ const UserProfile = () => {
             const response = await postClient.findUserPost(profileId)
             setUserPosts(response)
         }
+        const fetchPostsVotedByUser = async () => {
+            const response = await postClient.findPostsVotedByUser(profileId)
+            setVotedPosts(response)
+        }
         fetchUserData();
         fetchUserPosts();
+        fetchPostsVotedByUser();
     }, [profileId]);
     return (
         <div className="container">
@@ -155,19 +162,43 @@ const UserProfile = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='mt-4'>
-                        <nav className="nav nav-underline justify-content-center">
-                            <div className="nav-link active mb-4">
-                                <h5>Posts</h5>
+                    <div>
+                        <ul className="nav nav-underline justify-content-center mb-3">
+                            <li className="nav-item">
+                                <button className={`nav-link ${activeTab === "posts" ? "active" : ""}`}
+                                    onClick={() => setActiveTab("posts")}>
+                                    <h5>Posts</h5>
+                                </button>
+                            </li>
+                            <li className="nav-item">
+                                <button className={`nav-link ${activeTab === "votes" ? "active" : ""}`}
+                                    onClick={() => setActiveTab("votes")}>
+                                    <h5>Votes</h5>
+                                </button>
+                            </li>
+                        </ul>
+                        <div className="container">
+                            <div className="row justify-content-center">
+                                {activeTab === "posts" &&
+                                    <div className='row row-cols-1 row-cols-md-3 g-3'>
+                                        {userPosts.map((post: any, index: any) => (
+                                            <div key={post._id} className="col-lg-4 col-md-6 col-sm-12 mb-4">
+                                                <ClickableImage post={post} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                }
+                                {activeTab === "votes" &&
+                                    <div className='row row-cols-1 row-cols-md-3 g-3'>
+                                        {votedPosts.map((post: any, index: any) => (
+                                            <div key={post._id} className="col-lg-4 col-md-6 col-sm-12 mb-4">
+                                                <ClickableImage post={post} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                }
                             </div>
-                        </nav>
-                    </div>
-                    <div className='row row-cols-1 row-cols-md-3 g-3'>
-                        {userPosts.map((post: any, index: any) => (
-                            <div key={post._id} className="col-lg-4 col-md-6 col-sm-12 mb-4">
-                                <ClickableImage post={post} />
-                            </div>
-                        ))}
+                        </div>
                     </div>
                 </div>
                 <div className='col-lg-3'>

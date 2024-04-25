@@ -33,7 +33,7 @@ const Following = () => {
   return (
     <div className="mt-4">
       {currentPosts.map((post: any, index: any) => (
-        <Post key={post._id} post={post} />
+        <Post key={post._id} currentPost={post} />
       ))}
       <div className="d-flex justify-content-center m-4">
         <nav aria-label="Page navigation">

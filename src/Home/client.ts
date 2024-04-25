@@ -28,6 +28,11 @@ export const findUserPost = async (userid: any) => {
     return Response.data;
 }
 
+export const findPostsVotedByUser = async (userid: any) => {
+    const Response = await api.get(`${POSTS_API}/votedbyuser/${userid}`)
+    return Response.data;
+}
+
 export const updatePost = async (postId: any, post: any) => {
     const token = localStorage.getItem('token');
     const Response = await api.put(`${POSTS_API}/${postId}`, post, {headers: { 'Authorization': `Bearer ${token}`,}})
