@@ -10,7 +10,7 @@ const UserList = ({users}: any) => {
                             src={user.image === undefined || user.image === '' ? "/default.jpg" : user.image}
                             alt="profile-image"
                             className="rounded-circle me-2"
-                            style={{ maxWidth: "40px" }}
+                            style={{ width: "40px", height: "40px", objectFit: 'cover' }}
                         />
                         <h6>{user.username}</h6>
                     </div>

@@ -162,6 +162,17 @@ const EditProfile = () => {
                             />
                         </div>
                         <div className="form-group">
+                            <label htmlFor="bio">About</label>
+                            <input
+                                type="text"
+                                className="form-control mb-3"
+                                id="bio"
+                                name="bio"
+                                value={formData.bio}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="form-group">
                             <label htmlFor="role">Role</label>
                             <select
                                 className="form-control mb-3"

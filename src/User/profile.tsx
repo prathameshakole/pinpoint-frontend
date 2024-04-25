@@ -100,10 +100,10 @@ const UserProfile = () => {
                             <div className="row align-items-center p-4">
                                 <div className="col-6 d-flex">
                                     <img
-                                        className="me-2"
+                                        className="me-2 rounded-circle"
                                         src={user.image === undefined || user.image === '' ? "/default.jpg" : user.image}
                                         alt="profile-image"
-                                        style={{ maxWidth: "80px", borderRadius: '50%' }}
+                                        style={{ width: "90px", height: "90px", objectFit: 'cover'}}
                                     />
                                     <div>
                                         <div className="d-flex align-items-center">

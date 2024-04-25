@@ -40,7 +40,7 @@ const RightNav = () => {
               className="me-2 rounded-circle"
               src={user.image === undefined || user.image === '' ? "/default.jpg" : user.image}
               alt="profile-image"
-              style={{ maxWidth: "60px" }}
+              style={{ width: "60px", height: "60px", objectFit: 'cover' }}
             />
             <div>
               <h5 className="mb-0">{'@' + user.username}</h5>
