@@ -63,7 +63,7 @@ export const deleteUser = async (user: any) => {
 
 export const follow = async (followerId: any, followingId: any, follow: boolean) => {
     const token = localStorage.getItem('token');
-    const response = await api.post(`${USERS_API}/follow/${followerId}/${followingId}/${follow}`, { headers: { 'Authorization': `Bearer ${token}`, } });
+    const response = await api.post(`${USERS_API}/follow/${followerId}/${followingId}/${follow}`, null, { headers: { 'Authorization': `Bearer ${token}`, } });
     return response.data;
 };
 

@@ -13,7 +13,8 @@ export const findTrendingPosts = async (page: any, size: any) => {
 };
 
 export const findFollowingPosts = async (userid: any, page: any, size: any) => {
-    const response = await api.get(`${POSTS_API}/following/${userid}?page=${page}&size=${size}`);
+    const token = localStorage.getItem('token');
+    const response = await api.get(`${POSTS_API}/following/${userid}?page=${page}&size=${size}`, {headers: { 'Authorization': `Bearer ${token}`,}});
     return response.data;
 };
 
@@ -45,6 +46,7 @@ export const getPostById = async (postId: any) => {
 }
 
 export const deletePost = async (postId: any) => {
-    const Response = await api.delete(`${POSTS_API}/${postId}`)
+    const token = localStorage.getItem('token');
+    const Response = await api.delete(`${POSTS_API}/${postId}`, {headers: { 'Authorization': `Bearer ${token}`,}})
     return Response.data;
 }
